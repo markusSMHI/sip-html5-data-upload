@@ -1,0 +1,18 @@
+# gedit
+*~
+
+virtualenv
+
+# eclipse
+.settings
+
+# pycharm
+.idea
+
+*.py[cod]
+
+# Installer logs
+pip-log.txt
+
+# tmp files
+.~*
