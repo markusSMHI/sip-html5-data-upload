@@ -1,7 +1,6 @@
-flask-file-uploader
+Switch-ON data upload tool
 ===================
 
-## Description
-File Upload Script which built on Python Flask and [jQuery-File-Upload](https://github.com/blueimp/jQuery-File-Upload/) with multiple file selection, drag&amp;drop support, progress bars.
+The Switch-ON data upload tool is build with Python Flask and [jQuery-File-Upload](https://github.com/blueimp/jQuery-File-Upload/), with multiple file selection and progress bars. The tool is based on the [flask-file-uploader] (https://github.com/ngoduykhanh/flask-file-uploader).
 
 
