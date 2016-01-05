@@ -1,6 +1,9 @@
 # gedit
 *~
 
+#startup bat file
+start_app
+
 virtualenv
 
 # eclipse
