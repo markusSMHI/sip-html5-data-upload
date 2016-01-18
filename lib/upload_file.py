@@ -1,13 +1,14 @@
 import os
 
 class uploadfile():
-    def __init__(self, name, type=None, size=None, not_allowed_msg=''):
+    def __init__(self, name, dataset, type=None, size=None, not_allowed_msg=''):
         self.name = name
+        self.dataset = dataset
         self.type = type
         self.size = size
         self.not_allowed_msg = not_allowed_msg
-        self.url = "data/%s" % name
-        self.delete_url = "delete/%s" % name
+        self.url = "data/{}/{}".format(dataset, name)
+        self.delete_url = "delete/{}/{}".format(dataset, name)
         self.delete_type = "DELETE"
 
     def get_file(self):
@@ -15,6 +16,7 @@ class uploadfile():
             # POST an normal file
             if self.not_allowed_msg == '':
                 return {"name": self.name,
+                        "dataset": self.dataset,
                         "type": self.type,
                         "size": self.size, 
                         "url": self.url, 
@@ -25,12 +27,14 @@ class uploadfile():
             else:
                 return {"error": self.not_allowed_msg,
                         "name": self.name,
+                        "dataset": self.dataset,
                         "type": self.type,
                         "size": self.size,}
         
         # GET file from disk
         else:
             return {"name": self.name,
+                    "dataset": self.dataset,
                     "size": self.size, 
                     "url": self.url, 
                     "deleteUrl": self.delete_url, 
