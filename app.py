@@ -9,7 +9,7 @@ from flask import Flask, request, render_template, session, redirect, url_for, f
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 from lib.upload_file import uploadfile
-import pysvn
+#import pysvn
 import logging
 from logging.handlers import RotatingFileHandler
 
@@ -114,41 +114,41 @@ def upload():
             app.logger.info('File: ' + filename + ' saved succesfully in working copy')
 
 
-            # Store file in repository
-            if app.config['USE_REPOSITORY']:
-
-                # commit file
-                fileOK = True
-                #TODO: Check if file is OK for committing to repository
-
-                if fileOK:
-
-                    try:
-                        client = pysvn.Client()
-                        client.add(uploaded_file_path)
-                        commitMessage = 'Added ' + uploaded_file_path + ' to the repository'
-                        client.checkin(app.config['UPLOAD_FOLDER'], commitMessage)
-
-                        #TODO: add message when file added succesfully. Redirect_url does not work; gives " SyntaxError: Unexpected token <"
-                        #flash("File uploaded succesfully; added to the repository")
-                        #return redirect(url_for('index'))
-
-                    except:
-                        errorMessage = 'Error committing file: ' + filename + ' to repository'
-                        app.logger.error(errorMessage)
-                        return simplejson.dumps({"Error: ": errorMessage})
-
-                    app.logger.info('File: ' + filename + ' committed to repository')
-
-                else:
-                    # file is not OK, delete the file
-                    os.remove(uploaded_file_path)
-                    errorMessage = 'File: ' + filename + ' is not suitable for committing to repository'
-                    app.logger.error(errorMessage)
-                    return simplejson.dumps({"Error: ": errorMessage})
-
-                    #flash("File not OK: deleted from the upload server")
-                    #return redirect(url_for('index'))
+            # # Store file in repository
+            # if app.config['USE_REPOSITORY']:
+            #
+            #     # commit file
+            #     fileOK = True
+            #     #TODO: Check if file is OK for committing to repository
+            #
+            #     if fileOK:
+            #
+            #         try:
+            #             client = pysvn.Client()
+            #             client.add(uploaded_file_path)
+            #             commitMessage = 'Added ' + uploaded_file_path + ' to the repository'
+            #             client.checkin(app.config['UPLOAD_FOLDER'], commitMessage)
+            #
+            #             #TODO: add message when file added succesfully. Redirect_url does not work; gives " SyntaxError: Unexpected token <"
+            #             #flash("File uploaded succesfully; added to the repository")
+            #             #return redirect(url_for('index'))
+            #
+            #         except:
+            #             errorMessage = 'Error committing file: ' + filename + ' to repository'
+            #             app.logger.error(errorMessage)
+            #             return simplejson.dumps({"Error: ": errorMessage})
+            #
+            #         app.logger.info('File: ' + filename + ' committed to repository')
+            #
+            #     else:
+            #         # file is not OK, delete the file
+            #         os.remove(uploaded_file_path)
+            #         errorMessage = 'File: ' + filename + ' is not suitable for committing to repository'
+            #         app.logger.error(errorMessage)
+            #         return simplejson.dumps({"Error: ": errorMessage})
+            #
+            #         #flash("File not OK: deleted from the upload server")
+            #         #return redirect(url_for('index'))
 
 
             # return json for js call back
@@ -183,15 +183,17 @@ def delete(path):
     if os.path.exists(file_path):
         try:
 
-            if app.config['USE_REPOSITORY']:
-                client = pysvn.Client()
-                client.remove(file_path) #  the file will be removed from the working copy
-                commitMessage = 'Removed ' + file_path + ' from the repository'
+            # if app.config['USE_REPOSITORY']:
+            #     client = pysvn.Client()
+            #     client.remove(file_path) #  the file will be removed from the working copy
+            #     commitMessage = 'Removed ' + file_path + ' from the repository'
+            #
+            #     #committing the change removes the file from the repository
+            #     client.checkin(app.config['UPLOAD_FOLDER'], commitMessage)
+            # else:
+            #     os.remove(file_path)   # for non-SVN versions
 
-                #committing the change removes the file from the repository
-                client.checkin(app.config['UPLOAD_FOLDER'], commitMessage)
-            else:
-                os.remove(file_path)   # for non-SVN versions
+            os.remove(file_path)
 
         except:
             app.logger.error("Failed to delete: " + path)
@@ -213,4 +215,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
