@@ -82,6 +82,30 @@ def main(dataset):
     return render_template('main.html', datasetfolder=dataset)
 
 
+@app.route("/main/submitfiles")
+def submitfiles():
+
+    dataset = request.args['dataset']
+    datasetUrl = os.path.join(app.config['UPLOAD_FOLDER'], dataset)
+
+    files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in IGNORED_FILES ]
+
+    result = {}
+    fileList = []
+
+    for f in files:
+        fileInfo = {}
+        fileInfo['url'] = os.path.join(request.url_root, 'main', 'data', dataset, f)
+        fileInfo['name'] = f
+        fileInfo['size_KB'] = os.path.getsize(os.path.join(datasetUrl, f)) / 1000.00
+        fileList.append(fileInfo)
+
+    result['files'] = fileList
+    result['dataset'] = os.path.join(request.url_root, 'main', dataset)
+
+    return simplejson.dumps(result)
+
+
 @app.route("/main/upload", methods=['GET', 'POST'])
 def upload():
 
@@ -215,4 +239,5 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)    # COMMENT ON SERVER
+    #app.run(host='0.0.0.0', port='80') # UNCOMMENT ON SERVER

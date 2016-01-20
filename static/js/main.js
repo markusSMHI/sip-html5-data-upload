@@ -37,7 +37,7 @@ $(function () {
     );
 
 	// Not sure what this does?
-	//$('#fileupload').addClass('fileupload-processing');
+	$('#fileupload').addClass('fileupload-processing');
 	
 	$.ajax({
 		// Uncomment the following to send cross-domain cookies:
@@ -49,17 +49,12 @@ $(function () {
 		url: $('#fileupload').fileupload('option', 'url'),	// OLD ORIGINAL CODE           	
 		dataType: 'json',
 		context: $('#fileupload')[0],	
+	}).always(function () {
+		$(this).removeClass('fileupload-processing');	// Not sure what this does?
 	}).done(function (result) {
 		$(this).fileupload('option', 'done')
 			.call(this, $.Event('done'), {result: result});
-	});	
-	
-	// }).always(function () {
-		// $(this).removeClass('fileupload-processing');	// Not sure what this does?
-	// }).done(function (result) {
-		// $(this).fileupload('option', 'done')
-			// .call(this, $.Event('done'), {result: result});
-	// });
+	});
 
 
 });

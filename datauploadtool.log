@@ -432,3 +432,159 @@
 2016-01-19 17:33:49,328 INFO: Deleted file: hydrology/ahn2.png succesfully [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:202]
 2016-01-19 17:33:50,131 INFO: Deleted file: hydrology/aster7m.jpg succesfully [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:202]
 2016-01-19 17:33:53,276 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\hydrology [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 11:25:46,283 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:25:51,351 INFO: Dataset will be stored in: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:75]
+2016-01-20 11:26:03,987 INFO: File: elevation.csv saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:114]
+2016-01-20 11:26:11,618 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\hydrology [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 11:27:15,648 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 11:27:30,249 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\add [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 11:28:03,832 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:28:09,786 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\add [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 11:31:28,907 INFO: Dataset will be stored in: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\cat [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:75]
+2016-01-20 11:31:34,384 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 11:39:51,296 ERROR: Exception on /main/upload [GET] [in D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py:1423]
+Traceback (most recent call last):
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:/ProjectsLocal/SwitchON/DataUploadTool/app.py", line 164, in upload
+    files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in IGNORED_FILES ]
+WindowsError: [Error 3] The system cannot find the path specified: u'D:/ProjectsLocal/SwitchON/DataUploadTool\\static/repos\\submitfiles\\*.*'
+2016-01-20 11:40:37,109 ERROR: Exception on /main/upload [GET] [in D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py:1423]
+Traceback (most recent call last):
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:/ProjectsLocal/SwitchON/DataUploadTool/app.py", line 164, in upload
+    files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in IGNORED_FILES ]
+WindowsError: [Error 3] The system cannot find the path specified: u'D:/ProjectsLocal/SwitchON/DataUploadTool\\static/repos\\submitfiles\\*.*'
+2016-01-20 11:42:37,214 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:42:41,519 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 11:42:43,377 ERROR: Exception on /main/upload [GET] [in D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py:1423]
+Traceback (most recent call last):
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:/ProjectsLocal/SwitchON/DataUploadTool/app.py", line 183, in upload
+    files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in IGNORED_FILES ]
+WindowsError: [Error 3] The system cannot find the path specified: u'D:/ProjectsLocal/SwitchON/DataUploadTool\\static/repos\\submitfiles\\*.*'
+2016-01-20 11:45:58,818 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:45:59,470 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:46:07,095 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 11:47:47,318 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:47:47,822 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:47:52,282 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 11:48:46,934 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:48:55,138 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:48:55,654 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:49:03,563 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 11:49:42,187 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:49:48,440 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:49:48,940 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:49:54,696 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 11:50:41,845 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:50:42,013 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:50:50,365 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 11:57:07,966 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:57:08,134 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 11:57:12,766 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 12:01:06,036 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 12:01:06,206 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 12:01:09,697 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 13:34:59,023 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 13:34:59,200 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 13:35:02,812 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 13:40:09,940 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 13:40:10,470 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 13:40:18,101 INFO: Dataset will be stored in: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test3 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:75]
+2016-01-20 13:40:22,881 INFO: File: dinoloket.png saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:134]
+2016-01-20 13:40:35,573 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 13:40:40,480 INFO: File: dinoloket_gegevens.jpg saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:134]
+2016-01-20 13:41:16,035 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 13:41:16,575 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 13:43:00,335 INFO: File: dinoloket.png saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:134]
+2016-01-20 13:47:52,276 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:00:06,252 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:00:09,069 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:00:10,003 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:00:10,532 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:00:14,230 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 14:01:42,305 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:01:42,917 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:27:04,904 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:28:10,000 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:28:10,532 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:28:14,586 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 14:29:09,265 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:29:45,369 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:29:45,545 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:29:49,210 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 14:30:07,078 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:30:23,644 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:30:24,151 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:30:30,246 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 14:30:54,789 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:30:55,339 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:33:13,490 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:33:13,993 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:33:18,578 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 14:35:39,176 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:35:39,707 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:49:31,828 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:49:32,000 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:49:52,029 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 14:50:34,348 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:50:44,710 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:51:45,845 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:52:09,407 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:53:01,359 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:53:12,750 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 14:53:30,240 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 15:03:14,436 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 15:03:39,013 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 15:04:05,562 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 15:09:30,783 INFO: File: DANK005b_Beregeningslocaties.png saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:138]
+2016-01-20 15:09:46,042 INFO: File: dinoloket.png saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:138]
+2016-01-20 15:09:46,065 INFO: File: DANK007_terrestrische_natuur.png saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:138]
+2016-01-20 15:09:47,743 INFO: Deleted file: hydrology/dinoloket.png succesfully [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:226]
+2016-01-20 15:25:10,982 INFO: File: DANK005b_Beregeningslocaties_1.png saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:138]
+2016-01-20 15:25:15,915 INFO: Deleted file: hydrology/DANK005b_Beregeningslocaties_1.png succesfully [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:226]
+2016-01-20 15:25:27,802 INFO: File: dinoloket.png saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:138]
+2016-01-20 15:25:34,749 INFO: Deleted file: hydrology/dinoloket.png succesfully [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:226]
+2016-01-20 15:25:35,971 INFO: Deleted file: hydrology/BAG.png succesfully [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:226]
+2016-01-20 15:25:47,720 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 15:25:49,256 INFO: Deleted file: test/dinoloket.png succesfully [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:226]
+2016-01-20 15:26:36,816 INFO: File: EarthData.png saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:138]
+2016-01-20 15:44:11,713 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 15:44:56,710 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 15:44:56,900 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 15:45:02,190 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 15:45:02,671 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 15:45:17,789 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 15:46:06,809 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 16:50:12,076 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 16:50:12,641 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:38]
+2016-01-20 16:50:15,270 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\ [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 16:50:19,043 INFO: Dataset will be stored in existing folder: D:/ProjectsLocal/SwitchON/DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:68]
+2016-01-20 16:50:24,190 INFO: Deleted file: test/elevation.csv succesfully [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:226]
