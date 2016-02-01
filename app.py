@@ -5,22 +5,22 @@
 
 import os
 import simplejson
-from flask import Flask, request, render_template, session, redirect, url_for, flash, send_from_directory
+from flask import Flask, jsonify, request, render_template, session, redirect, url_for, flash, send_from_directory
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 from lib.upload_file import uploadfile
 #import pysvn
 import logging
 from logging.handlers import RotatingFileHandler
+import json
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dfhlklasfjka'
 
 my_dir = os.path.dirname(__file__)
 app.config['UPLOAD_FOLDER'] = os.path.join(my_dir, 'static/repos')
-app.config['MAX_CONTENT_LENGTH'] = 1 * 1000 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1000 * 1024 * 1024
 app.config['USE_REPOSITORY'] = False
-
 
 # not used at the moment; all files are ok
 #ALLOWED_EXTENSIONS = set(['7z', 'pdf', 'txt', 'gif', 'png', 'jpg', 'jpeg', 'bmp', 'rar', 'zip', '7zip', 'doc', 'docx'])
@@ -43,12 +43,10 @@ app.logger.info('Data Upload Tool startup')
 #         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-
 def gen_file_name(dataset, filename):
     """
     If file exist already, rename it and return a new name
     """
-
     i = 1
     while os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], dataset, filename)):
         name, extension = os.path.splitext(filename)
@@ -58,31 +56,43 @@ def gen_file_name(dataset, filename):
     return filename
 
 
-@app.route("/createdataset", methods=['POST'])
+@app.route("/createdataset", methods=['GET', 'POST'])
 def createdataset():
 
-    fullpath = os.path.join(app.config['UPLOAD_FOLDER'], request.form['datasetname'])
+    if request.method == 'POST':
+        fullpath = os.path.join(app.config['UPLOAD_FOLDER'], request.form['datasetname'])
 
-    if os.path.exists(fullpath):
-        #return simplejson.dumps({"Warning: ": "Dataset name already in use"})
-        app.logger.info('Dataset will be stored in existing folder: ' + fullpath)
-        #return render_template('main.html', datasetfolder=request.form['datasetname'])
-        return redirect(url_for('main', dataset=request.form['datasetname']))
+        if os.path.exists(fullpath):
+            #return simplejson.dumps({"Warning: ": "Dataset name already in use"})
+            app.logger.info('Dataset will be stored in existing folder: ' + fullpath)
 
-    else:   # create the dataset folder
-        os.makedirs(fullpath)
+        else:   # create the dataset folder
+            os.makedirs(fullpath)
+            app.logger.info('Dataset will be stored in: ' + fullpath)
 
-        app.logger.info('Dataset will be stored in: ' + fullpath)
-        #return render_template('main.html', datasetfolder=request.form['datasetname'])
-        return redirect(url_for('main', dataset=request.form['datasetname']))
-
-
-@app.route("/main/<dataset>")
-def main(dataset):
-    return render_template('main.html', datasetfolder=dataset)
+        return redirect('data/' + request.form['datasetname'])
+    else:
+        return render_template('index.html', fileupload=False)
 
 
-@app.route("/main/submitfiles")
+@app.route("/zip")
+def zip():
+    r = request;
+    datasetsDict = request.args.to_dict(flat=False)
+
+    datasets = []
+    for key in datasetsDict.keys():
+        datasets.append(datasetsDict[key][0])
+
+    print datasets
+
+    #datasetUrl = os.path.join(app.config['UPLOAD_FOLDER'], dataset)
+
+    #return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER']), filename=datasets[0])
+    return simplejson.dumps(datasets)
+
+
+@app.route("/data/submitfiles")
 def submitfiles():
 
     dataset = request.args['dataset']
@@ -95,19 +105,24 @@ def submitfiles():
 
     for f in files:
         fileInfo = {}
-        fileInfo['url'] = os.path.join(request.url_root, 'main', 'data', dataset, f)
+        fileInfo['url'] = os.path.join(request.url_root, 'data', dataset, f)
         fileInfo['name'] = f
         fileInfo['size_KB'] = os.path.getsize(os.path.join(datasetUrl, f)) / 1000.00
         fileList.append(fileInfo)
 
     result['files'] = fileList
-    result['dataset'] = os.path.join(request.url_root, 'main', dataset)
+    result['dataset'] = os.path.join(request.url_root, 'data', dataset)
 
     return simplejson.dumps(result)
 
+    #r = requests.post(url, data=json.dumps(result))
 
-@app.route("/main/upload", methods=['GET', 'POST'])
+
+
+@app.route("/data/upload", methods=['GET', 'POST'])
 def upload():
+
+    r = request
 
     if request.method == 'POST':
         file = request.files['file']
@@ -199,7 +214,7 @@ def upload():
     return redirect(url_for('index'))
 
 
-@app.route("/main/delete/<path:path>", methods=['DELETE'])
+@app.route("/delete/<path:path>", methods=['DELETE'])
 def delete(path):
 
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], path)
@@ -227,17 +242,21 @@ def delete(path):
         return simplejson.dumps({path: 'True'})
 
 
-@app.route("/main/data/<path:path>", methods=['GET'])
+@app.route("/data/<dataset>")
+def data(dataset):
+    return render_template('index.html', datasetfolder=dataset, fileupload=True)
+
+
+@app.route("/data/<path:path>", methods=['GET'])
 def get_file(path):
     return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER']), filename=path)
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
-
+    return render_template('index.html', fileupload=False)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)    # COMMENT ON SERVER
+    app.run(debug=True)                 # COMMENT ON SERVER
     #app.run(host='0.0.0.0', port='80') # UNCOMMENT ON SERVER

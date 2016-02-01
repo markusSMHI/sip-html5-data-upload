@@ -21,13 +21,13 @@
 			<div class="form-group">
 				<label for="radiobuttonsID" class="control-label col-sm-2">Store dataset on:</label>
 				<div id="radiobuttonsID" class="col-sm-10 btn-group" data-toggle="buttons">
-					<label class="btn btn-default active" title="Regular file server, suitable for all file types">
-						<input checked name="server" value="regular" checked type="radio" >File server
+					<label class="btn btn-default active">
+						<input checked name="server" value="regular" checked type="radio">File server
 					</label>
-					<label class="btn btn-default disabled" title="Geoserver can store various geodata formats, such as shapefiles and GeoTIFFs. Data can be accessed using WMS and WFS, enabling online visualization and partial file downloads.">
+					<label class="btn btn-default disabled">
 						<input name="server" value="geoserver" type="radio">Geoserver
 					</label>
-					<label class="btn btn-default disabled" title="The THREDDS Data Server (TDS) is a web server that provides data access for scientific grid datasets (such as NetCDF), using a variety of remote data access protocols.">
+					<label class="btn btn-default disabled">
 						<input name="server" value="thredds" type="radio">THREDDS
 					</label>
 				</div>
@@ -36,29 +36,14 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="datasetnameID">Dataset name:</label>
 				<div class="col-sm-4">          
-					<input type="text" class="form-control" name="datasetname" title="The name should describe the dataset as good as possible and is used to create a unique folder on the file server."
+					<input type="text" class="form-control" name="datasetname" 
 					id="datasetnameID" placeholder="Dataset" value="{{ datasetfolder }}">
 				</div>
 				<div class="col-sm-2">
-					<button type="submit" class="btn btn-default" title="Create a folder in which the files of the dataset are stored.">Create dataset folder</button>
+					<button type="submit" class="btn btn-default">Create dataset</button>
 				</div>		  
 			</div>
 		</form>
-		
-		
-		<br>	
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Notes</h3>
-			</div>
-			<div class="panel-body">
-				<ul>
-					<li>This is a demonstration version for showing the functionality of the Data Upload Tool. Performance and storage space are limited and will be improved for the final version.</li>
-					<li>Currently, only a basic File Server is supported. We are working on providing a Geoserver and 
-					THREDDS server for uploading specific spatial data formats, such as shapefiles and NetCDF. </li>	
-				</ul>
-			</div>
-		</div>		
 	{% endif %}
 
 	
@@ -92,13 +77,18 @@
 					<button type="reset" class="btn btn-warning cancel">
 						<i class="glyphicon glyphicon-ban-circle"></i>
 						<span>Cancel upload</span>
-					</button>				
+					</button>								
+				
+	<!-- 			<button type="button" class="btn btn-danger delete">-->
+						<!-- <i class="glyphicon glyphicon-trash"></i> -->
+						<!-- <span>Delete</span> -->
+					<!-- </button>  		  -->
 					
-					
-					<button type="button" class="btn btn-primary zip">
+					<!-- TEST: ZIP SELECTED FILES  -->
+	<!-- 				<button type="button" class="btn btn-primary zip">
 						<i class="glyphicon glyphicon-folder-open"></i>
 						<span>Zip</span>
-					</button>  						
+					</button>  		 -->				
 					
 					<input type="checkbox" class="toggle">Select all
 					
@@ -204,9 +194,20 @@
         <td>
             <span class="size">{%=o.formatFileSize(file.size)%}</span>
         </td>
-        <td>		
-			<input type="checkbox" name="delete" value="{%=file.url%}" class="toggle">
-		</td>
+<!--         <td>
+            {% if (file.deleteUrl) { %}
+                <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete</span>
+                </button>
+                <input type="checkbox" name="delete" value="1" class="toggle">
+            {% } else { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %}
+        </td> -->
     </tr>
 {% } %}
 </script>

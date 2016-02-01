@@ -540,7 +540,7 @@
                 type: 'DELETE'
             }, button.data()));
         },
-
+		
         _forceReflow: function (node) {
             return $.support.transition && node.length &&
                 node[0].offsetWidth;
@@ -592,6 +592,45 @@
                         .prop('checked', false);
                 }
             });
+			            
+			// OWN BUTTON: ZIP FILES
+			this._on(fileUploadButtonBar.find('.zip'), {
+                click: function (e) {
+                    e.preventDefault();
+					
+					var toggledFiles = filesList.find('.toggle:checked')
+					
+					var datasets = {};
+					//var datasetsJSON = { datasets: []};
+					
+					$(toggledFiles).each(function(i, val) {
+						//console.log(val.value);
+						//datasets.push({'dataset' : val.value});
+						datasets[i]=val.value;
+						});			
+						
+					
+					console.log(datasets);
+					//console.log(JSON.stringify(datasets));
+					
+					//var datasetsJSON = JSON.stringify(datasets);
+					//var datasetsJSObject = JSON.parse(datasetsJSON);
+					
+					$.ajax({
+						data: datasets,		
+						url: '/zip',           	
+						dataType: 'json'
+					});						
+					
+                        //.closest('.template-download')
+                        //.find('.delete').click();
+						
+                    // fileUploadButtonBar.find('.toggle')
+                        // .prop('checked', false);
+                }
+            });	
+			
+			
             this._on(fileUploadButtonBar.find('.toggle'), {
                 change: function (e) {
                     filesList.find('.toggle').prop(
@@ -619,7 +658,7 @@
             this._on(this.options.filesContainer, {
                 'click .start': this._startHandler,
                 'click .cancel': this._cancelHandler,
-                'click .delete': this._deleteHandler
+                'click .delete': this._deleteHandler              	
             });
             this._initButtonBarEventHandlers();
         },

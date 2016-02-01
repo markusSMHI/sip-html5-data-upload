@@ -14,6 +14,23 @@
 
 /* global $, window */
 
+function validateForm() {
+	
+	
+    var datasetname = document.getElementById("datasetnameID").value;
+	console.log(datasetname);
+	var re = /^[a-zA-Z].*/;
+	
+    if (re.test(datasetname))
+	{		
+        return true;
+    } else{
+		alert("Dataset name is not valid. The name should start with a letter and may not contain spaces or special characters. Please try again.")
+        return false;
+    }
+}
+
+
 $(function () {
     'use strict';
 	
@@ -21,8 +38,7 @@ $(function () {
     $('#fileupload').fileupload({
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
-        url: 'upload'
-		//datasetfolder: $('#datasetID').val()		
+        url: 'upload'			
     });
 
 	
@@ -54,7 +70,6 @@ $(function () {
 	}).done(function (result) {
 		$(this).fileupload('option', 'done')
 			.call(this, $.Event('done'), {result: result});
-	});
-
-
+	});	
 });
+

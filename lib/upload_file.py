@@ -7,7 +7,7 @@ class uploadfile():
         self.type = type
         self.size = size
         self.not_allowed_msg = not_allowed_msg
-        self.url = "data/{}/{}".format(dataset, name)
+        self.url = "{}/{}".format(dataset, name)
         self.delete_url = "delete/{}/{}".format(dataset, name)
         self.delete_type = "DELETE"
 
