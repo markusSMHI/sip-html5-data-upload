@@ -17,5 +17,9 @@ virtualenv
 # Installer logs
 pip-log.txt
 
+# other logs
+datauploadtool.log
+
 # tmp files
 .~*
+

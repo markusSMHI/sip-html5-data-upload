@@ -9,17 +9,18 @@ from flask import Flask, jsonify, request, render_template, session, redirect, u
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 from lib.upload_file import uploadfile
-#import pysvn
+#import pysvn   # used for version control
 import logging
 from logging.handlers import RotatingFileHandler
 import json
+import zipfile
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dfhlklasfjka'
 
 my_dir = os.path.dirname(__file__)
 app.config['UPLOAD_FOLDER'] = os.path.join(my_dir, 'static/repos')
-app.config['MAX_CONTENT_LENGTH'] = 10 * 1000 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 99 * 1000 * 1024 * 1024
 app.config['USE_REPOSITORY'] = False
 
 # not used at the moment; all files are ok
@@ -75,21 +76,33 @@ def createdataset():
         return render_template('index.html', fileupload=False)
 
 
-@app.route("/zip")
+@app.route("/zip", methods=['GET', 'POST'])
 def zip():
-    r = request;
-    datasetsDict = request.args.to_dict(flat=False)
 
+    #filesDict = request.args.to_dict(flat=False)   # for using ajax request
+    filesDict = request.form.to_dict(flat=False)
     datasets = []
-    for key in datasetsDict.keys():
-        datasets.append(datasetsDict[key][0])
 
-    print datasets
+    datasetname = ""
 
-    #datasetUrl = os.path.join(app.config['UPLOAD_FOLDER'], dataset)
+    r = request
 
-    #return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER']), filename=datasets[0])
-    return simplejson.dumps(datasets)
+    for key in filesDict.keys():
+        datasetname = filesDict[key][0].split('/')[0]
+        break
+
+    zipFileName = os.path.join(app.config['UPLOAD_FOLDER'], datasetname, "testzip.zip")
+    zf = zipfile.ZipFile(zipFileName, 'w')
+
+    for key in filesDict.keys():
+        datasets.append(filesDict[key][0])
+        filename = os.path.join(app.config['UPLOAD_FOLDER'], filesDict[key][0])
+        arcName = filesDict[key][0]
+        zf.write(filename, arcName)
+
+    zf.close()
+
+    return redirect('data/upload/' + datasetname)
 
 
 @app.route("/data/submitfiles")
@@ -127,8 +140,7 @@ def upload():
     if request.method == 'POST':
         file = request.files['file']
 
-        # get the folder
-        dataset = request.form['dataset']
+        dataset = request.form['dataset']   # get the name of the dataset (and folder)
 
         if file:
             filename = secure_filename(file.filename)

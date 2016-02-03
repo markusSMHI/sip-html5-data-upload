@@ -10,8 +10,8 @@
 	
 	{% if fileupload == False %}
 	    <blockquote>
-        <p>Select the type of dataserver on which the dataset should be stored.</p>
-		<p>Next, give the dataset a name and click "Create dataset" to continue to the file upload.</p>
+        <p>Select the type of dataserver for storing the dataset.</p>
+		<p>The dataset consists of one or more files that can be uploaded after creating the dataset folder.</p>
 		<p>
 		</blockquote>
 		<br>
@@ -43,8 +43,7 @@
 					<button type="submit" class="btn btn-default" title="Create a folder in which the files of the dataset are stored.">Create dataset folder</button>
 				</div>		  
 			</div>
-		</form>
-		
+		</form>		
 		
 		<br>	
 		<div class="panel panel-default">
@@ -53,7 +52,7 @@
 			</div>
 			<div class="panel-body">
 				<ul>
-					<li>This is a demonstration version for showing the functionality of the Data Upload Tool. Performance and storage space are limited and will be improved for the final version.</li>
+					<li>This is a demonstration version for showing the functionality of the Data Upload Tool. Performance and storage space are limited.</li>
 					<li>Currently, only a basic File Server is supported. We are working on providing a Geoserver and 
 					THREDDS server for uploading specific spatial data formats, such as shapefiles and NetCDF. </li>	
 				</ul>
@@ -64,8 +63,7 @@
 	
 	{% if fileupload == True %}					
 	    <blockquote>
-        <p>Please upload the files for the dataset</p>
-		<p>The files will be stored in the folder <strong>"{{ datasetfolder}}"</strong></p>
+        <p>Please upload the dataset files and click <strong> "Store dataset info" </strong> to return to the metadata tool.</p>
 		</blockquote>
 		<br>	
 		
@@ -95,12 +93,12 @@
 					</button>				
 					
 					
-					<button type="button" class="btn btn-primary zip">
+<!-- 					<button type="button" class="btn btn-primary zip">
 						<i class="glyphicon glyphicon-folder-open"></i>
 						<span>Zip</span>
 					</button>  						
 					
-					<input type="checkbox" class="toggle">Select all
+					<input type="checkbox" class="toggle">Select all -->
 					
 					<!-- The global file processing state -->
 					<span class="fileupload-process"></span>
@@ -140,16 +138,14 @@
 				<h3 class="panel-title">Notes</h3>
 			</div>
 			<div class="panel-body">
-				<ul>
-					<li>The maximum file size for uploads in this demo is <strong>1 Gb</strong></li>        
-					<li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage (see <a href="https://github.com/blueimp/jQuery-File-Upload/wiki/Browser-support">Browser support</a>).</li>              
+				<ul>				    
+					<li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage.</li>          
 					<li>Built with <a href="https://github.com/blueimp/jQuery-File-Upload/"> JQuery File Upload, </a><a href="https://github.com/ngoduykhanh/flask-file-uploader"> Flask File Upload</a>, Twitter's <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> CSS framework and Icons from <a href="http://glyphicons.com/">Glyphicons</a></li>
 				</ul>
 			</div>
 		</div>				
 			
-	{% endif %}	
-		
+	{% endif %}			
 	
 </div> <!-- end div container -->	
 	
@@ -204,9 +200,9 @@
         <td>
             <span class="size">{%=o.formatFileSize(file.size)%}</span>
         </td>
-        <td>		
+<!--         <td>		
 			<input type="checkbox" name="delete" value="{%=file.url%}" class="toggle">
-		</td>
+		</td> -->
     </tr>
 {% } %}
 </script>

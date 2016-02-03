@@ -598,35 +598,25 @@
                 click: function (e) {
                     e.preventDefault();
 					
-					var toggledFiles = filesList.find('.toggle:checked')
-					
+					var toggledFiles = filesList.find('.toggle:checked')					
 					var datasets = {};
-					//var datasetsJSON = { datasets: []};
 					
 					$(toggledFiles).each(function(i, val) {
 						//console.log(val.value);
-						//datasets.push({'dataset' : val.value});
 						datasets[i]=val.value;
 						});			
-						
-					
+											
 					console.log(datasets);
-					//console.log(JSON.stringify(datasets));
 					
-					//var datasetsJSON = JSON.stringify(datasets);
-					//var datasetsJSObject = JSON.parse(datasetsJSON);
+					// $.ajax({
+						// data: datasets,		
+						// url: '/zip',           	
+						// dataType: 'json'
+					// });		
 					
-					$.ajax({
-						data: datasets,		
-						url: '/zip',           	
-						dataType: 'json'
-					});						
+					$.post('/zip', datasets);						
 					
-                        //.closest('.template-download')
-                        //.find('.delete').click();
-						
-                    // fileUploadButtonBar.find('.toggle')
-                        // .prop('checked', false);
+					
                 }
             });	
 			
