@@ -198,13 +198,18 @@
             // Other callbacks:
 
             // Callback for the submit event of each file upload:
-            // submit: function (e, data) {}, // .bind('fileuploadsubmit', func);
+            //submit: function (e, data) {			
+			//	alert("File submitted!")
+			//}, //.bind('fileuploadsubmit', func);			
+			
 
             // Callback for the start of each file upload request:
             // send: function (e, data) {}, // .bind('fileuploadsend', func);
 
             // Callback for successful uploads:
-            // done: function (e, data) {}, // .bind('fileuploaddone', func);
+            //done: function (e, data) {
+			//	alert("File uploaded succesfully")	// does not work ??
+			//}, // .bind('fileuploaddone', func);
 
             // Callback for failed (abort or error) uploads:
             // fail: function (e, data) {}, // .bind('fileuploadfail', func);

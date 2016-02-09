@@ -1,10 +1,6 @@
-{% extends "bootstrap/base.html" %}
 
-{% block title %}File Uploader{% endblock %}
-
-{% block head %}
-{{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 
 <!-- Generic page styles -->
@@ -14,25 +10,51 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.fileupload.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.fileupload-ui.css') }}">
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
 
-{% endblock %}
 
 
-{% block content %}
-	{% with messages = get_flashed_messages() %}
-	  {% if messages %}
-		<ul class=flashes>
-		{% for message in messages %}
-		  <li>{{ message }}</li>
-		{% endfor %}
-		</ul>
-	  {% endif %}
-	{% endwith %}
-    {% block page_content %}{% endblock %}
-{% endblock %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="{{url_for('static', filename='js/vendor/jquery.ui.widget.js')}}"></script>	
+<!-- <script src="static/js/vendor/jquery.ui.widget.js"></script> -->
+<!-- The Templates plugin is included to render the upload/download listings -->
+<script src="http://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 
-{% block scripts %}
-{{ super() }}
+<script src="{{ url_for('static', filename='js/jquery.iframe-transport.js') }}"></script>
+<!-- The basic File Upload plugin -->
+<script src="{{ url_for('static', filename='js/jquery.fileupload.js') }}"></script>
+<!-- The File Upload processing plugin -->
+<script src="{{ url_for('static', filename='js/jquery.fileupload-process.js') }}"></script>
+<!-- The File Upload validation plugin -->
+<script src="{{ url_for('static', filename='js/jquery.fileupload-validate.js') }}"></script>
+<!-- The File Upload user interface plugin -->
+<script src="{{ url_for('static', filename='js/jquery.fileupload-ui.js') }}"></script>
 
-{% endblock %}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+
+<!-- The main application script -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
+<!--[if (gte IE 8)&(lt IE 10)]>
+<script src="js/cors/jquery.xdr-transport.js"></script>
+<![endif]-->
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+	<ul class=flashes>
+	{% for message in messages %}
+	  <li>{{ message }}</li>		  
+		<script>
+			$('#messagetext').text("{{ message }}")			
+			alert("Test")
+		</script>	
+	{% endfor %}
+	</ul>
+  {% endif %}
+{% endwith %}
+
+
