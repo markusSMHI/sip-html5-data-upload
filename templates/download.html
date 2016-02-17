@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<!-- Built with JQuery File Upload (https://github.com/blueimp/jQuery-File-Upload/) -->
+<!-- Flask File Upload (https://github.com/ngoduykhanh/flask-file-uploader)  -->
+<!-- Twitter's Bootstrap CSS framework(twitter.github.com/bootstrap/) -->
+<!-- Icons from Glyphicons (http://glyphicons.com/) and font awesome (https://fortawesome.github.io/Font-Awesome/) -->
+
+<html>
+	<head>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+		<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon"> 		
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.fileupload.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.fileupload-ui.css') }}">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
+	
+		<!-- Generic page styles -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">		
+		
+		<!-- JS -->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+		<script src="{{url_for('static', filename='js/vendor/jquery.ui.widget.js')}}"></script>	
+		<!-- <script src="static/js/vendor/jquery.ui.widget.js"></script> -->
+		<!-- The Templates plugin is included to render the upload/download listings -->
+		<script src="http://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
+		<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+
+		<script src="{{ url_for('static', filename='js/jquery.iframe-transport.js') }}"></script>
+		<!-- The basic File Upload plugin -->
+		<script src="{{ url_for('static', filename='js/jquery.fileupload.js') }}"></script>
+		<!-- The File Upload processing plugin -->
+		<script src="{{ url_for('static', filename='js/jquery.fileupload-process.js') }}"></script>
+		<!-- The File Upload validation plugin -->
+		<script src="{{ url_for('static', filename='js/jquery.fileupload-validate.js') }}"></script>
+		<!-- The File Upload user interface plugin -->
+		<script src="{{ url_for('static', filename='js/jquery.fileupload-ui.js') }}"></script>
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+
+		<!-- The main application script -->
+		<script src="{{ url_for('static', filename='js/download.js') }}"></script>
+		<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
+		<!--[if (gte IE 8)&(lt IE 10)]>
+		<script src="js/cors/jquery.xdr-transport.js"></script>
+		<![endif]-->
+
+	</head>
+	<body>
+
+		<div class="container">
+
+			<div class="col-md-12">
+				
+				<div class="switchon-header">
+					<span><img src="{{ url_for('static', filename='img/sologo_white.png')}}" alt=""/></span>
+					<h1>Download dataset files</h1>
+				</div>
+							
+				<!-- The messagebox on top of the panel with the contents. The message is set with javascript function   "setmessage" -->
+				<div id="messagetype">
+					<span id="messagefa"></span> 		
+					<div id="messagetext"></div>			
+				</div>				
+		
+						
+				<script>
+					var message = "Please download the dataset files."
+					setMessage("alert alert-success", "fa fa-4x fa-fw fa-pull-left fa-info-circle", message);			
+				</script>						
+					
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						Download files
+					</div>						
+					
+					<div class="panel-body">
+					
+						<table role="presentation" class="table table-striped">
+							<tbody class="files">
+							
+								{% for file in result.files %}
+								<tr>
+								<td><a href="{{ file.url }}">{{ file.name }}</a></td>														
+								<td >{{ file.sizeText }}						
+									<!-- <p id="sizeID"><script>formatFileSize(1000)</script>test</p>		 -->
+									<!-- <div  onClick="reply_click(this.id)">B1</button> -->
+								</td>
+								</tr>
+								{% endfor %}								
+							</tbody>
+						</table> 
+						
+						<!-- The table listing the files available for upload/download -->
+						<!-- <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table> -->						
+						
+						<input type="hidden" name="dataset" value="{{ result.datasetname }}">					
+					</div>	
+				</div> <!-- End panel primary -->			
+			
+			</div>	<!-- end Div col 12 -->
+				
+		</div> <!-- end div container -->			
+		
+	</body>
+</html>

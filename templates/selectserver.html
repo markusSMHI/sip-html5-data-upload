@@ -71,77 +71,61 @@
 				</div>	
 				
 				<script>
-					var message = "Upload the dataset files. Drag & drop files from your desktop on this webpage or click on \"Add files..\" to browse your computer."
+					var message = "Select the storage server."
 					setMessage("alert alert-success", "fa fa-4x fa-fw fa-pull-left fa-info-circle", message);			
 				</script>						
 					
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						Upload files
-					</div>						
+						Select server
+					</div>	
 					
-					<div class="panel-body">
 					
-						<!-- The file upload form used as target for the file upload widget -->		
-						<!-- <form id="fileupload" action="../uploadfiles" method="POST" enctype="multipart/form-data">		 -->
-						<form id="fileupload" method="POST" enctype="multipart/form-data">						
-	
+					<form action="/uploaddata" method="POST">	
+						<div class="panel-body">		
+							<p>Select the storage server. There are three different server types:<p>
+							<dl>
+								<p><dt>Regular file server</dt>
+								<dd>- Suitable for all file types</dt></p>								
+								<p><dt>Geoserver (not yet supported)</dt>
+								<dd>- can store various geodata formats, such as shapefiles and GeoTIFFs. Data can be accessed using WMS and WFS.</dt></p>								
+								<p><dt>THREDDS Data Server (TDS)</dt>
+								<dd>- a web server that provides data access for scientific grid datasets (such as NetCDF), using a variety of web services</dt></p>	
+							</dl>							
+							
 							<hr>
-
-							<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-							<div class="row fileupload-buttonbar">
-								<div class="col-lg-7">
-									<!-- The fileinput-button span is used to style the file input field as button -->
-									<div class="btn btn-success fileinput-button">
-										<i class="glyphicon glyphicon-plus"></i>
-										<span>Add files...</span>
-										<input type="file" name="file" multiple>
-									</div>										
-								</div>
-							</div>							
-									
-							<br>
 							
+							<div class="row">					
+								
+								<div class="form-group">
+									<label for="radiobuttonsID" class="control-label col-sm-2">Store dataset on:</label>
+									<div id="radiobuttonsID" class="col-sm-6 btn-group" data-toggle="buttons">
+										<label id="regularserver" class="btn btn-default active">
+											<input checked="" name="server" value="regular" type="radio" >File server
+										</label>
+										<label id="geoserver" class="btn btn-default disabled">
+											<input name="server" value="geoserver" type="radio">Geoserver
+										</label>
+										<label id="thredds" class="btn btn-default">
+											<input name="server" value="thredds" type="radio">THREDDS
+										</label>
+									</div>
+								</div>											
+							</div>		
 						
-							<!-- The table listing the files available for upload/download -->
-							<!-- <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table> -->
-							<table role="presentation" class="table table-striped">
-								<tbody class="files">
-									
-									{% for file in result.files %}
-									<tr>
-									<td><a href={{ file.url }}>{{ file.name }}</a></td>								
-									<td >{{ file.sizeText }}						
-										<!-- <p id="sizeID"><script>formatFileSize(1000)</script>test</p>		 -->
-										<!-- <div  onClick="reply_click(this.id)">B1</button> -->
-									</td>
-									</tr>
-									{% endfor %}								
-								</tbody>
-							</table> 							
-							
-						
-							
-							<input type="hidden" name="dataset" value="{{ datasetfolder }}">
-						</form>	
-						
-					</div>
+						</div>
 											
-					<div class="panel-footer clearfix">						
-						<form action="submitfiles" method="POST" class="form-inline">
+						<div class="panel-footer clearfix">				
+							
 							<input type="hidden" name="datasetname" id="datasetID" value="{{ datasetfolder}}">							
 							<button type="submit" name="submitButton" value="next" class="btn btn-primary pull-right">								
 								Next
-							</button>
-							<button type="submit" name="submitButton" value="previous" class="btn btn-default pull-right">							
-								Previous
-							</button>	
-						</form>
-					</div>					
-				</div> <!-- End panel primary -->	
-			
-			</div>	<!-- end Div col 12 -->
-				
+							</button>					
+						</div>						
+					</form>
+					
+				</div> <!-- End panel primary -->				
+			</div>	<!-- end Div col 12 -->				
 		</div> <!-- end div container -->	
 		
 		

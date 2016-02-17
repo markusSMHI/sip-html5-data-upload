@@ -16,14 +16,23 @@ import json
 import zipfile
 import jsonurl
 import time
+import functions
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dfhlklasfjka'
-
 my_dir = os.path.dirname(__file__)
-app.config['UPLOAD_FOLDER'] = os.path.join(my_dir, 'static/repos')  # FOR DEVELOPMENT
-#app.config['UPLOAD_FOLDER'] = os.path.join('/data')  # FOR SERVER
 
+app.config['DEVELOP'] = True
+
+if app.config['DEVELOP']:
+    app.config['BASE_UPLOAD_FOLDER'] = os.path.join(my_dir, 'static/repos')  # FOR DEVELOPMENT
+else:
+    app.config['BASE_UPLOAD_FOLDER'] = os.path.join('/data')  # FOR SERVER
+
+if app.config['DEVELOP']:
+    app.config['THREDDS_SERVER'] = "http://dl-ng003.xtr.deltares.nl/thredds/catalog/thredds/thredds" #os.path.join(my_dir, 'static/repos')
+else:
+    app.config['THREDDS_SERVER'] = "http://dl-ng003.xtr.deltares.nl/thredds/catalog/thredds/thredds"
 
 app.config['MAX_CONTENT_LENGTH'] = 99 * 1000 * 1024 * 1024
 app.config['USE_REPOSITORY'] = False
@@ -54,12 +63,12 @@ app.logger.info('Data Upload Tool startup')
 #         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 #endregion
 
-def gen_file_name(dataset, filename):
+def gen_file_name(fullpath, filename):
     """
     If file exist already, rename it and return a new name
     """
     i = 1
-    while os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], dataset, filename)):
+    while os.path.exists(os.path.join(fullpath, filename)):
         name, extension = os.path.splitext(filename)
         filename = '%s_%s%s' % (name, str(i), extension)
         i = i + 1
@@ -67,69 +76,14 @@ def gen_file_name(dataset, filename):
     return filename
 
 
-@app.route("/createdataset", methods=['GET', 'POST'])
-def createdataset():
+@app.route("/submitfiles", methods=['GET', 'POST'])
+def submitFiles():
 
-    if request.method == 'POST':
-
-        if request.form['submitButton'] == 'previous':
-            url = "http://switchon.cismet.de/open-data-registration-snapshot"
-            return redirect(url)
-
-        if request.form['submitButton'] == 'next':
-            fullpath = os.path.join(app.config['UPLOAD_FOLDER'], request.form['datasetname'])
-
-            if os.path.exists(fullpath):
-                app.logger.info('Dataset name already in use')
-                flash("Dataset name already exists. Please try another name.")
-                return render_template('index.html', fileupload=False)
-
-            else:   # create the dataset folder
-                os.makedirs(fullpath)
-                app.logger.info('Dataset will be stored in: ' + fullpath)
-                return redirect('data/' + request.form['datasetname'])
-    else:
-        return render_template('index.html', fileupload=False)
-
-
-#region zipfunction
-@app.route("/zip", methods=['GET', 'POST'])
-def zip():
-
-    #filesDict = request.args.to_dict(flat=False)   # for using ajax request
-    filesDict = request.form.to_dict(flat=False)
-    datasets = []
-
-    datasetname = ""
-
-    r = request
-
-    for key in filesDict.keys():
-        datasetname = filesDict[key][0].split('/')[0]
-        break
-
-    zipFileName = os.path.join(app.config['UPLOAD_FOLDER'], datasetname, "testzip.zip")
-    zf = zipfile.ZipFile(zipFileName, 'w')
-
-    for key in filesDict.keys():
-        datasets.append(filesDict[key][0])
-        filename = os.path.join(app.config['UPLOAD_FOLDER'], filesDict[key][0])
-        arcName = filesDict[key][0]
-        zf.write(filename, arcName)
-
-    zf.close()
-
-    return redirect('data/upload/' + datasetname)
-#endregion
-
-
-@app.route("/data/submitfiles", methods=['GET', 'POST'])
-def submitfiles():
-
-    dataset = request.form['datasetname']
+    datasetname = request.form['datasetname']
+    servertype = request.form['servertype']
 
     #region oldcode
-    # datasetUrl = os.path.join(app.config['UPLOAD_FOLDER'], dataset)
+    # datasetUrl = os.path.join(app.config['BASE_UPLOAD_FOLDER'], dataset)
 
     # files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in IGNORED_FILES ]
     #
@@ -150,16 +104,49 @@ def submitfiles():
     #endregion
 
     if request.form['submitButton'] == 'previous':
-        return redirect('/?' + dataset)
+        return redirect('/?datasetname=' + datasetname)
 
     if request.form['submitButton'] == 'next':
-        result = {'name': dataset, 'link': os.path.join(request.url_root, 'data', dataset)}
+
+        link = ""
+
+        if servertype == 'regular':
+            link = os.path.join(request.url_root, 'data', servertype, datasetname)
+
+        if servertype == 'thredds':
+            link = os.path.join(app.config['THREDDS_SERVER'], datasetname, 'catalog.html')
+
+        result = {'name': datasetname, 'link': link}
         queryString = jsonurl.query_string(result)
         url = "http://switchon.cismet.de/open-data-registration-snapshot/#?" + queryString
         return redirect(url)
 
 
-@app.route("/data/upload", methods=['GET', 'POST'])
+# accessed from the 'selectServer' page
+@app.route("/uploaddata", methods=['POST'])
+def uploadData():
+
+    if request.method == 'POST':
+        datasetname = request.form['datasetname']
+        servertype = request.form['server'] # default value; can be 'regular', 'thredds' or 'geoserver'
+
+        # create the dataset folder in the folder of the servertype; if name already taken, increment foldername
+        fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname)
+
+        n = 1
+        orig_datasetname = datasetname
+        while os.path.exists(fullpath):
+            datasetname = orig_datasetname + str(n)
+            fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname)
+            n += 1
+
+        os.makedirs(fullpath)
+        app.logger.info('Dataset will be stored in: ' + fullpath)
+
+        return render_template('upload.html', servertype=servertype, datasetname=datasetname)
+
+
+@app.route("/upload", methods=['GET', 'POST'])
 def upload():
 
     r = request
@@ -167,11 +154,15 @@ def upload():
     if request.method == 'POST':
         file = request.files['file']
 
-        dataset = request.form['dataset']   # get the name of the dataset (and folder)
+        datasetname = request.form['datasetname']   # get the name of the dataset (and folder)
+        servertype = request.form['servertype']
+
+        fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname)
+
 
         if file:
             filename = secure_filename(file.filename)
-            filename = gen_file_name(dataset, filename)
+            filename = gen_file_name(fullpath, filename)
             mimetype = file.content_type
 
             #if not allowed_file(file.filename):
@@ -179,10 +170,9 @@ def upload():
 
             # save file to disk
             try:
-                uploaded_file_path = os.path.join(app.config['UPLOAD_FOLDER'], dataset, filename)
+                uploaded_file_path = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname, filename)
                 file.save(uploaded_file_path)
-                # get file size after saving
-                size = os.path.getsize(uploaded_file_path)
+                size = os.path.getsize(uploaded_file_path)                # get file size after saving
             except:
                 errorMessage = 'Error saving file: ' + filename + ' to working copy'
                 app.logger.error(errorMessage)
@@ -204,7 +194,7 @@ def upload():
             #             client = pysvn.Client()
             #             client.add(uploaded_file_path)
             #             commitMessage = 'Added ' + uploaded_file_path + ' to the repository'
-            #             client.checkin(app.config['UPLOAD_FOLDER'], commitMessage)
+            #             client.checkin(app.config['BASE_UPLOAD_FOLDER'], commitMessage)
             #
             #             #TODO: add message when file added succesfully. Redirect_url does not work; gives " SyntaxError: Unexpected token <"
             #             #flash("File uploaded succesfully; added to the repository")
@@ -229,15 +219,17 @@ def upload():
             #endregion
 
             # return json for js call back
-            time.sleep(0.5)
-            result = uploadfile(name=filename, dataset=dataset, type=mimetype, size=size)
+            time.sleep(0.2)
+
+            result = uploadfile(name=filename, servertype=servertype, dataset=datasetname, type=mimetype, size=size)
             return simplejson.dumps({"files": [result.get_file()]})
 
 
     if request.method == 'GET':
         # get all file in ./data directory
-        dataset = request.args['dataset']
-        datasetUrl = os.path.join(app.config['UPLOAD_FOLDER'], dataset)
+        datasetname = request.args['dataset']
+        servertype = request.args['servertype']
+        datasetUrl = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname)
 
         files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in IGNORED_FILES ]
 
@@ -245,7 +237,7 @@ def upload():
 
         for f in files:
             size = os.path.getsize(os.path.join(datasetUrl, f))
-            file_saved = uploadfile(name=f, dataset=dataset, size=size)
+            file_saved = uploadfile(name=f, servertype=servertype, dataset=datasetname, size=size)
             file_display.append(file_saved.get_file())
 
         return simplejson.dumps({"files": file_display})
@@ -253,50 +245,202 @@ def upload():
     return redirect(url_for('index'))
 
 
-@app.route("/delete/<path:path>", methods=['DELETE'])
-def delete(path):
+@app.route('/', methods=['GET'])
+def selectServer():
 
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], path)
-
-    if os.path.exists(file_path):
-        try:
-            #region ReposCode
-            # if app.config['USE_REPOSITORY']:
-            #     client = pysvn.Client()
-            #     client.remove(file_path) #  the file will be removed from the working copy
-            #     commitMessage = 'Removed ' + file_path + ' from the repository'
-            #
-            #     #committing the change removes the file from the repository
-            #     client.checkin(app.config['UPLOAD_FOLDER'], commitMessage)
-            # else:
-            #     os.remove(file_path)   # for non-SVN versions
-            #endregion
-
-            os.remove(file_path)
-
-        except:
-            app.logger.error("Failed to delete: " + path)
-            return simplejson.dumps({path: 'False'})
-
-        app.logger.info("Deleted file: " + path + " succesfully")
-        return simplejson.dumps({path: 'True'})
+    if request.args.get('datasetname') == None:
+        return "Please send a GET request with a parameter datasetname"
+    else:
+        datasetname = request.args.get('datasetname')
+        return render_template('selectserver.html', datasetfolder=datasetname)
 
 
-@app.route("/data/<dataset>")
-def data(dataset):
-    return render_template('index.html', datasetfolder=dataset, fileupload=True)
+@app.route("/data/<servertype>/<datasetname>/")
+def downloadDataset(servertype, datasetname):
+
+    if servertype == 'regular':
+        datasetUrl = os.path.join(os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname))
+
+        result = {}
+        result['datasetname'] = datasetname
+
+        fileInfoList = []
+        files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in IGNORED_FILES ]
+        for f in files:
+            fileInfo = {}
+            fileInfo['size'] = os.path.getsize(os.path.join(datasetUrl, f))
+            fileInfo['sizeText'] = functions.formatFileSize(fileInfo['size'])
+            fileInfo['url'] = os.path.join(request.base_url, f)
+            fileInfo['name'] = f
+
+            fileInfoList.append(fileInfo)
+
+        result['files'] = fileInfoList
+
+        return render_template('download.html', result=result)
+
+    if servertype == 'thredds':
+        url = os.path.join(app.config['THREDDS_SERVER'], datasetname, 'catalog.html')
+        return redirect(url)
+
 
 
 @app.route("/data/<path:path>", methods=['GET'])
-def get_file(path):
-    return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER']), filename=path)
-
-
-@app.route('/')
-def index():
-    return render_template('index.html', fileupload=False)
+def downloadFile(path):
+    return send_from_directory(os.path.join(app.config['BASE_UPLOAD_FOLDER']), filename=path)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)                 # DEVELOPMENT
-    #app.run(host='0.0.0.0')            # SERVER
+
+    if app.config['DEVELOP']:
+        app.run(debug=True)                 # DEVELOPMENT
+    else:
+        app.run(host='0.0.0.0')            # SERVER
+
+
+
+#region Old routes
+
+# @app.route("/uploaddata/<path:path>", methods=['GET'])
+# def uploadFile(path):
+#     return send_from_directory(os.path.join(app.config['BASE_UPLOAD_FOLDER']), filename=path)
+# @app.route("/data/download", methods=['GET'])
+# def download():
+#
+#     r = request
+#
+#     if request.method == 'GET':
+#         # get all file in ./data directory
+#         dataset = request.args['dataset']
+#         datasetUrl = os.path.join(app.config['BASE_UPLOAD_FOLDER'], dataset)
+#
+#         files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in IGNORED_FILES ]
+#
+#         file_display = []
+#
+#         for f in files:
+#             size = os.path.getsize(os.path.join(datasetUrl, f))
+#             file_saved = uploadfile(name=f, dataset=dataset, size=size)
+#             file_display.append(file_saved.get_file())
+#
+#         return simplejson.dumps({"files": file_display})
+#
+#     return redirect(url_for('download'))
+
+# @app.route('/')
+# def index():
+#     return render_template('index.html', fileupload=False)
+
+# @app.route("/createdataset", methods=['GET', 'POST'])
+# def createdataset():
+#
+#     if request.method == 'POST':
+#
+#         if request.form['submitButton'] == 'previous':
+#             url = "http://switchon.cismet.de/open-data-registration-snapshot"
+#             return redirect(url)
+#
+#         if request.form['submitButton'] == 'next':
+#             fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], request.form['datasetname'])
+#
+#             if os.path.exists(fullpath):
+#                 app.logger.info('Dataset name already in use')
+#                 flash("Dataset name already exists. Please try another name.")
+#                 return render_template('index.html', fileupload=False)
+#
+#             else:   # create the dataset folder
+#                 os.makedirs(fullpath)
+#                 app.logger.info('Dataset will be stored in: ' + fullpath)
+#                 return redirect('data/' + request.form['datasetname'])
+#     else:
+#         return render_template('index.html', fileupload=False)
+
+# @app.route("/zip", methods=['GET', 'POST'])
+# def zip():
+#
+#     #filesDict = request.args.to_dict(flat=False)   # for using ajax request
+#     filesDict = request.form.to_dict(flat=False)
+#     datasets = []
+#
+#     datasetname = ""
+#
+#     r = request
+#
+#     for key in filesDict.keys():
+#         datasetname = filesDict[key][0].split('/')[0]
+#         break
+#
+#     zipFileName = os.path.join(session['UPLOAD_FOLDER'], datasetname, "testzip.zip")
+#     zf = zipfile.ZipFile(zipFileName, 'w')
+#
+#     for key in filesDict.keys():
+#         datasets.append(filesDict[key][0])
+#         filename = os.path.join(session['UPLOAD_FOLDER'], filesDict[key][0])
+#         arcName = filesDict[key][0]
+#         zf.write(filename, arcName)
+#
+#     zf.close()
+#
+#     return redirect('data/upload/' + datasetname)
+
+# @app.route("/delete/<path:path>", methods=['DELETE'])
+# def delete(path):
+#
+#     file_path = os.path.join(session['UPLOAD_FOLDER'], path)
+#
+#     if os.path.exists(file_path):
+#         try:#
+#             # if app.config['USE_REPOSITORY']:
+#             #     client = pysvn.Client()
+#             #     client.remove(file_path) #  the file will be removed from the working copy
+#             #     commitMessage = 'Removed ' + file_path + ' from the repository'
+#             #
+#             #     #committing the change removes the file from the repository
+#             #     client.checkin(app.config['BASE_UPLOAD_FOLDER'], commitMessage)
+#             # else:
+#             #     os.remove(file_path)   # for non-SVN versions
+#
+
+# @app.route("/uploaddata/<servertype>/<datasetname>")
+# def uploadDataset(servertype, datasetname):
+#
+#     datasetUrl = os.path.join(os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname))
+#
+#     result = {}
+#     result['datasetname'] = datasetname
+#
+#     fileInfoList = []
+#     files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in IGNORED_FILES ]
+#     for f in files:
+#         fileInfo = {}
+#         fileInfo['size'] = os.path.getsize(os.path.join(datasetUrl, f))
+#         fileInfo['sizeText'] = functions.formatFileSize(fileInfo['size'])
+#         fileInfo['url'] = "{}/{}/{}".format(servertype, datasetname, f)
+#         fileInfo['name'] = f
+#
+#         fileInfoList.append(fileInfo)
+#
+#     result['files'] = fileInfoList
+#
+#     return render_template('index.html', servertype=servertype, result=result, datasetfolder=datasetname, serverSelected=True)
+
+# @app.route("/uploaddata/<datasetname>", methods=['GET', 'POST'])
+# def selectServer(datasetname):
+#     return render_template('index.html', servertype='regular', datasetfolder=datasetname, serverSelected=False)
+
+
+#@app.route('/selectserver/<datasetname>', methods=['GET', 'POST'])
+# def selectServer(datasetname):
+#     if request.method == 'GET':
+#         return render_template('selectserver.html', datasetfolder=datasetname)
+#
+#             os.remove(file_path)
+#
+#         except:
+#             app.logger.error("Failed to delete: " + path)
+#             return simplejson.dumps({path: 'False'})
+#
+#         app.logger.info("Deleted file: " + path + " succesfully")
+#         return simplejson.dumps({path: 'True'})
+#endregion
+

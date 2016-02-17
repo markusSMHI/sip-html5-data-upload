@@ -91,7 +91,8 @@ $(function () {
 		//xhrFields: {withCredentials: true},
 		// data: $('#datasetID').val(), 	// pass information on the dataset (= folder) (OLD CODE)
 		data: {								// pass information on the dataset (= folder)	
-			dataset: $('#datasetID').val()
+			dataset: $('#datasetID').val(),
+			servertype: $('#servertypeID').val()
 		},		
 		url: $('#fileupload').fileupload('option', 'url'),	// OLD ORIGINAL CODE           	
 		dataType: 'json',
