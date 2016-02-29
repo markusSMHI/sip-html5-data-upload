@@ -8,7 +8,8 @@ class uploadfile():
         self.type = type
         self.size = size
         self.not_allowed_msg = not_allowed_msg
-        self.url = "{}/{}/{}".format(servertype, dataset, name)
+        self.dir = "{}/{}/{}".format(servertype, dataset, name)
+        self.url = "data/{}/{}/{}".format(servertype, dataset, name)
         self.delete_url = "delete/{}/{}/{}".format(servertype, dataset, name)
         self.delete_type = "DELETE"
 
@@ -20,7 +21,8 @@ class uploadfile():
                         "servertype": self.servertype,
                         "dataset": self.dataset,
                         "type": self.type,
-                        "size": self.size, 
+                        "size": self.size,
+                        "dir": self.dir,
                         "url": self.url, 
                         "deleteUrl": self.delete_url, 
                         "deleteType": self.delete_type,}
@@ -39,7 +41,8 @@ class uploadfile():
             return {"name": self.name,
                     "servertype": self.servertype,
                     "dataset": self.dataset,
-                    "size": self.size, 
+                    "size": self.size,
+                    "dir": self.dir,
                     "url": self.url, 
                     "deleteUrl": self.delete_url, 
                     "deleteType": self.delete_type,}

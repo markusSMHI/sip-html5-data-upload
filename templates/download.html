@@ -12,46 +12,24 @@
 
 		<!-- CSS -->
 		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.fileupload.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.fileupload-ui.css') }}">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
 	
 		<!-- Generic page styles -->
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">		
 		
-		<!-- JS -->
+		<!-- JS -->		
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-		<script src="{{url_for('static', filename='js/vendor/jquery.ui.widget.js')}}"></script>	
-		<!-- <script src="static/js/vendor/jquery.ui.widget.js"></script> -->
-		<!-- The Templates plugin is included to render the upload/download listings -->
-		<script src="http://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
-		<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+	
+		<script src="{{ url_for('static', filename='js/bootbox.min.js') }}"></script>
 
-		<script src="{{ url_for('static', filename='js/jquery.iframe-transport.js') }}"></script>
-		<!-- The basic File Upload plugin -->
-		<script src="{{ url_for('static', filename='js/jquery.fileupload.js') }}"></script>
-		<!-- The File Upload processing plugin -->
-		<script src="{{ url_for('static', filename='js/jquery.fileupload-process.js') }}"></script>
-		<!-- The File Upload validation plugin -->
-		<script src="{{ url_for('static', filename='js/jquery.fileupload-validate.js') }}"></script>
-		<!-- The File Upload user interface plugin -->
-		<script src="{{ url_for('static', filename='js/jquery.fileupload-ui.js') }}"></script>
-
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
-
-		<!-- The main application script -->
+		<!-- Functions for the download page -->
 		<script src="{{ url_for('static', filename='js/download.js') }}"></script>
 		<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 		<!--[if (gte IE 8)&(lt IE 10)]>
 		<script src="js/cors/jquery.xdr-transport.js"></script>
 		<![endif]-->
-
+	
+		
 	</head>
 	<body>
 
@@ -72,7 +50,7 @@
 		
 						
 				<script>
-					var message = "Please download the dataset files."
+					var message = "Click on the file name to start the download."
 					setMessage("alert alert-success", "fa fa-4x fa-fw fa-pull-left fa-info-circle", message);			
 				</script>						
 					
@@ -83,6 +61,28 @@
 					
 					<div class="panel-body">
 					
+						<hr>
+						
+						<div class="row fileupload-buttonbar">
+							<div class="col-lg-7">
+								
+								<!-- <form action="/downloadall" method="POST" class="form-inline" onsubmit="return getZipfilename()"> -->
+								<form action="/downloadall" method="POST" class="form-inline">
+								
+									<input type="hidden" name="datasetname" id="datasetnameID" value="{{ result.datasetname }}">					
+									<input type="hidden" name="servertype" id="servertypeID" value="{{ result.servertype}}">		
+									<!-- <input type="hidden" name="zipfilename" id="zipfilenameID" value="{{ result.datasetname }}">-->
+									<button type="submit" class="btn btn-warning"> 
+										<i class="glyphicon glyphicon-folder-open"></i>
+										<span>&nbsp;Download all as zip</span>
+									</button>
+								</form>						
+					
+							</div>
+						</div>
+						
+						<br>
+
 						<table role="presentation" class="table table-striped">
 							<tbody class="files">
 							
@@ -96,12 +96,10 @@
 								</tr>
 								{% endfor %}								
 							</tbody>
-						</table> 
+						</table> 	
+
 						
-						<!-- The table listing the files available for upload/download -->
-						<!-- <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table> -->						
-						
-						<input type="hidden" name="dataset" value="{{ result.datasetname }}">					
+			
 					</div>	
 				</div> <!-- End panel primary -->			
 			

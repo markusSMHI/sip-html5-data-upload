@@ -18,8 +18,5 @@ def formatFileSize(bytes):
 # c = Crawl("http://dl-tc008.xtr.deltares.nl:8080/thredds/catalog/thredds/catalog.xml", select=[".*"])
 # print c.datasets
 
-# THREDDSCLIENT
-# import threddsclient
-# urls = threddsclient.download_urls('http://dl-tc008.xtr.deltares.nl:8080/thredds/catalog/thredds/netcdftest/catalog.xml')
-# urls = threddsclient.opendap_urls('http://dl-tc008.xtr.deltares.nl:8080/thredds/catalog/thredds/netcdftest/catalog.xml')
+
 

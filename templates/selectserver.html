@@ -12,42 +12,17 @@
 
 		<!-- CSS -->
 		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.fileupload.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.fileupload-ui.css') }}">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
-	
+
 		<!-- Generic page styles -->
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">		
-
 		
 		<!-- JS -->
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 		
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-		<script src="{{url_for('static', filename='js/vendor/jquery.ui.widget.js')}}"></script>	
-		<!-- <script src="static/js/vendor/jquery.ui.widget.js"></script> -->
-		<!-- The Templates plugin is included to render the upload/download listings -->
-		<script src="http://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
-		<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-
-		<script src="{{ url_for('static', filename='js/jquery.iframe-transport.js') }}"></script>
-		<!-- The basic File Upload plugin -->
-		<script src="{{ url_for('static', filename='js/jquery.fileupload.js') }}"></script>
-		<!-- The File Upload processing plugin -->
-		<script src="{{ url_for('static', filename='js/jquery.fileupload-process.js') }}"></script>
-		<!-- The File Upload validation plugin -->
-		<script src="{{ url_for('static', filename='js/jquery.fileupload-validate.js') }}"></script>
-		<!-- The File Upload user interface plugin -->
-		<script src="{{ url_for('static', filename='js/jquery.fileupload-ui.js') }}"></script>
-
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
-
 		<!-- The main application script -->
-		<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/selectserver.js') }}"></script>
 		<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 		<!--[if (gte IE 8)&(lt IE 10)]>
 		<script src="js/cors/jquery.xdr-transport.js"></script>
@@ -65,8 +40,8 @@
 					<h1>Data Upload Tool</h1>
 				</div>				
 		
-				<div class="alert alert-success">
-					<span class="fa fa-4x fa-fw fa-pull-left fa-info-circle"></span>	 
+				<div id="messagetype">
+					<span id="messagefa"></span>	 
 					<div id="messagetext"></div>			
 				</div>	
 				
@@ -81,7 +56,7 @@
 					</div>	
 					
 					
-					<form action="/uploaddata" method="POST">	
+					<form action="/createfolder" method="POST">	
 						<div class="panel-body">		
 							<p>Select the storage server. There are three different server types:<p>
 							<dl>
@@ -118,7 +93,7 @@
 						<div class="panel-footer clearfix">				
 							
 							<input type="hidden" name="datasetname" id="datasetID" value="{{ datasetfolder}}">							
-							<button type="submit" name="submitButton" value="next" class="btn btn-primary pull-right">								
+							<button type="submit" name="submitButton" value="next" class="btn btn-primary pull-right">							
 								Next
 							</button>					
 						</div>						
@@ -144,58 +119,3 @@
 		
 	</body>
 </html>
-
-{% raw %}
-<!-- The template to display files available for upload -->
-<script id="template-upload" type="text/x-tmpl">	
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload fade">
-        <td>
-            <p class="name">{%=file.name%}</p>
-            <strong class="error text-danger"></strong>
-        </td>
-        <td>
-            <p class="size">Processing...</p>
-            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
-        </td>
-        <td>
-            {% if (!i && !o.options.autoUpload) { %}
-                <button class="btn btn-primary start" disabled>
-                    <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start</span>
-                </button>
-            {% } %}
-            {% if (!i) { %}
-                <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel</span>
-                </button>
-            {% } %}
-        </td>
-    </tr>
-{% } %}
-
-</script>
-<!-- The template to display files available for download -->
-<script id="template-download" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-        <td>
-            <p class="name">
-                {% if (file.url) { %}
-                    <a href="{%=file.url%}" title="{%=file.dataset%}\{%=file.name%}" download="{%=file.name%}">{%=file.dataset%}\{%=file.name%}</a>
-                {% } else { %}
-                    <span>{%=file.name%}</span>
-                {% } %}
-            </p>
-            {% if (file.error) { %}
-                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
-            {% } %}
-        </td>
-        <td>
-            <span class="size">{%=o.formatFileSize(file.size)%}</span>
-        </td>
-    </tr>
-{% } %}
-</script>
-{% endraw %}

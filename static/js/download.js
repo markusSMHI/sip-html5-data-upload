@@ -1,5 +1,15 @@
 
 
+
+function checkFilename(filename){
+	if (/[^a-z0-9]/gi.test(filename)) {  // anything but a-zA-Z0-9 - add other permitted characters to suit
+		return false;
+	}
+	else{
+		return true;
+	}
+}
+	
 function setMessage(messagetype, messagefa, messagetext){
 	
 	try {	
@@ -14,63 +24,106 @@ function setMessage(messagetype, messagefa, messagetext){
 	}
 }
 
-function formatFileSize(bytes) {
-	if (typeof bytes !== 'number') {
-		console.log("nothing returned")
-		return '';
-	}
-	if (bytes >= 1000000000) {	
-		return (bytes / 1000000000).toFixed(2) + ' GB';
-	}
-	if (bytes >= 1000000) {
-		return (bytes / 1000000).toFixed(2) + ' MB';
-		console.log("mb returned")		
-	}
 	
-	console.log("kb returned")		
-	return (bytes / 1000).toFixed(2) + ' KB';
+function validateForm(){	
 	
-
+	//return true;
+	
+	//e.preventDefault();
+	
+	bootbox.prompt({
+		title: "Zip filename",
+		value: $('#datasetnameID').val(),
+		
+		callback: function(result) {
+			if (result === null) {
+				console.log("Cancelled");
+				return false;
+			} else {
+				// check if a valid filename					
+				if(checkFilename(result)){
+					$('#zipfilenameID').val(result);  
+					console.log("valid zipfilename");
+					//$('#downloadallForm').submit();
+					return true;
+				}
+				else{
+					setMessage("alert alert-danger", "fa fa-4x fa-fw fa-pull-left fa-exclamation-triangle", "Invalid zip filename! Please try again.")
+					return false;
+				}
+			}
+		}	           
+	})
+  
 }
 
+
 $(function () {
-    'use strict';
 	
-	// // Initialize the jQuery File Upload widget:
-    // $('#fileupload').fileupload({
-        // // Uncomment the following to send cross-domain cookies:
-        // //xhrFields: {withCredentials: true},
-        // url: 'download'			
-    // });
+	// $('#downloadallForm').on('submit', function(e){
 	
-    // // Enable iframe cross-domain access via redirect option:
-    // $('#fileupload').fileupload(
-        // 'option',
-        // 'redirect',
-        // window.location.href.replace(
-            // /\/[^\/]*$/,
-            // '/cors/result.html?%s'
-        // )
-    // );
+        // e.preventDefault();
+		
+		// bootbox.prompt({
+			// title: "Zip filename",
+			// value: $('#datasetnameID').val(),
+			
+			// callback: function(result) {
+				// if (result === null) {
+					// console.log("Cancelled");
+					// //return(false);
+				// } else {
+					// // check if a valid filename					
+					// if(checkFilename(result)){
+						// $('#zipfilenameID').val(result);  
+						// console.log("valid zipfilename");
+						// $('#downloadallForm').submit();
+					// }
+					// else{
+						// setMessage("alert alert-danger", "fa fa-4x fa-fw fa-pull-left fa-exclamation-triangle", "Invalid zip filename! Please try again.")
+						// //return(false);
+					// }
+				// }
+			// }	           
+        // })
+    // })
+	
+	
+	// $('#downloadallID').click(function() {			
 
-	// // Not sure what this does?
-	// $('#fileupload').addClass('fileupload-processing');
+		// var datasetname = $('#datasetnameID').val();
+		// var servertype = $('#servertypeID').val();
+				
+		// bootbox.prompt({
+		  // title: "Zip filename",
+		  // value: datasetname,
+		  // callback: function(result) {
+			  // if (result === null) {
+			  // console.log("Cancelled");
+			// } else {
+				// // check if a valid filename					
+				// if(checkFilename(result)){
+					// $.ajax({
+					// type: "POST",
+					// url: "/downloadall",					
+					// data: JSON.stringify({'datasetname': datasetname, 'servertype': servertype, 'zipfilename': result}),
+					// contentType: "application/json; charset=utf-8",
+					// dataType: "json",
+					// success: function(data){
+						// console.log(data);
+						// },
+					// failure: function(errMsg) {
+						// alert(errMsg);
+						// }
+					// });				
+				// }
+				// else{
+					// setMessage("alert alert-danger", "fa fa-4x fa-fw fa-pull-left fa-exclamation-triangle", "Invalid zip filename! Please try again.")
+				// }
+			// }
+		  // }
+		// });		
+
+	// })	
 	
-	// $.ajax({
-		// // Uncomment the following to send cross-domain cookies:
-		// //xhrFields: {withCredentials: true},
-		// // data: $('#datasetID').val(), 	// pass information on the dataset (= folder) (OLD CODE)
-		// data: {								// pass information on the dataset (= folder)	
-			// dataset: $('#datasetID').val()
-		// },		
-		// url: $('#fileupload').fileupload('option', 'url'),	// OLD ORIGINAL CODE           	
-		// dataType: 'json',
-		// context: $('#fileupload')[0],	
-	// }).always(function () {
-		// $(this).removeClass('fileupload-processing');	// Not sure what this does?
-	// }).done(function (result) {
-		// $(this).fileupload('option', 'done')
-			// .call(this, $.Event('done'), {result: result});
-	// });	
 });
-

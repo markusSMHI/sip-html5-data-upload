@@ -5,6 +5,7 @@
 <!-- Twitter's Bootstrap CSS framework(twitter.github.com/bootstrap/) -->
 <!-- Icons from Glyphicons (http://glyphicons.com/) and font awesome (https://fortawesome.github.io/Font-Awesome/) -->
 
+
 <html>
 	<head>
 		<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
@@ -25,14 +26,13 @@
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 		<script src="{{url_for('static', filename='js/vendor/jquery.ui.widget.js')}}"></script>	
-		<!-- <script src="static/js/vendor/jquery.ui.widget.js"></script> -->
 		<!-- The Templates plugin is included to render the upload/download listings -->
 		<script src="http://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
-		<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-
+		
+		<script src="{{ url_for('static', filename='js/bootbox.min.js') }}"></script>
+		
 		<script src="{{ url_for('static', filename='js/jquery.iframe-transport.js') }}"></script>
 		<!-- The basic File Upload plugin -->
 		<script src="{{ url_for('static', filename='js/jquery.fileupload.js') }}"></script>
@@ -43,11 +43,8 @@
 		<!-- The File Upload user interface plugin -->
 		<script src="{{ url_for('static', filename='js/jquery.fileupload-ui.js') }}"></script>
 
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
-
-		<!-- The main application script -->
-		<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+		<!-- Functions for the upload page -->
+		<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
 		<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 		<!--[if (gte IE 8)&(lt IE 10)]>
 		<script src="js/cors/jquery.xdr-transport.js"></script>
@@ -55,7 +52,7 @@
 
 	</head>
 	<body>
-
+	
 		<div class="container">
 
 			<div class="col-md-12">
@@ -63,15 +60,15 @@
 				<div class="switchon-header">
 					<span><img src="{{ url_for('static', filename='img/sologo_white.png')}}" alt=""/></span>
 					<h1>Data Upload Tool</h1>
-				</div>				
+				</div>
 		
-				<div class="alert alert-success">
-					<span class="fa fa-4x fa-fw fa-pull-left fa-info-circle"></span>	 
+				<div id="messagetype">
+					<span id="messagefa"></span>	 
 					<div id="messagetext"></div>			
 				</div>	
 				
 				<script>
-					var message = "Upload the dataset files. Drag & drop files from your desktop on this webpage or click on \"Add files..\" to browse your computer."
+					var message = "Upload the dataset files. Drag & drop files from your desktop to this webpage or click on \"Add files..\"."
 					setMessage("alert alert-success", "fa fa-4x fa-fw fa-pull-left fa-info-circle", message);			
 				</script>						
 					
@@ -104,14 +101,23 @@
 										<i class="glyphicon glyphicon-plus"></i>
 										<span>Add files...</span>
 										<input type="file" name="file" multiple>
-									</div>										
+									</div>			
+									
+									
+									{% if servertype == "regular" %}
+									<button type="button" class="btn btn-warning zip">
+										<i class="glyphicon glyphicon-folder-open"></i>
+										<span>Zip selection</span>
+									</button>									
+									<input type="checkbox" class="toggle">Select all
+									{% endif %}
 								</div>
 							</div>							
 									
 							<br>
 													
 							<!-- The table listing the files available for upload/download -->
-							<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>						
+							<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>					
 							
 							<input type="hidden" name="datasetname" id="datasetID" value="{{ datasetname}}">	
 							<input type="hidden" name="servertype" id="servertypeID" value="{{ servertype}}">	
@@ -146,8 +152,7 @@
 			<ul class=flashes>
 			{% for message in messages %}
 				<script>
-					setMessage("alert alert-warning", "fa fa-4x fa-fw fa-pull-left fa-exclamation-triangle", "{{ message }}");
-										
+					setMessage("alert alert-warning", "fa fa-4x fa-fw fa-pull-left fa-exclamation-triangle", "{{ message }}");										
 				</script>				
 			{% endfor %}
 			</ul>
@@ -203,10 +208,13 @@
             {% if (file.error) { %}
                 <div><span class="label label-danger">Error</span> {%=file.error%}</div>
             {% } %}
-        </td>
+        </td>		
         <td>
             <span class="size">{%=o.formatFileSize(file.size)%}</span>
         </td>
+		<td>		
+			<input type="checkbox" name="zipcheckbox" value="{%=file.dir%}" class="toggle">
+		</td>
     </tr>
 {% } %}
 </script>

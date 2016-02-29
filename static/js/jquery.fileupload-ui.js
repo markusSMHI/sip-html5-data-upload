@@ -568,6 +568,9 @@
         },
 
         _initButtonBarEventHandlers: function () {
+		
+			console.log(this);
+			
             var fileUploadButtonBar = this.element.find('.fileupload-buttonbar'),
                 filesList = this.options.filesContainer;
             this._on(fileUploadButtonBar.find('.start'), {
@@ -593,34 +596,65 @@
                 }
             });
 			            
-			// OWN BUTTON: ZIP FILES
-			this._on(fileUploadButtonBar.find('.zip'), {
-                click: function (e) {
-                    e.preventDefault();
+			// // OWN BUTTON: ZIP FILES
+			// this._on(fileUploadButtonBar.find('.zip'), {
+                // click: function (e) {
+								
+                    // e.preventDefault();								
+					// //alert("test");
+					// // bootbox.alert("Your message here…")
 					
-					var toggledFiles = filesList.find('.toggle:checked')					
-					var datasets = {};
+					// // bootbox.prompt({
+					  // // title: "What is your real name?",
+					  // // value: "makeusabrew",
+					  // // callback: function(result) {
+						// // if (result === null) {
+						  // // Example.show("Prompt dismissed");
+						  // // console.log("bootbox result null");
+						// // } else {
+						  // // Example.show("Hi <b>"+result+"</b>");
+						  // // console.log("bootbox result resuy");						  
+						// // }
+					  // // }
+					// // });		
 					
-					$(toggledFiles).each(function(i, val) {
-						//console.log(val.value);
-						datasets[i]=val.value;
-						});			
+					// // bootbox.confirm("Are you sure?", function(result) {
+						// // Example.show("Confirm result: "+result);
+					// // }); 
+				
+					
+					
+					// $("#myModal").modal()
+					// var userValue = prompt("Ask your question");
+					
+					// var toggledFiles = filesList.find('.toggle:checked')					
+					// var datasets = {};
+					
+					// $(toggledFiles).each(function(i, val) {
+						// //console.log(val.value);
+						// datasets[i]=val.value;
+						// });			
 											
-					console.log(datasets);
+					// console.log(datasets);					
 					
-					// $.ajax({
-						// data: datasets,		
-						// url: '/zip',           	
-						// dataType: 'json'
-					// });		
+					// // $.ajax({
+						// // data: datasets,		
+						// // url: '/zip',           	
+						// // dataType: 'json'
+					// // });						
 					
-					$.post('/zip', datasets);					
-                }
-            });	
+					// $.post('/zip', datasets);	
+					// //window.location.href=window.location.href;
+					
+					// location.reload();											
+                // }
+            // });	
 			
 			
-            this._on(fileUploadButtonBar.find('.toggle'), {
+            this._on(fileUploadButtonBar.find('.toggle'), {	
+				
                 change: function (e) {
+					
                     filesList.find('.toggle').prop(
                         'checked',
                         $(e.currentTarget).is(':checked')
