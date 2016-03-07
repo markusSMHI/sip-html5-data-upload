@@ -10,13 +10,3 @@ def formatFileSize(bytes):
     return "{0:.2f}".format(float(bytes) / 1000.0) + ' KB'
 
 
-
-
-# TEST THREDDS CRAWLER
-
-# from thredds_crawler.crawl import Crawl
-# c = Crawl("http://dl-tc008.xtr.deltares.nl:8080/thredds/catalog/thredds/catalog.xml", select=[".*"])
-# print c.datasets
-
-
-

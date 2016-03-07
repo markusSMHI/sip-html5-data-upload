@@ -27,8 +27,10 @@ app.config['DEVELOP'] = True
 
 if app.config['DEVELOP']:
     app.config['BASE_UPLOAD_FOLDER'] = os.path.join(my_dir, 'static/repos')  # FOR DEVELOPMENT
+    app.config['ZIP_DOWNLOAD_ALL_FOLDER']= 'zippeddownload'
 else:
-    app.config['BASE_UPLOAD_FOLDER'] = os.path.join('/data')  # FOR SERVER
+    app.config['BASE_UPLOAD_FOLDER'] = '/data'  # FOR SERVER
+    app.config['ZIP_DOWNLOAD_ALL_FOLDER'] = 'zippeddownload'
 
 if app.config['DEVELOP']:
     app.config['THREDDS_SERVER'] = "http://dl-ng003.xtr.deltares.nl/thredds/catalog/thredds/thredds" #os.path.join(my_dir, 'static/repos')
@@ -147,33 +149,10 @@ def submitFiles():
     datasetname = request.form['datasetname']
     servertype = request.form['servertype']
 
-    #region oldcode
-    # datasetUrl = os.path.join(app.config['BASE_UPLOAD_FOLDER'], dataset)
-
-    # files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in IGNORED_FILES ]
-    #
-    # result = {}
-    # fileList = []
-    #
-    # for f in files:
-    #     fileInfo = {}
-    #     fileInfo['url'] = os.path.join(request.url_root, 'data', dataset, f)
-    #     fileInfo['name'] = f
-    #     fileInfo['size_KB'] = os.path.getsize(os.path.join(datasetUrl, f)) / 1000.00
-    #     fileList.append(fileInfo)
-    #
-    # result['files'] = fileList
-    # result['dataset'] = os.path.join(request.url_root, 'data', dataset)
-
-    #return simplejson.dumps(result)
-    #endregion
-
     if request.form['submitButton'] == 'previous':
         return redirect('/?datasetname=' + datasetname)
 
     if request.form['submitButton'] == 'next':
-
-        link = ""
 
         datasetUrl = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname)
         files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in IGNORED_FILES ]
@@ -193,11 +172,11 @@ def submitFiles():
                     result['link'] = os.path.join(request.url_root, 'data', servertype, datasetname, f)
 
                 if servertype == 'thredds':
-                    downloadUrl = os.path.join(app.config['THREDDS_SERVER'], datasetname, 'catalog.xml')
+                     # use '/'.join instead of os.path.join because the threddsclient apparently can't handle the result of the os.path.join..
+                    downloadUrl = '/'.join((app.config['THREDDS_SERVER'], datasetname, 'catalog.xml'))
 
-                    # use '/'.join instead of os.path.join because the threddsclient apparently can't handle the result of the os.path.join..
-                    result['link'] = threddsclient.download_urls('/'.join((app.config['THREDDS_SERVER'], datasetname, 'catalog.xml')))[0]
-                    result['serviceurl'] = threddsclient.download_urls('/'.join((app.config['THREDDS_SERVER'], datasetname, 'catalog.xml')))[0]
+                    result['link'] = threddsclient.opendap_urls(downloadUrl)[0] + ".html"
+                    result['serviceurl'] = threddsclient.opendap_urls(downloadUrl)[0]
                     result['servicetype'] = 'OPeNDAP'
 
             if len(files) > 1:
@@ -275,6 +254,10 @@ def createFolder():
 
     os.makedirs(fullpath)
     app.logger.info('Dataset will be stored in: ' + fullpath)
+
+    if orig_datasetname != datasetname:
+        message = "Dataset name already exists. New datasetname is: " + datasetname
+        flash(message)
 
     # set cookies (used for page refresh)
     session['DATASETNAME'] = datasetname
@@ -425,44 +408,41 @@ def downloadDataset(servertype, datasetname):
 def downloadFile(path):
     return send_from_directory(os.path.join(app.config['BASE_UPLOAD_FOLDER']), filename=path)
 
+@app.route("/downloadallzip/<path:path>", methods=['GET'])
+def downloadallzip(path):
+    return send_from_directory(os.path.join(app.config['BASE_UPLOAD_FOLDER']), filename=path)
+
 
 @app.route("/downloadall", methods=['POST'])
 def downloadAll():
 
-    datasetname = request.form['datasetname']
     servertype = request.form['servertype']
-    #zipFilename = "{}.zip".format(request.form['zipfilename'])
-    zipFilename = "allFilesZipped.zip"
+    datasetname = request.form['datasetname']
+    zipFilename = "{}{}.zip".format(servertype, datasetname)
 
-    # Test if zip file already exists; if yes, do not zip the file
-    fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname, zipFilename)
-    # n = 1
-    # orig_zipFilename = zipFilename
-    # while os.path.exists(os.path.join(fullpath, zipFilename)):
-    #     zipFilename = orig_zipFilename + str(n)
-    #     fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname)
-    #     n += 1
+    zipFilepath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], app.config['ZIP_DOWNLOAD_ALL_FOLDER'], zipFilename)
 
-    if os.path.exists(fullpath) == False:
-        datasetDir = os.path.join(os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname))
+    # Test if zip file already exists; if yes, remove this .zip file
+    if os.path.exists(zipFilepath):
+        os.remove(zipFilepath)
 
-        files = [ f for f in os.listdir(datasetDir) if os.path.isfile(os.path.join(datasetDir, f)) and f not in IGNORED_FILES ]
+    datasetDir = os.path.join(os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname))
 
-        # Open a zip file
-        zipPath = os.path.join(datasetDir, zipFilename)
-        zf = zipfile.ZipFile(zipPath, 'w')
+    files = [ f for f in os.listdir(datasetDir) if os.path.isfile(os.path.join(datasetDir, f)) and f not in IGNORED_FILES ]
 
-        for f in files:
-            #datasets.append(selectedFiles[key])
-            filename = os.path.join(datasetDir, f)
-            arcName = f
-            zf.write(filename, arcName)
+    # Open a zip file
+    zf = zipfile.ZipFile(zipFilepath, 'w')
 
-        zf.close()
+    for f in files:
+        #datasets.append(selectedFiles[key])
+        filename = os.path.join(datasetDir, f)
+        arcName = f
+        zf.write(filename, arcName)
 
-    return redirect(os.path.join("/data", servertype, datasetname, zipFilename))
+    zf.close()
 
-    #return send_from_directory(datasetDir, filename=zipFilename)
+    downloadPath = os.path.join("/downloadallzip", app.config['ZIP_DOWNLOAD_ALL_FOLDER'], zipFilename)
+    return redirect(downloadPath)
 
 
 if __name__ == '__main__':

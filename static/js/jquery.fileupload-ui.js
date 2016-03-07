@@ -90,6 +90,12 @@
                 if (e.isDefaultPrevented()) {
                     return false;
                 }
+				
+				// ADD MANUALLY: CHECK FILE PROPERTIES OK FOR UPLOAD
+				$.each(data.files, function (index, file) {
+					console.log('Added file: ' + file.name);
+				});
+				
                 var $this = $(this),
                     that = $this.data('blueimp-fileupload') ||
                         $this.data('fileupload'),
@@ -116,7 +122,20 @@
                     if ((that._trigger('added', e, data) !== false) &&
                             (options.autoUpload || data.autoUpload) &&
                             data.autoUpload !== false) {
-                        data.submit();
+							
+							data.context.each(function (index) {
+								var name = data.files[index].name;
+								var ext = name.substr(name.lastIndexOf('.') + 1);								
+								var servertype = $('#servertypeID').val();
+								
+								if(servertype == 'thredds' && ext != 'nc') {
+									$(this).find('.error').text("Only .nc files are allowed; for other file types, use the regular file upload.");								 
+								}
+								else {
+									data.submit();
+								}
+							});
+                       
                     }
                 }).fail(function () {
                     if (data.files.error) {
@@ -154,7 +173,8 @@
                 return that._trigger('sent', e, data);
             },
             // Callback for successful uploads:
-            done: function (e, data) {
+            done: function (e, data) {						
+							
                 if (e.isDefaultPrevented()) {
                     return false;
                 }
@@ -165,7 +185,15 @@
                     files = getFilesFromResponse(data),
                     template,
                     deferred;
-                    // console.log(data);
+                    // console.log(data);					
+	
+				// activate zip button if any files
+				if (files.length > 0){
+					$('#zipbuttonID').removeClass("hidden").addClass('show');
+					$('#zipcheckboxID').removeClass("hidden").addClass('show');					
+					console.log("upload done")
+				}							
+					
                 if (data.context) {
                     data.context.each(function (index) {
                         var file = files[index] ||
@@ -181,7 +209,7 @@
                                     function () {
                                         data.context = $(this);
                                         that._trigger('completed', e, data);
-                                        that._trigger('finished', e, data);
+                                        that._trigger('finished', e, data);										
                                         deferred.resolve();
                                     }
                                 );
