@@ -39,7 +39,6 @@ function checkFilename(filename){
 }
 
 
-
 // function validateForm() {	
 	
     // var datasetname = document.getElementById("datasetnameID").value;	
@@ -73,8 +72,7 @@ $(function () {
             /\/[^\/]*$/,
             '/cors/result.html?%s'
         )
-    );	
-	
+    );		
 	
 	// OWN BUTTON: ZIP FILES
 	$('.zip').click(function() {
@@ -178,7 +176,7 @@ $(function () {
 			// if (result === null) {			  
 			  // console.log("No name given, using default name");
 			  // zip(value);
-			// } else {			  
+			  // } else {			  
 			  // zip(value);
 			  // console.log(value);						  
 			// }

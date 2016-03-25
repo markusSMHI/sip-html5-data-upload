@@ -12,7 +12,8 @@
 
 		<!-- CSS -->
 		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
-
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		
 		<!-- Generic page styles -->
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">		
 		
@@ -46,15 +47,14 @@
 				</div>	
 				
 				<script>
-					var message = "Select the storage server."
+					var message = "Welcome to the Data Upload Tool. Here you can upload your dataset to a SwitchON server."
 					setMessage("alert alert-success", "fa fa-4x fa-fw fa-pull-left fa-info-circle", message);			
 				</script>						
 					
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						Select server
-					</div>	
-					
+						Select server type
+					</div>					
 					
 					<form action="/createfolder" method="POST">	
 						<div class="panel-body">		
@@ -62,7 +62,7 @@
 							<dl>
 								<p><dt>Regular file server</dt>
 								<dd>- Suitable for all file types</dt></p>								
-								<p><dt>Geoserver (not yet supported)</dt>
+								<p><dt>Geoserver</dt>
 								<dd>- can store various geodata formats, such as shapefiles and GeoTIFFs. Data can be accessed using WMS and WFS.</dt></p>								
 								<p><dt>THREDDS Data Server (TDS)</dt>
 								<dd>- a web server that provides data access for scientific grid datasets (such as NetCDF), using a variety of web services</dt></p>	
@@ -78,7 +78,7 @@
 										<label id="regularserver" class="btn btn-default active">
 											<input checked="" name="server" value="regular" type="radio" >File server
 										</label>
-										<label id="geoserver" class="btn btn-default disabled">
+										<label id="geoserver" class="btn btn-default" disabled>
 											<input name="server" value="geoserver" type="radio">Geoserver
 										</label>
 										<label id="thredds" class="btn btn-default">
@@ -90,17 +90,21 @@
 						
 						</div>
 											
-						<div class="panel-footer clearfix">				
-							
+						<div class="panel-footer clearfix">						
 							<input type="hidden" name="datasetname" id="datasetID" value="{{ datasetfolder}}">							
-							<button type="submit" name="submitButton" value="next" class="btn btn-primary pull-right">							
+							<button type="submit" name="submitButton" value="next" class="btn btn-primary pull-right">						
 								Next
 							</button>					
 						</div>						
 					</form>
 					
-				</div> <!-- End panel primary -->				
-			</div>	<!-- end Div col 12 -->				
+				</div> <!-- End panel primary -->		
+				
+				<div>
+					<span><img style="display:block; margin:auto; max-width:80%; height:auto;" src="{{ url_for('static', filename='img/Ontwerp_ProgressBar.png')}}" alt=""/></span>
+				</div>					
+			</div>	<!-- end Div col 12 -->		
+		
 		</div> <!-- end div container -->	
 		
 		
@@ -109,8 +113,7 @@
 			<ul class=flashes>
 			{% for message in messages %}
 				<script>
-					setMessage("alert alert-warning", "fa fa-4x fa-fw fa-pull-left fa-exclamation-triangle", "{{ message }}");
-										
+					setMessage("alert alert-warning", "fa fa-4x fa-fw fa-pull-left fa-exclamation-triangle", "{{ message }}");										
 				</script>				
 			{% endfor %}
 			</ul>

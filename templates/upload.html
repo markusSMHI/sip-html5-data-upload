@@ -77,7 +77,7 @@
 						Upload files
 					</div>						
 					
-					<div class="panel-body">					
+					<div class="panel-body" style="min-height: 400px; max-height: 400px; overflow-y: scroll;">				
 					
 						<p>Server type: <strong>{{ servertype}}</strong>	
 						{% if servertype == "thredds" %}
@@ -122,11 +122,9 @@
 							<br>
 													
 							<!-- The table listing the files available for upload/download -->
-							<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>	
-							
+							<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>					
 							<input type="hidden" name="datasetname" id="datasetID" value="{{ datasetname}}">	
-							<input type="hidden" name="servertype" id="servertypeID" value="{{ servertype}}">	
-							
+							<input type="hidden" name="servertype" id="servertypeID" value="{{ servertype}}">								
 						</form>	
 						
 					</div>
@@ -144,11 +142,15 @@
 								Previous
 							</button>	
 						</form>
+					
 					</div>					
 				</div> <!-- End panel primary -->	
-			
-			</div>	<!-- end Div col 12 -->
 				
+				<div>
+					<span><img style="display:block; margin:auto; max-width:80%; height:auto;" src="{{ url_for('static', filename='img/Ontwerp_ProgressBar.png')}}" alt=""/></span>
+				</div>	
+			</div>	<!-- end Div col 12 -->				
+		
 		</div> <!-- end div container -->	
 		
 		

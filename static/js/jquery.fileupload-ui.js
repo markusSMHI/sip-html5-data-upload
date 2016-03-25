@@ -77,7 +77,7 @@
 
             // Callback to retrieve the list of files from the server response:
             getFilesFromResponse: function (data) {
-                if (data.result && $.isArray(data.result.files)) {
+                if (data.result && $.isArray(data.result.files)) {				
                     return data.result.files;
                 }
                 return [];
@@ -89,12 +89,7 @@
             add: function (e, data) {
                 if (e.isDefaultPrevented()) {
                     return false;
-                }
-				
-				// ADD MANUALLY: CHECK FILE PROPERTIES OK FOR UPLOAD
-				$.each(data.files, function (index, file) {
-					console.log('Added file: ' + file.name);
-				});
+                }	
 				
                 var $this = $(this),
                     that = $this.data('blueimp-fileupload') ||
@@ -121,8 +116,8 @@
                     data.context.find('.start').prop('disabled', false);
                     if ((that._trigger('added', e, data) !== false) &&
                             (options.autoUpload || data.autoUpload) &&
-                            data.autoUpload !== false) {
-							
+                            data.autoUpload !== false) {							
+						
 							data.context.each(function (index) {
 								var name = data.files[index].name;
 								var ext = name.substr(name.lastIndexOf('.') + 1);								
@@ -185,7 +180,7 @@
                     files = getFilesFromResponse(data),
                     template,
                     deferred;
-                    // console.log(data);					
+                    //console.log(files);					
 	
 				// activate zip button if any files
 				if (files.length > 0){

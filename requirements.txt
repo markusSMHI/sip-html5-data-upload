@@ -4,6 +4,8 @@ simplejson==3.6.0
 requests
 lxml --> to install lxml on centos, first run yum install libxslt-devel libxml2-devel
 threddsclient
+urllib
+json
 
 #pysvn 1.8.0: install from http://pysvn.tigris.org/servlets/ProjectDocumentList?folderID=1768; Windows: search for py27-pysvn-#svn1814-1.8.0-1667.exe. 
 

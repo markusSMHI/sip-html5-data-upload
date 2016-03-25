@@ -1,6 +1,8 @@
 # gedit
 *~
 
+kladcode
+
 #startup bat file
 start_app
 
@@ -22,4 +24,7 @@ datauploadtool.log
 
 # tmp files
 .~*
+
+# settings file: do not put on github publicly!!
+settings
 
