@@ -210,6 +210,18 @@ def submitFiles():
                 opendapUrls = threddsclient.opendap_urls(threddsCatalog)
 
                 result = []
+
+                # first store dataset root folder of netcdf
+                representation = {}
+                representation['name'] = datasetname
+                representation['description'] = "Netcdf root directory THREDDS server"
+                representation['contentlocation'] = '/'.join((app.config['THREDDS_SERVER'], datasetname, 'catalog.html'))
+                representation['contenttype'] = "application/octet-stream"
+                representation['type'] = "original data"
+                representation['function'] = "information"
+                representation['protocol'] = 'WWW:LINK-1.0-http--link'
+                result.append(representation)
+
                 for opendapUrl in opendapUrls:
 
                     filename = opendapUrl.split('/')[-1]
