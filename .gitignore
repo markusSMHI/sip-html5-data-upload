@@ -26,5 +26,5 @@ datauploadtool.log
 .~*
 
 # settings file: do not put on github publicly!!
-settings
+settings.py
 
