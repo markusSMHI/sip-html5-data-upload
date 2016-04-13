@@ -3,6 +3,18 @@ body {
     min-width:1024px;
 }
 
+a, a:link, a:visited, a:hover, a:active {
+	color:inherit;
+	text-decoration: none;
+ }
+
+.overallprogress {
+	display:block; 
+	margin:auto; 
+	max-width:90%; 
+	height:auto;
+}
+ 
 .switchon-header {
     display: block;
     margin-left: auto;

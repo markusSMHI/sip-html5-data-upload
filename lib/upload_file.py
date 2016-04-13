@@ -1,16 +1,16 @@
 import os
 
 class uploadfile():
-    def __init__(self, name, servertype, dataset, type=None, size=None, not_allowed_msg=''):
+    def __init__(self, name, servertype, datasetFoldername, type=None, size=None, not_allowed_msg=''):
         self.name = name
         self.servertype = servertype
-        self.dataset = dataset
+        self.datasetFoldername = datasetFoldername
         self.type = type
         self.size = size
         self.not_allowed_msg = not_allowed_msg
-        self.dir = "{}/{}/{}".format(servertype, dataset, name)
-        self.url = "data/{}/{}/{}".format(servertype, dataset, name)
-        self.delete_url = "delete/{}/{}/{}".format(servertype, dataset, name)
+        self.dir = "{}/{}/{}".format(servertype, datasetFoldername, name)
+        self.url = "data/{}/{}/{}".format(servertype, datasetFoldername, name)
+        self.delete_url = "delete/{}/{}/{}".format(servertype, datasetFoldername, name)
         self.delete_type = "DELETE"
 
     def get_file(self):
@@ -19,7 +19,7 @@ class uploadfile():
             if self.not_allowed_msg == '':
                 return {"name": self.name,
                         "servertype": self.servertype,
-                        "dataset": self.dataset,
+                        "datasetFoldername": self.datasetFoldername,
                         "type": self.type,
                         "size": self.size,
                         "dir": self.dir,
@@ -32,7 +32,7 @@ class uploadfile():
                 return {"error": self.not_allowed_msg,
                         "name": self.name,
                         "servertype": self.servertype,
-                        "dataset": self.dataset,
+                        "datasetFoldername": self.datasetFoldername,
                         "type": self.type,
                         "size": self.size,}
         
@@ -40,7 +40,7 @@ class uploadfile():
         else:
             return {"name": self.name,
                     "servertype": self.servertype,
-                    "dataset": self.dataset,
+                    "datasetFoldername": self.datasetFoldername,
                     "size": self.size,
                     "dir": self.dir,
                     "url": self.url, 

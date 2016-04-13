@@ -1,5 +1,30 @@
 __author__ = 'beekhuiz'
 
+# OLD ZIP CODE
+
+    #CHECK IF THERE IS A DATASET KEY
+    # for key in filesDict.keys():
+    #     filename, fileExtension = os.path.splitext(filesDict[key])
+    #     if fileExtension == '.zip':
+    #         flash("No .zip files allowed to zip. Please select only non-zip files.")
+    #         return simplejson.dumps({"Error": "No zip files allowed"})
+
+    #region oldcode
+    # return json for js call back
+    #time.sleep(1)
+
+    # files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in IGNORED_FILES ]
+    #
+    # file_display = []
+    #
+    # for f in files:
+    #     size = os.path.getsize(os.path.join(datasetUrl, f))
+    #     file_saved = uploadfile(name=f, servertype=servertype, dataset=datasetname, size=size)
+    #     file_display.append(file_saved.get_file())
+
+    #return simplejson.dumps({"files": file_display})
+    #return redirect(url_for('selectServer'))
+    #endregion
 
 # OLD GEOSERVER SUBMIT
 

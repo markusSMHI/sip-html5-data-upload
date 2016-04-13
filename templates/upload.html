@@ -74,7 +74,7 @@
 					
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						Upload files
+						Upload files for dataset <strong>{{ datasetname }} </strong>
 					</div>						
 					
 					<div class="panel-body" style="min-height: 400px; max-height: 400px; overflow-y: scroll;">				
@@ -84,9 +84,9 @@
 						(The THREDDS server only supports netcdf files)								 
 						{% endif %}
 						</p>
-						<p>Dataset name: <strong>{{ datasetname }}</strong></p>												
-						
-					
+						<!-- <p>Dataset name: <strong>{{ datasetname }} </strong></p> -->
+						<p><strong>In the current version the maximum upload size is limited to 1 GB per file</strong></p>						
+										
 						<!-- The file upload form used as target for the file upload widget -->		
 						<!-- <form id="fileupload" action="../uploadfiles" method="POST" enctype="multipart/form-data">		 -->
 						<form id="fileupload" method="POST" enctype="multipart/form-data">						
@@ -123,8 +123,9 @@
 													
 							<!-- The table listing the files available for upload/download -->
 							<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>					
-							<input type="hidden" name="datasetname" id="datasetID" value="{{ datasetname}}">	
-							<input type="hidden" name="servertype" id="servertypeID" value="{{ servertype}}">								
+							<input type="hidden" name="datasetFoldername" id="datasetID" value="{{ datasetFoldername}}">	
+							<input type="hidden" name="servertype" id="servertypeID" value="{{ servertype}}">							
+							
 						</form>	
 						
 					</div>
@@ -132,8 +133,12 @@
 					<div class="panel-footer clearfix">											
 						<form action="submitfiles" method="POST" class="form-inline">
 
-							<input type="hidden" name="datasetname" value="{{ datasetname}}">	
+							<input type="hidden" name="datasetFoldername" value="{{ datasetFoldername}}">	
 							<input type="hidden" name="servertype" value="{{ servertype}}">							
+							<button type="button" class="btn btn-primary pull-left">
+								<i class="glyphicon glyphicon-envelope"></i>
+								<span><a href="mailto:switchon.wm@gmail.com?subject=Data Upload Tool">Feedback</a></span>
+							</button>		
 							
 							<button type="submit" name="submitButton" value="next" class="btn btn-primary pull-right">								
 								Next
@@ -147,7 +152,7 @@
 				</div> <!-- End panel primary -->	
 				
 				<div>
-					<span><img style="display:block; margin:auto; max-width:80%; height:auto;" src="{{ url_for('static', filename='img/Ontwerp_ProgressBar.png')}}" alt=""/></span>
+					<span><img class="overallprogress" src="{{ url_for('static', filename='img/Ontwerp_ProgressBar.png')}}" alt=""/></span>
 				</div>	
 			</div>	<!-- end Div col 12 -->				
 		
@@ -168,6 +173,7 @@
 		
 	</body>
 </html>
+
 
 {% raw %}
 <!-- The template to display files available for upload -->
@@ -207,7 +213,7 @@
         <td>
             <p class="name">
                 {% if (file.url) { %}
-                    <a href="{%=file.url%}" title="{%=file.dataset%}\{%=file.name%}" download="{%=file.name%}">{%=file.dataset%}\{%=file.name%}</a>
+                    <a href="{%=file.url%}" title="{%=file.datasetFoldername%}\{%=file.name%}" download="{%=file.name%}">{%=file.datasetFoldername%}\{%=file.name%}</a>
                 {% } else { %}
                     <span>{%=file.name%}</span>
                 {% } %}
@@ -226,3 +232,5 @@
 {% } %}
 </script>
 {% endraw %}
+
+

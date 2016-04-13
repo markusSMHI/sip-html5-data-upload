@@ -39,21 +39,6 @@ function checkFilename(filename){
 }
 
 
-// function validateForm() {	
-	
-    // var datasetname = document.getElementById("datasetnameID").value;	
-	// var re = /^[a-zA-Z].*/;	
-    // if (re.test(datasetname))
-	// {		
-        // return true;
-    // } else{	
-	
-		// setMessage("alert alert-warning", "fa fa-4x fa-fw fa-pull-left fa-exclamation-triangle", "Dataset name is not valid. The name should start with a letter and may not contain spaces or special characters. Please try again.");
-        // return false;
-    // }
-// }
-
-
 $(function () {
     'use strict';	
 	
@@ -78,7 +63,7 @@ $(function () {
 	$('.zip').click(function() {
 	
 		var filesList = $('.files');		 
-		console.log(filesList)
+		//console.log(filesList)
 		
 		var toggledFiles = filesList.find('.toggle:checked')					
 		var selectedFiles = {};
@@ -128,8 +113,7 @@ $(function () {
 				setMessage("alert alert-warning", "fa fa-4x fa-fw fa-pull-left fa-exclamation-triangle", "Please select at least one file to zip using the checkboxes")
 			}
 	});		
-	
-	
+		
 
 	// Not sure what this does?
 	$('#fileupload').addClass('fileupload-processing');
@@ -150,35 +134,5 @@ $(function () {
 	}).done(function (result) {
 		$(this).fileupload('option', 'done')
 			.call(this, $.Event('done'), {result: result});
-	});	
+	});
 });
-
-
-		// var activeUploads = $('#fileupload').fileupload('active');		
-		
-		// var files = $('#fileupload').each(function () {
-			// $(this).fileupload({
-				// fileInput: $(this).find('input:file')
-			// });
-		// });		
-		
-		// $('tbody.files tr').each(function(i, e) {
-			// //according to @Brandon's comment it's now p.name
-			// var name = $(e).find('p.name').text(); 
-			// console.log(e)		
-		// });
-		
-        //var fileUploadButtonBar = this.element.find('.fileupload-buttonbar'),			
-		// bootbox.prompt({
-		  // title: "Please set the name of the zip file",
-		  // value: "zipped",
-		  // callback: function(result) {
-			// if (result === null) {			  
-			  // console.log("No name given, using default name");
-			  // zip(value);
-			  // } else {			  
-			  // zip(value);
-			  // console.log(value);						  
-			// }
-		  // }
-		// });		

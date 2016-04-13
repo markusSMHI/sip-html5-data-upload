@@ -23,19 +23,14 @@ $(function () {
 	});	
 	
 	$( "#geoserver" ).click(function() {
-		var message = "Geoserver can store various geodata formats, such as shapefiles and GeoTIFFs. Data can be accessed using WMS and WFS, enabling online visualization and partial file downloads.";
+		var message = "Geoserver can store various geodata formats, such as shapefiles and GeoTIFFs. Data can be accessed using WMS and WFS, enabling online visualization and partial file downloads (not implemented yet).";
 		setMessage("alert alert-success", "fa fa-4x fa-fw fa-pull-left fa-info-circle", message);
 	});	
 	
 	$( "#thredds" ).click(function() {
-		var message = "The THREDDS Data Server (TDS) is a web server that provides data access for scientific grid datasets (such as NetCDF), using a variety of remote data access protocols.";
+		var message = "The THREDDS Data Server (TDS) is a web server that provides data access for scientific datasets (such as NetCDF), using a variety of remote data access protocols.";
 		setMessage("alert alert-success", "fa fa-4x fa-fw fa-pull-left fa-info-circle", message);	
 	});		
-	
-	// $( "#datasetnameID" ).click(function() {	
-		// var message = "The dataset name should be as specific as possible and contain the variable and source of data (in that order). The name must start with a letter and may not contain spaces or special characters.";
-		// setMessage("alert alert-success", "fa fa-4x fa-fw fa-pull-left fa-info-circle", message);
-	// });				
 
 });
 

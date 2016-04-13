@@ -53,19 +53,18 @@
 					
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						Select server type
+						Select storage server
 					</div>					
 					
 					<form action="/createfolder" method="POST">	
-						<div class="panel-body">		
-							<p>Select the storage server. There are three different server types:<p>
+						<div class="panel-body">									
 							<dl>
+								<p>The Data Upload Tool offers multiple ways of accessing the uploaded data, depending on the type of your dataset. Please select one of the following file servers:</p>
 								<p><dt>Regular file server</dt>
 								<dd>- Suitable for all file types</dt></p>								
-								<p><dt>Geoserver</dt>
-								<dd>- can store various geodata formats, such as shapefiles and GeoTIFFs. Data can be accessed using WMS and WFS.</dt></p>								
-								<p><dt>THREDDS Data Server (TDS)</dt>
-								<dd>- a web server that provides data access for scientific grid datasets (such as NetCDF), using a variety of web services</dt></p>	
+								<p><dt>Geoserver (Not implemented yet)</dt>
+								<dd>- Suitable for shape files. Provides WMS and WFS web services for data mapping and download. </dt></p>							<p><dt>THREDDS Data Server</dt>
+								<dd>- Suitable for NetCDF files. Provides an OPeNDAP web service for data download.</dt></p>	
 							</dl>							
 							
 							<hr>
@@ -91,7 +90,11 @@
 						</div>
 											
 						<div class="panel-footer clearfix">						
-							<input type="hidden" name="datasetname" id="datasetID" value="{{ datasetfolder}}">							
+							<input type="hidden" name="datasetname" id="datasetID" value="{{ datasetname }}">	
+							<button type="button" class="btn btn-primary pull-left">
+								<i class="glyphicon glyphicon-envelope"></i>
+								<span><a href="mailto:switchon.wm@gmail.com?subject=Data Upload Tool">Feedback</a></span>
+							</button>	
 							<button type="submit" name="submitButton" value="next" class="btn btn-primary pull-right">						
 								Next
 							</button>					
@@ -101,7 +104,7 @@
 				</div> <!-- End panel primary -->		
 				
 				<div>
-					<span><img style="display:block; margin:auto; max-width:80%; height:auto;" src="{{ url_for('static', filename='img/Ontwerp_ProgressBar.png')}}" alt=""/></span>
+					<span><img class="overallprogress" src="{{ url_for('static', filename='img/Ontwerp_ProgressBar.png')}}" alt=""/></span>
 				</div>					
 			</div>	<!-- end Div col 12 -->		
 		

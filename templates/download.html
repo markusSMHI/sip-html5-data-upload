@@ -69,7 +69,7 @@
 								<!-- <form action="/downloadall" method="POST" class="form-inline" onsubmit="return getZipfilename()"> -->
 								<form action="/downloadall" method="POST" class="form-inline">
 								
-									<input type="hidden" name="datasetname" id="datasetnameID" value="{{ result.datasetname }}">					
+									<input type="hidden" name="datasetFoldername" id="datasetFoldernameID" value="{{ result.datasetFoldername }}">					
 									<input type="hidden" name="servertype" id="servertypeID" value="{{ result.servertype}}">		
 									<!-- <input type="hidden" name="zipfilename" id="zipfilenameID" value="{{ result.datasetname }}">-->
 									<button type="submit" class="btn btn-warning"> 
@@ -96,9 +96,7 @@
 								</tr>
 								{% endfor %}								
 							</tbody>
-						</table> 	
-
-						
+						</table> 							
 			
 					</div>	
 				</div> <!-- End panel primary -->			

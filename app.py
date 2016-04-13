@@ -22,6 +22,11 @@ import requests
 from requests.auth import HTTPBasicAuth
 from settings import settings
 import urllib
+import re
+from unicodedata import normalize
+
+# used for 'slugify': creating a valid url
+_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 app = Flask(__name__)
 my_dir = os.path.dirname(__file__)
@@ -40,6 +45,15 @@ app.logger.info('Data Upload Tool startup')
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_THREDDS_EXTENSIONS']
+
+def slugify(text, delim=u'_'):
+    """Generates an ASCII-only slug."""
+    result = []
+    for word in _punct_re.split(text.lower()):
+        word = normalize('NFKD', word).encode('ascii', 'ignore')
+        if word:
+            result.append(word)
+    return unicode(delim.join(result))
 
 def gen_file_name(fullpath, filename):
     """
@@ -63,7 +77,6 @@ def checkConnection(url, errorMessage):
 
     return True
 
-
 @app.route("/zip", methods=['POST'])
 def zip():
 
@@ -73,25 +86,17 @@ def zip():
     selectedFiles = jsonDict['files']
     zipFilename = jsonDict['zipfilename']
 
-    #CHECK IF THERE IS A DATASET KEY
-    # for key in filesDict.keys():
-    #     filename, fileExtension = os.path.splitext(filesDict[key])
-    #     if fileExtension == '.zip':
-    #         flash("No .zip files allowed to zip. Please select only non-zip files.")
-    #         return simplejson.dumps({"Error": "No zip files allowed"})
-
-
     if len(selectedFiles) > 0:
 
         servertype = ""
-        datasetname = ""
+        datasetFoldername = ""
 
         for key in selectedFiles.keys():
             servertype = selectedFiles[key].split('/')[0]
-            datasetname = selectedFiles[key].split('/')[1]
+            datasetFoldername = selectedFiles[key].split('/')[1]
             break
-        datasetUrl = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname)
-
+        #datasetUrl = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetFoldername)
+        datasetUrl = '/'.join([app.config['BASE_UPLOAD_FOLDER'], servertype, datasetFoldername])
 
         # Open a zip file
         zipPath = os.path.join(datasetUrl, "{}.zip".format(zipFilename))
@@ -100,7 +105,8 @@ def zip():
         # write all selected files to the zip file
         for key in selectedFiles.keys():
             #datasets.append(selectedFiles[key])
-            filename = os.path.join(app.config['BASE_UPLOAD_FOLDER'], selectedFiles[key])
+            #filename = os.path.join(app.config['BASE_UPLOAD_FOLDER'], selectedFiles[key])
+            filename = '/'.join([app.config['BASE_UPLOAD_FOLDER'], selectedFiles[key]])
             arcName = selectedFiles[key]
             zf.write(filename, arcName)
 
@@ -108,7 +114,8 @@ def zip():
 
         # delete all the zipped files
         for key in selectedFiles.keys():
-            filename = os.path.join(app.config['BASE_UPLOAD_FOLDER'], selectedFiles[key])
+            #filename = os.path.join(app.config['BASE_UPLOAD_FOLDER'], selectedFiles[key])
+            filename = '/'.join([app.config['BASE_UPLOAD_FOLDER'], selectedFiles[key]])
             os.remove(filename)
 
         return simplejson.dumps({"files": selectedFiles})
@@ -117,37 +124,24 @@ def zip():
         flash("No files selected. Please select the files to zip using the checkboxes on the right.")
         return simplejson.dumps({"Error": "No file selected"})
 
-
-    #region oldcode
-    # return json for js call back
-    #time.sleep(1)
-
-    # files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in IGNORED_FILES ]
-    #
-    # file_display = []
-    #
-    # for f in files:
-    #     size = os.path.getsize(os.path.join(datasetUrl, f))
-    #     file_saved = uploadfile(name=f, servertype=servertype, dataset=datasetname, size=size)
-    #     file_display.append(file_saved.get_file())
-
-    #return simplejson.dumps({"files": file_display})
-    #return redirect(url_for('selectServer'))
-    #endregion
-
-
 @app.route("/submitfiles", methods=['GET', 'POST'])
 def submitFiles():
 
-    datasetname = request.form['datasetname']
+    r = request
+
+    # datasetname = request.form['datasetname']
+    # datasetname = request.form['datasetname']
+    datasetname = session['DATASETNAME']
+    datasetFoldername = session['DATASETFOLDERNAME']
+
     servertype = request.form['servertype']
 
     if request.form['submitButton'] == 'previous':
-        return redirect('/?datasetname=' + datasetname)
+        return redirect('/?datasetname=' + datasetFoldername)
 
     if request.form['submitButton'] == 'next':
 
-        datasetUrl = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname)
+        datasetUrl = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetFoldername)
         files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in app.config['IGNORED_FILES']]
 
         # result = {}
@@ -163,9 +157,9 @@ def submitFiles():
 
                 if len(files) == 1:
                     filename, fileExtension = os.path.splitext(f)
-                    representation['name'] = filename
+                    representation['name'] = datasetname
                     representation['description'] = "Regular file download"
-                    representation['contentlocation'] = os.path.join(request.url_root, "data", servertype, datasetname, f)
+                    representation['contentlocation'] = '/'.join([request.headers.environ['HTTP_ORIGIN'], 'data', servertype, datasetFoldername, f])
 
                     if fileExtension == ".zip":
                         representation['contenttype'] = "application/zip"
@@ -180,7 +174,8 @@ def submitFiles():
                     filename, fileExtension = os.path.splitext(f)
                     representation['name'] = datasetname
                     representation['description'] = "Regular file download"
-                    representation['contentlocation'] = os.path.join(request.url_root, 'data', servertype, datasetname)
+                    #representation['contentlocation'] = os.path.join(request.url_root, 'data', servertype, datasetFoldername)
+                    representation['contentlocation'] = '/'.join([request.headers.environ['HTTP_ORIGIN'], 'data', servertype, datasetFoldername])
                     representation['contenttype'] = "application/octet-stream"
 
                     if fileExtension == ".zip":
@@ -205,7 +200,7 @@ def submitFiles():
                     return redirect(url_for('uploadData'))
 
                  # use '/'.join instead of os.path.join because the threddsclient apparently can't handle the result of the os.path.join..
-                threddsCatalog = '/'.join((app.config['THREDDS_SERVER'], datasetname, 'catalog.xml'))
+                threddsCatalog = '/'.join((app.config['THREDDS_SERVER'], datasetFoldername, 'catalog.xml'))
                 # threddsCatalog = "http://opendap.deltares.nl/thredds/catalog/opendap/test/DienstZeeland/catalog.xml"
                 opendapUrls = threddsclient.opendap_urls(threddsCatalog)
 
@@ -258,7 +253,7 @@ def submitFiles():
                 # create workspace
                 r = requests.post(url= app.config['GEOSERVER'] + "/rest/workspaces",
                                  headers={'Content-type':  'text/xml'},
-                                 data="<workspace><name>" + datasetname + "</name></workspace>",
+                                 data="<workspace><name>" + datasetFoldername + "</name></workspace>",
                                  auth=HTTPBasicAuth(app.config['GEOSERVER_ADMIN'], app.config['GEOSERVER_PASS']))
 
                 if r.status_code > 299:    # status code of 201 is success; all else is failure
@@ -283,7 +278,7 @@ def submitFiles():
                 representation = {}
                 representation['name'] = datasetname
                 representation['description'] = "WMS service"
-                representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetname + "/" + "wms?service=WMS&version=1.1.0&request=GetCapabilities"
+                representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + "wms?service=WMS&version=1.1.0&request=GetCapabilities"
                 representation['contenttype'] = "application/xml"
                 representation['type'] = "original data"
                 representation['function'] = "service"
@@ -293,7 +288,7 @@ def submitFiles():
                 representation = {}
                 representation['name'] = datasetname
                 representation['description'] = "WFS service"
-                representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetname + "/" + "ows?service=WFS&version=1.0.0&request=GetCapabilities"
+                representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + "ows?service=WFS&version=1.0.0&request=GetCapabilities"
                 representation['contenttype'] = "application/xml"
                 representation['type'] = "original data"
                 representation['function'] = "service"
@@ -315,8 +310,9 @@ def submitFiles():
 def uploadData():
     servertype = session['SERVERTYPE']
     datasetname = session['DATASETNAME']
+    datasetFoldername = session['DATASETFOLDERNAME']
 
-    return render_template('upload.html', servertype=servertype, datasetname=datasetname)
+    return render_template('upload.html', servertype=servertype, datasetname=datasetname, datasetFoldername=datasetFoldername)
 
 
 # accessed from the 'selectServer' page
@@ -326,25 +322,31 @@ def createFolder():
     datasetname = request.form['datasetname']
     servertype = request.form['server'] # default value; can be 'regular', 'thredds' or 'geoserver'
 
+    datasetFoldername = datasetname     # the dataset folder name must be unique and be allowed as an URL
+
+    # create a valid datasetFoldername for use in an URL
+    datasetFoldername = slugify(unicode(datasetFoldername))
+
     # create the dataset folder in the folder of the servertype; if name already taken, increment foldername
-    fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname)
+    fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetFoldername)
 
     n = 1
-    orig_datasetname = datasetname
+    origDatasetFoldername = datasetFoldername
     while os.path.exists(fullpath):
-        datasetname = orig_datasetname + str(n)
-        fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname)
+        datasetFoldername = origDatasetFoldername + str(n)
+        fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetFoldername)
         n += 1
 
     os.makedirs(fullpath)
     app.logger.info('Dataset will be stored in: ' + fullpath)
 
-    if orig_datasetname != datasetname:
-        message = "Dataset name already exists. New datasetname is: " + datasetname
-        flash(message)
+    # if origDatasetFoldername != datasetFoldername:
+    #     message = "Dataset folder name already exists. Dataset will be stored in the folder " + datasetFoldername
+    #     flash(message)
 
     # set cookies (used for page refresh)
     session['DATASETNAME'] = datasetname
+    session['DATASETFOLDERNAME'] = datasetFoldername
     session['SERVERTYPE'] = servertype
 
     return redirect(url_for('uploadData'))
@@ -352,16 +354,20 @@ def createFolder():
 
 @app.route("/upload", methods=['GET', 'POST'])
 def upload():
-
-    r = request
+    '''
+    The upload function is called as an AJAX request from within the Upload.html page in order to avoid refreshing the whole page
+    when uploading new data.
+    '''
 
     if request.method == 'POST':
         file = request.files['file']
 
-        datasetname = request.form['datasetname']   # get the name of the dataset (and folder)
-        servertype = request.form['servertype']
+        #datasetname = request.form['datasetname']    # use session stored parameters
+        #servertype = request.form['servertype']
+        datasetFoldername = session['DATASETFOLDERNAME']   # get the name of the dataset (and folder)
+        servertype = session['SERVERTYPE']
 
-        fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname)
+        fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetFoldername)
 
         if file:
             filename = secure_filename(file.filename)
@@ -369,11 +375,11 @@ def upload():
             mimetype = file.content_type
 
             if servertype == 'thredds' and not allowed_file(file.filename):
-                result = uploadfile(name=filename, servertype=servertype, dataset=datasetname, type=mimetype, size=0, not_allowed_msg="Filetype not allowed")
+                result = uploadfile(name=filename, servertype=servertype, datasetFoldername=datasetFoldername, type=mimetype, size=0, not_allowed_msg="Filetype not allowed")
             else:
                 # save file to disk
                 try:
-                    uploaded_file_path = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname, filename)
+                    uploaded_file_path = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetFoldername, filename)
                     file.save(uploaded_file_path)
                     size = os.path.getsize(uploaded_file_path)                # get file size after saving
                 except:
@@ -382,19 +388,20 @@ def upload():
                     return simplejson.dumps({"Error: ": errorMessage})
 
                 app.logger.info('File: ' + filename + ' saved succesfully in working copy')
-
                 time.sleep(0.2)
-
-                result = uploadfile(name=filename, servertype=servertype, dataset=datasetname, type=mimetype, size=size)
+                result = uploadfile(name=filename, servertype=servertype, datasetFoldername=datasetFoldername, type=mimetype, size=size)
 
             return simplejson.dumps({"files": [result.get_file()]})
 
 
     if request.method == 'GET':
         # get all file in ./data directory
-        datasetname = request.args['dataset']
-        servertype = request.args['servertype']
-        datasetUrl = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname)
+        #datasetFoldername = request.args['datasetFoldername']  # use session stored parameters
+        #servertype = request.args['servertype']
+        datasetFoldername = session['DATASETFOLDERNAME']
+        servertype = session['SERVERTYPE']
+
+        datasetUrl = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetFoldername)
 
         files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in app.config['IGNORED_FILES']]
 
@@ -402,7 +409,7 @@ def upload():
 
         for f in files:
             size = os.path.getsize(os.path.join(datasetUrl, f))
-            file_saved = uploadfile(name=f, servertype=servertype, dataset=datasetname, size=size)
+            file_saved = uploadfile(name=f, servertype=servertype, datasetFoldername=datasetFoldername, size=size)
             file_display.append(file_saved.get_file())
 
         return simplejson.dumps({"files": file_display})
@@ -415,18 +422,18 @@ def selectServer():
         return "Please send a GET request with a parameter datasetname"
     else:
         datasetname = request.args.get('datasetname')
-        return render_template('selectserver.html', datasetfolder=datasetname)
+        return render_template('selectserver.html', datasetname=datasetname)
 
 
-@app.route("/data/<servertype>/<datasetname>/")
-def downloadDataset(servertype, datasetname):
+@app.route("/data/<servertype>/<datasetFoldername>/")
+def downloadDataset(servertype, datasetFoldername):
 
     result = {}
-    result['datasetname'] = datasetname
+    result['datasetFoldername'] = datasetFoldername
     result['servertype'] = servertype
 
     if servertype == 'regular' or servertype == 'geoserver':
-        datasetDir = os.path.join(os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname))
+        datasetDir = os.path.join(os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetFoldername))
 
         fileInfoList = []
         files = [ f for f in os.listdir(datasetDir) if os.path.isfile(os.path.join(datasetDir, f)) and f not in app.config['IGNORED_FILES']]
@@ -444,11 +451,10 @@ def downloadDataset(servertype, datasetname):
         return render_template('download.html', result=result)
 
     elif servertype == 'thredds':
-        url = os.path.join(app.config['THREDDS_SERVER'], datasetname, 'catalog.html')
+        url = os.path.join(app.config['THREDDS_SERVER'], datasetFoldername, 'catalog.html')
         return redirect(url)
     else:
         return "Error: unknown server type"
-
 
 
 @app.route("/data/<path:path>", methods=['GET'])
@@ -464,8 +470,8 @@ def downloadallzip(path):
 def downloadAll():
 
     servertype = request.form['servertype']
-    datasetname = request.form['datasetname']
-    zipFilename = "{}{}.zip".format(servertype, datasetname)
+    datasetFoldername = request.form['datasetFoldername']
+    zipFilename = "{}{}.zip".format(servertype, datasetFoldername)
 
     zipFilepath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], app.config['ZIP_DOWNLOAD_ALL_FOLDER'], zipFilename)
 
@@ -473,7 +479,7 @@ def downloadAll():
     if os.path.exists(zipFilepath):
         os.remove(zipFilepath)
 
-    datasetDir = os.path.join(os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetname))
+    datasetDir = os.path.join(os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetFoldername))
 
     files = [ f for f in os.listdir(datasetDir) if os.path.isfile(os.path.join(datasetDir, f)) and f not in app.config['IGNORED_FILES']]
 
@@ -488,7 +494,8 @@ def downloadAll():
 
     zf.close()
 
-    downloadPath = os.path.join("/downloadallzip", app.config['ZIP_DOWNLOAD_ALL_FOLDER'], zipFilename)
+    #downloadPath = os.path.join("/downloadallzip", app.config['ZIP_DOWNLOAD_ALL_FOLDER'], zipFilename)
+    downloadPath = '/'.join(["downloadallzip", app.config['ZIP_DOWNLOAD_ALL_FOLDER'], zipFilename])
     return redirect(downloadPath)
 
 
@@ -496,4 +503,4 @@ if __name__ == '__main__':
     if app.config['DEVELOP']:
         app.run(debug=True)                 # DEVELOPMENT
     else:
-        app.run(host='0.0.0.0')            # SERVER
+        app.run(host='0.0.0.0')             # SERVER
