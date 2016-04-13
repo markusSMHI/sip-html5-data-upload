@@ -127,8 +127,6 @@ def zip():
 @app.route("/submitfiles", methods=['GET', 'POST'])
 def submitFiles():
 
-    r = request
-
     # datasetname = request.form['datasetname']
     # datasetname = request.form['datasetname']
     datasetname = session['DATASETNAME']
@@ -141,16 +139,14 @@ def submitFiles():
 
     if request.form['submitButton'] == 'next':
 
-        datasetUrl = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetFoldername)
-        files = [ f for f in os.listdir(datasetUrl) if os.path.isfile(os.path.join(datasetUrl, f)) and f not in app.config['IGNORED_FILES']]
-
-        # result = {}
-        # result['name'] = datasetname
+        datasetDir = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetFoldername)
+        files = [ f for f in os.listdir(datasetDir) if os.path.isfile(os.path.join(datasetDir, f)) and f not in app.config['IGNORED_FILES']]
 
         result = []
 
         if len(files) > 0:
 
+            #region Regular server
             if servertype == "regular":
 
                 representation = {}
@@ -188,9 +184,9 @@ def submitFiles():
 
                 result = []
                 result.append(representation)
+            #endregion
 
-
-
+            #region Thredds server
             if servertype == 'thredds':
 
                 # check if thredds server is online
@@ -210,7 +206,7 @@ def submitFiles():
                 representation = {}
                 representation['name'] = datasetname
                 representation['description'] = "Netcdf root directory THREDDS server"
-                representation['contentlocation'] = '/'.join((app.config['THREDDS_SERVER'], datasetname, 'catalog.html'))
+                representation['contentlocation'] = '/'.join((app.config['THREDDS_SERVER'], datasetFoldername, 'catalog.html'))
                 representation['contenttype'] = "application/octet-stream"
                 representation['type'] = "original data"
                 representation['function'] = "information"
@@ -239,9 +235,9 @@ def submitFiles():
                     representation['function'] = "download"
                     representation['protocol'] = 'OPeNDAP:OPeNDAP'
                     result.append(representation)
+            #endregion
 
-
-            # publish data on geoserver
+            #region publish data on geoserver
             if servertype == "geoserver":
 
                 # check if geoserver is online
@@ -294,6 +290,7 @@ def submitFiles():
                 representation['function'] = "service"
                 representation['protocol'] = "OGC:WFS-1.0.0-http-get-capabilities"
                 result.append(representation)
+            #endregion
 
             resultString = json.dumps(result)
             text = urllib.quote_plus(resultString.encode('utf-8'))
