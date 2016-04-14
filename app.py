@@ -294,7 +294,7 @@ def submitFiles():
 
             resultString = json.dumps(result)
             text = urllib.quote_plus(resultString.encode('utf-8'))
-            url = "http://switchon.cismet.de/open-data-registration-snapshot/#?representations=" + text
+            url = app.config['METADATA_URL'] + text
             return redirect(url)
 
         else:
