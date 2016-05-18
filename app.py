@@ -127,6 +127,7 @@ def zip():
 @app.route("/submitfiles", methods=['GET', 'POST'])
 def submitFiles():
 
+    #r = request
     # datasetname = request.form['datasetname']
     # datasetname = request.form['datasetname']
     datasetname = session['DATASETNAME']
@@ -150,12 +151,14 @@ def submitFiles():
             if servertype == "regular":
 
                 representation = {}
+                urlRoot = request.url_root.rstrip('/') # get the url root without the traling '/' (for string concatenation)
 
                 if len(files) == 1:
                     filename, fileExtension = os.path.splitext(f)
                     representation['name'] = datasetname
                     representation['description'] = "Regular file download"
-                    representation['contentlocation'] = '/'.join([request.headers.environ['HTTP_ORIGIN'], 'data', servertype, datasetFoldername, f])
+
+                    representation['contentlocation'] = '/'.join([urlRoot, 'data', servertype, datasetFoldername, f])
 
                     if fileExtension == ".zip":
                         representation['contenttype'] = "application/zip"
@@ -171,7 +174,8 @@ def submitFiles():
                     representation['name'] = datasetname
                     representation['description'] = "Regular file download"
                     #representation['contentlocation'] = os.path.join(request.url_root, 'data', servertype, datasetFoldername)
-                    representation['contentlocation'] = '/'.join([request.headers.environ['HTTP_ORIGIN'], 'data', servertype, datasetFoldername])
+                    #representation['contentlocation'] = '/'.join([request.headers.environ['HTTP_ORIGIN'], 'data', servertype, datasetFoldername])
+                    representation['contentlocation'] = '/'.join([urlRoot, 'data', servertype, datasetFoldername])
                     representation['contenttype'] = "application/octet-stream"
 
                     if fileExtension == ".zip":
