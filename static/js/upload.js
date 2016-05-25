@@ -30,7 +30,7 @@ function setMessage(messagetype, messagefa, messagetext){
 
 
 function checkFilename(filename){
-	if (/[^a-z0-9]/gi.test(filename)) {  // anything but a-zA-Z0-9 - add other permitted characters to suit
+	if (/[^a-z0-9_]/gi.test(filename)) {  // anything but a-zA-Z0-9 - add other permitted characters to suit
 		return false;
 	}
 	else{
@@ -62,12 +62,13 @@ $(function () {
 	// OWN BUTTON: ZIP FILES
 	$('.zip').click(function() {
 	
-		var filesList = $('.files');		 
-		//console.log(filesList)
+		var filesList = $('.files');	
+		console.log("Files to zip:");		
+		console.log(filesList);
 		
-		var toggledFiles = filesList.find('.toggle:checked')					
+		var toggledFiles = filesList.find('.toggle:checked');			
 		var selectedFiles = {};
-		var nrFiles = 0
+		var nrFiles = 0		
 		
 		$(toggledFiles).each(function(i, val) {
 			//console.log(val.value);
@@ -79,7 +80,7 @@ $(function () {
 		if (nrFiles > 0) {			
 		
 			bootbox.prompt({
-			  title: "Zip filename",
+			  title: "Zip filename (without extension)",
 			  value: $('#datasetID').val(),
 			  callback: function(result) {
 				if (result === null) {
@@ -94,12 +95,13 @@ $(function () {
 							contentType: "application/json; charset=utf-8",
 							dataType: "json",
 							//success: function(data){alert(data);},
+							success: function(data){location.reload();console.log("refresh");},
 							failure: function(errMsg) {
 								alert(errMsg);
 							}
 						});
 						
-						location.reload();	
+						//	
 					}
 					else{
 						setMessage("alert alert-danger", "fa fa-4x fa-fw fa-pull-left fa-exclamation-triangle", "Invalid zip filename! Please try again.")

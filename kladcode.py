@@ -1,5 +1,35 @@
 __author__ = 'beekhuiz'
 
+
+import requests
+from requests.auth import HTTPBasicAuth
+
+
+settings = {}
+#settings['GEOSERVER'] = "http://192.168.66.132:8080/geoserver"
+settings['GEOSERVER'] = "http://tl-tc013.xtr.deltares.nl:8080/geoserver"
+# settings['GEOSERVER_ADMIN'] = "admin"
+settings['GEOSERVER_ADMIN'] = "admin"
+# settings['GEOSERVER_PASS'] = "geoserver"
+settings['GEOSERVER_PASS'] = "sodeltares"
+
+datasetFoldername = "testgeo"
+filename = "outlet_points"
+
+# create workspace
+r = requests.post(url= settings['GEOSERVER'] + "/rest/workspaces",
+                 headers={'Content-type':  'text/xml'},
+                 data="<workspace><name>" + datasetFoldername + "</name></workspace>",
+                 auth=HTTPBasicAuth(settings['GEOSERVER_ADMIN'], settings['GEOSERVER_PASS']))
+
+r = requests.put(url=settings['GEOSERVER'] + "/rest/workspaces/" + datasetFoldername + "/datastores/" + datasetFoldername + "_ds/external.shp",
+                 headers={'Content-type': 'text/plain'},
+                 #data=settings['GEOSERVER_DATA_DIR'] + "/shapefiles/states.shp",  # CHANGE FOR REAL VERSION
+                 data="file:////data/geoserver/" + datasetFoldername + "/" + filename + ".shp",
+                 auth=HTTPBasicAuth(settings['GEOSERVER_ADMIN'], settings['GEOSERVER_PASS']))
+r.content
+
+
 # OLD ZIP CODE
 
     #CHECK IF THERE IS A DATASET KEY

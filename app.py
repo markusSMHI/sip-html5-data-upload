@@ -107,12 +107,12 @@ def zip():
             #datasets.append(selectedFiles[key])
             #filename = os.path.join(app.config['BASE_UPLOAD_FOLDER'], selectedFiles[key])
             filename = '/'.join([app.config['BASE_UPLOAD_FOLDER'], selectedFiles[key]])
-            arcName = selectedFiles[key]
+            arcName = selectedFiles[key].split('/')[-1]
             zf.write(filename, arcName)
 
         zf.close()
 
-        # delete all the zipped files
+        # delete all the original files
         for key in selectedFiles.keys():
             #filename = os.path.join(app.config['BASE_UPLOAD_FOLDER'], selectedFiles[key])
             filename = '/'.join([app.config['BASE_UPLOAD_FOLDER'], selectedFiles[key]])
@@ -153,36 +153,27 @@ def submitFiles():
                 representation = {}
                 urlRoot = request.url_root.rstrip('/') # get the url root without the traling '/' (for string concatenation)
 
+                filename, fileExtension = os.path.splitext(f)
+                representation['name'] = datasetname
+                representation['description'] = "Regular file download"
+                representation['type'] = "original data"
+
+                if fileExtension == ".zip":
+                    representation['format'] = "application/zip"
+                else:
+                    representation['format'] = "application/octet-stream"
+
                 if len(files) == 1:
-                    filename, fileExtension = os.path.splitext(f)
-                    representation['name'] = datasetname
-                    representation['description'] = "Regular file download"
-
                     representation['contentlocation'] = '/'.join([urlRoot, 'data', servertype, datasetFoldername, f])
-
-                    if fileExtension == ".zip":
-                        representation['contenttype'] = "application/zip"
-                    else:
-                        representation['contenttype'] = "application/octet-stream"
-
-                    representation['type'] = "original data"
+                    representation['contenttype'] = "application/octet-stream"  #TODO: IMPROVE RECOGNITION CONTENT TYPE
                     representation['function'] = "download"
                     representation['protocol'] = "WWW:DOWNLOAD-1.0-http--download"
 
                 if len(files) > 1:
-                    filename, fileExtension = os.path.splitext(f)
-                    representation['name'] = datasetname
-                    representation['description'] = "Regular file download"
                     #representation['contentlocation'] = os.path.join(request.url_root, 'data', servertype, datasetFoldername)
                     #representation['contentlocation'] = '/'.join([request.headers.environ['HTTP_ORIGIN'], 'data', servertype, datasetFoldername])
                     representation['contentlocation'] = '/'.join([urlRoot, 'data', servertype, datasetFoldername])
                     representation['contenttype'] = "application/octet-stream"
-
-                    if fileExtension == ".zip":
-                        representation['format'] = "application/zip"
-                    else:
-                        representation['format'] = "application/octet-stream"
-
                     representation['function'] = "information"
                     representation['protocol'] = "WWW:LINK-1.0-http--link"
 
@@ -244,6 +235,8 @@ def submitFiles():
             #region publish data on geoserver
             if servertype == "geoserver":
 
+                filename, fileExtension = os.path.splitext(f)
+
                 # check if geoserver is online
                 if (checkConnection(app.config['GEOSERVER'],
                     "Failed to connect to the geoserver at " + app.config['GEOSERVER'] + \
@@ -257,19 +250,19 @@ def submitFiles():
                                  auth=HTTPBasicAuth(app.config['GEOSERVER_ADMIN'], app.config['GEOSERVER_PASS']))
 
                 if r.status_code > 299:    # status code of 201 is success; all else is failure
-                    app.logger.error("Error in creating geoserver workspace for " + datasetname + "; Status code: " + str(r.status_code))
+                    app.logger.error("Error in creating geoserver workspace for " + datasetFoldername + "; Status code: " + str(r.status_code))
                     flash("Error in creating workspace on geoserver. Please contact the system administrator or upload the files to the regular server.")
                     return redirect(url_for('uploadData'))
 
                 # Publish shapefile on the geoserver; the datastore is automatically created and has the same name as the dataset + ds
-                #TODO: Change to uploaded shapefile location
-                r = requests.put(url=app.config['GEOSERVER'] + "/rest/workspaces/" + datasetname + "/datastores/" + datasetname + "_ds/external.shp",
+                r = requests.put(url=app.config['GEOSERVER'] + "/rest/workspaces/" + datasetFoldername + "/datastores/" + datasetFoldername + "_ds/external.shp",
                                  headers={'Content-type': 'text/plain'},
-                                 data=settings['GEOSERVER_DATA_DIR'] + "/shapefiles/states.shp",  # CHANGE FOR REAL VERSION
+                                 #data=settings['GEOSERVER_DATA_DIR'] + "/shapefiles/states.shp",  # CHANGE FOR REAL VERSION
+                                 data=settings['GEOSERVER_DATA_DIR'] + "/" + datasetFoldername + "/" + filename + ".shp",
                                  auth=HTTPBasicAuth(app.config['GEOSERVER_ADMIN'], app.config['GEOSERVER_PASS']))
 
                 if r.status_code > 299:
-                    app.logger.error("Error in publishing shapefile " + datasetname + " on geoserver; Status code: " + str(r.status_code))
+                    app.logger.error("Error in publishing shapefile " + datasetFoldername + " on geoserver; Status code: " + str(r.status_code))
                     flash("Error in publishing shapefile on geoserver. Please contact the system administrator or upload the files to the regular server.")
                     return redirect(url_for('uploadData'))
 
