@@ -24,6 +24,7 @@ from settings import settings
 import urllib
 import re
 from unicodedata import normalize
+import traceback
 
 # used for 'slugify': creating a valid url
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
@@ -47,11 +48,13 @@ app.logger.info('Data Upload Tool startup')
 @app.errorhandler(500)
 def internal_server_error(error):
     app.logger.error('Server Error: %s', (error))
+    app.logger.error(traceback.format_exc())
     return render_template('500.html'), 500
 
 @app.errorhandler(Exception)
 def unhandled_exception(e):
     app.logger.error('Unhandled Exception: %s', (e))
+    app.logger.error(traceback.format_exc())
     return render_template('500.html'), 500
 
 def allowed_file(filename):
@@ -225,37 +228,38 @@ def submitFiles():
             else:
                 threddsCatalog = '/'.join((app.config['THREDDS_SERVER'], datasetFoldername, 'catalog.xml'))
 
+            try:
+                opendapUrls = threddsclient.opendap_urls(threddsCatalog)
 
-            #threddsCatalog = "adfasd" # TEMP TESTS
-            opendapUrls = threddsclient.opendap_urls(threddsCatalog)
+                for opendapUrl in opendapUrls:
 
-            for opendapUrl in opendapUrls:
+                    filepath, fileExtension = os.path.splitext(opendapUrl)
+                    filename = opendapUrl.split('/')[-1]
 
-                filepath, fileExtension = os.path.splitext(opendapUrl)
-                filename = opendapUrl.split('/')[-1]
+                    # check if the file is a netCDF file; if yes, store OPeNDAP service url and html download url
+                    if fileExtension == '.nc':
+                        representation = {}
 
-                # check if the file is a netCDF file; if yes, store OPeNDAP service url and html download url
-                if fileExtension == '.nc':
-                    representation = {}
+                        representation['name'] = filename
+                        representation['description'] = "Netcdf file OPeNDAP service"
+                        representation['contentlocation'] = opendapUrl
+                        representation['contenttype'] = "application/x-netcdf"
+                        representation['type'] = "original data"
+                        representation['function'] = "service"
+                        representation['protocol'] = 'OPeNDAP:OPeNDAP'
+                        result.append(representation)
 
-                    representation['name'] = filename
-                    representation['description'] = "Netcdf file OPeNDAP service"
-                    representation['contentlocation'] = opendapUrl
-                    representation['contenttype'] = "application/x-netcdf"
-                    representation['type'] = "original data"
-                    representation['function'] = "service"
-                    representation['protocol'] = 'OPeNDAP:OPeNDAP'
-                    result.append(representation)
-
-                    representation = {}
-                    representation['name'] = filename
-                    representation['description'] = "HTML interface OPeNDAP service"
-                    representation['contentlocation'] = opendapUrl + ".html"
-                    representation['contenttype'] = "application/x-netcdf"
-                    representation['type'] = "original data"
-                    representation['function'] = "download"
-                    representation['protocol'] = 'WWW:DOWNLOAD-1.0-http--download'
-                    result.append(representation)
+                        representation = {}
+                        representation['name'] = filename
+                        representation['description'] = "HTML interface OPeNDAP service"
+                        representation['contentlocation'] = opendapUrl + ".html"
+                        representation['contenttype'] = "application/x-netcdf"
+                        representation['type'] = "original data"
+                        representation['function'] = "download"
+                        representation['protocol'] = 'WWW:DOWNLOAD-1.0-http--download'
+                        result.append(representation)
+            except:
+                app.logger.info("URL: " + threddsCatalog + " is not a THREDDS catalog")
 
 
             # GEOSERVER: loop through all files to check for shapefiles
@@ -295,7 +299,7 @@ def submitFiles():
                             if app.config['DEVELOP']:
                                shapeFile = "file:////data/geoserver/netcdftest/EMV_bestaand_2oost.shp"
                             else:
-                               shapeFile = settings['GEOSERVER_DATA_DIR'] + "/" + datasetFoldername + "/" + fileName + ".shp"
+                               shapeFile = settings['GEOSERVER_DATA_DIR'] + "/" + datasetFoldername + "/" + fileName
 
                             # Publish shapefile on the geoserver; the datastore is automatically created and has the same name as the dataset + ds
                             r = requests.put(url=app.config['GEOSERVER'] + "/rest/workspaces/" + datasetFoldername + "/datastores/" + datasetFoldername + "_ds/external.shp",
@@ -330,164 +334,6 @@ def submitFiles():
                             representation['protocol'] = "OGC:WFS-1.0.0-http-get-capabilities"
                             result.append(representation)
 
-
-
-                    #region create .zip file of the shapefiles and add as action for Pascal
-                    # fileNamesToZip = []
-                    #
-                    # for subFile in files:
-                    #     subFilename, subFileExtension = os.path.splitext(file)
-                    #
-                    #     if subFilename == filename:
-                    #         fileNamesToZip.append(subFilename)
-
-                    #
-                    # selectedFiles = jsonDict['files']
-                    # zipFilename = jsonDict['zipfilename']
-                    #
-                    # if len(selectedFiles) > 0:
-                    #
-                    #     datasetFoldername = ""
-                    #
-                    #     for key in selectedFiles.keys():
-                    #         datasetFoldername = selectedFiles[key].split('/')[1]
-                    #         break
-                    #     # datasetUrl = os.path.join(app.config['BASE_UPLOAD_FOLDER'], servertype, datasetFoldername)
-                    #     datasetUrl = '/'.join([app.config['BASE_UPLOAD_FOLDER'], datasetFoldername])
-                    #
-                    #     # Open a zip file
-                    #     zipPath = os.path.join(datasetUrl, "{}.zip".format(zipFilename))
-                    #     zf = zipfile.ZipFile(zipPath, 'w')
-                    #
-                    #     # write all selected files to the zip file
-                    #     for key in selectedFiles.keys():
-                    #         # datasets.append(selectedFiles[key])
-                    #         filename = '/'.join([app.config['BASE_UPLOAD_FOLDER'], selectedFiles[key]])
-                    #         arcName = selectedFiles[key].split('/')[-1]
-                    #         zf.write(filename, arcName)
-                    #
-                    #     zf.close()
-                    #
-                    #     # delete all the original files
-                    #     for key in selectedFiles.keys():
-                    #         filename = '/'.join([app.config['BASE_UPLOAD_FOLDER'], selectedFiles[key]])
-                    #         os.remove(filename)
-                    #endregion
-
-
-            # region Thredds server
-            # if servertype == 'thredds':
-            #
-            #     # check if thredds server is online
-            #     if (checkConnection(app.config['THREDDS_SERVER'],
-            #         "Failed to connect to the THREDDS server at " + app.config['THREDDS_SERVER'] + \
-            #         ". Please contact the system administrator or upload files to the regular server.")) == False:
-            #         return redirect(url_for('uploadData'))
-            #
-            #      # use '/'.join instead of os.path.join because the threddsclient apparently can't handle the result of the os.path.join..
-            #     threddsCatalog = '/'.join((app.config['THREDDS_SERVER'], datasetFoldername, 'catalog.xml'))
-            #     # threddsCatalog = "http://opendap.deltares.nl/thredds/catalog/opendap/test/DienstZeeland/catalog.xml"
-            #     opendapUrls = threddsclient.opendap_urls(threddsCatalog)
-            #
-            #     result = []
-            #
-            #     # first store dataset root folder of netcdf
-            #     representation = {}
-            #     representation['name'] = datasetname
-            #     representation['description'] = "Netcdf root directory THREDDS server"
-            #     representation['contentlocation'] = '/'.join((app.config['THREDDS_SERVER'], datasetFoldername, 'catalog.html'))
-            #     representation['contenttype'] = "application/octet-stream"
-            #     representation['type'] = "original data"
-            #     representation['function'] = "information"
-            #     representation['protocol'] = 'WWW:LINK-1.0-http--link'
-            #     result.append(representation)
-            #
-            #     for opendapUrl in opendapUrls:
-            #
-            #         filename = opendapUrl.split('/')[-1]
-            #         representation = {}
-            #
-            #         representation['name'] = filename
-            #         representation['description'] = "Netcdf file OPeNDAP service"
-            #         representation['contentlocation'] = opendapUrl
-            #         representation['contenttype'] = "application/x-netcdf"
-            #         representation['type'] = "original data"
-            #         representation['function'] = "service"
-            #         representation['protocol'] = 'OPeNDAP:OPeNDAP'
-            #         result.append(representation)
-            #
-            #         representation['name'] = filename
-            #         representation['description'] = "HTML interface OPeNDAP service"
-            #         representation['contentlocation'] = opendapUrl + ".html"
-            #         representation['contenttype'] = "application/x-netcdf"
-            #         representation['type'] = "original data"
-            #         representation['function'] = "download"
-            #         representation['protocol'] = 'OPeNDAP:OPeNDAP'
-            #         result.append(representation)
-            # endregion
-
-            # region publish data on geoserver
-            # if servertype == "geoserver":
-            #
-            #     filename, fileExtension = os.path.splitext(f)
-            #
-            #     # check if geoserver is online
-            #     if (checkConnection(app.config['GEOSERVER'],
-            #         "Failed to connect to the geoserver at " + app.config['GEOSERVER'] + \
-            #         ". Please contact the system administrator or upload files to the regular server.")) == False:
-            #         return redirect(url_for('uploadData'))
-            #
-            #     # create workspace
-            #     r = requests.post(url= app.config['GEOSERVER'] + "/rest/workspaces",
-            #                      headers={'Content-type':  'text/xml'},
-            #                      data="<workspace><name>" + datasetFoldername + "</name></workspace>",
-            #                      auth=HTTPBasicAuth(app.config['GEOSERVER_ADMIN'], app.config['GEOSERVER_PASS']))
-            #
-            #     if r.status_code > 299:    # status code of 201 is success; all else is failure
-            #         app.logger.error("Error in creating geoserver workspace for " + datasetFoldername + "; Status code: " + str(r.status_code))
-            #         flash("Error in creating workspace on geoserver. Please contact the system administrator or upload the files to the regular server.")
-            #         return redirect(url_for('uploadData'))
-            #
-            #
-            #     if app.config['DEVELOP']:
-            #         shapeFile = "d:/beekhuiz/Downloads/outlet_points.shp" # for testing purposes.. can't access uploaded file on dev machine
-            #     else:
-            #         shapeFile = settings['GEOSERVER_DATA_DIR'] + "/" + datasetFoldername + "/" + filename + ".shp"
-            #
-            #     # Publish shapefile on the geoserver; the datastore is automatically created and has the same name as the dataset + ds
-            #     r = requests.put(url=app.config['GEOSERVER'] + "/rest/workspaces/" + datasetFoldername + "/datastores/" + datasetFoldername + "_ds/external.shp",
-            #                      headers={'Content-type': 'text/plain'},
-            #                      data=shapeFile,
-            #                      auth=HTTPBasicAuth(app.config['GEOSERVER_ADMIN'], app.config['GEOSERVER_PASS']))
-            #
-            #
-            #     if r.status_code > 299:
-            #         app.logger.error("Error in publishing shapefile " + datasetFoldername + " on geoserver; Status code: " + str(r.status_code))
-            #         flash("Error in publishing shapefile on geoserver. Please contact the system administrator or upload the files to the regular server.")
-            #         return redirect(url_for('uploadData'))
-            #
-            #     result = []
-            #
-            #     representation = {}
-            #     representation['name'] = datasetname
-            #     representation['description'] = "WMS service"
-            #     representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + "wms?service=WMS&version=1.1.0&request=GetCapabilities"
-            #     representation['contenttype'] = "application/xml"
-            #     representation['type'] = "original data"
-            #     representation['function'] = "service"
-            #     representation['protocol'] = 'OGC:WMS-1.1.1-http-get-capabilities'
-            #     result.append(representation)
-            #
-            #     representation = {}
-            #     representation['name'] = datasetname
-            #     representation['description'] = "WFS service"
-            #     representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + "ows?service=WFS&version=1.0.0&request=GetCapabilities"
-            #     representation['contenttype'] = "application/xml"
-            #     representation['type'] = "original data"
-            #     representation['function'] = "service"
-            #     representation['protocol'] = "OGC:WFS-1.0.0-http-get-capabilities"
-            #     result.append(representation)
-            # endregion
 
             resultString = json.dumps(result)
             text = urllib.quote_plus(resultString.encode('utf-8'))
@@ -639,7 +485,12 @@ def downloadallzip(path):
 @app.route("/downloadall", methods=['POST'])
 def downloadAll():
     datasetFoldername = request.form['datasetFoldername']
-    zipFilename = "{}{}.zip".format(datasetFoldername)
+    zipFilename = "{}.zip".format(datasetFoldername)
+
+    zipRootFolder = os.path.join(app.config['BASE_UPLOAD_FOLDER'], app.config['ZIP_DOWNLOAD_ALL_FOLDER'])
+    if not os.path.exists(zipRootFolder):
+        os.makedirs(zipRootFolder)
+        app.logger.info("Created zip root folder at: " + zipRootFolder)
 
     zipFilepath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], app.config['ZIP_DOWNLOAD_ALL_FOLDER'], zipFilename)
 
