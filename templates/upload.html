@@ -100,11 +100,22 @@
 									<!-- The fileinput-button span is used to style the file input field as button -->
 									<div style="float: left; margin-right: 20px;" class="btn btn-success fileinput-button">
 										<i class="glyphicon glyphicon-plus"></i>
-										<span>Add files...</span>
-										<input type="file" name="file" multiple>
-									</div>																
-														
-									{% if servertype == "regular" %}		
+										<span>Add file(s)...</span>
+										<input type="file" id="fileID" name="file" multiple>
+									</div>		
+																		
+<!-- 									<div style="float: left; margin-right: 20px;" class="btn btn-success fileinput-button">
+										<i class="glyphicon glyphicon-plus"></i>
+										<span>Add zipped shapefile(s)..</span>
+										<input type="file" id="zipID" name="file" accept="application/zip" multiple>
+									</div>										
+									
+									<div style="float: left; margin-right: 20px;" class="btn btn-success fileinput-button">
+										<i class="glyphicon glyphicon-plus"></i>
+										<span>Add netcdf file(s)..</span>
+										<input type="file" id="ncID" name="file" accept=".nc" multiple>
+									</div>	 -->								
+											
 									<div style="float: left; margin-right: 8px" class="hidden" id="zipbuttonID">		
 										<button type="button" class="btn btn-warning zip">
 											<i class="glyphicon glyphicon-folder-open"></i>
@@ -114,17 +125,16 @@
 									
 									<div style="float: left" class="hidden" id="zipcheckboxID">			
 										<input type="checkbox" class="toggle">Select all
-									</div>									
-									{% endif %}									
+									</div>								
+																	
 								</div>									
 							</div>												
 									
 							<br>
 													
 							<!-- The table listing the files available for upload/download -->
-							<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>					
-							<input type="hidden" name="datasetFoldername" id="datasetID" value="{{ datasetFoldername}}">	
-							<input type="hidden" name="servertype" id="servertypeID" value="{{ servertype}}">							
+							<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>						
+							<input type="hidden" name="datasetFoldername" id="datasetID" value="{{ datasetFoldername}}">		
 							
 						</form>	
 						
@@ -140,12 +150,11 @@
 								<span><a href="mailto:switchon.wm@gmail.com?subject=Data Upload Tool">Feedback</a></span>
 							</button>		
 							
-							<button type="submit" name="submitButton" value="next" class="btn btn-primary pull-right">								
+							<button type="submit" name="submitButton" value="next" class="btn btn-primary pull-right">							
 								Next
 							</button>
-							<button type="submit" name="submitButton" value="previous" class="btn btn-default pull-right">							
-								Previous
-							</button>	
+<!-- 							<button type="submit" name="submitButton" value="previous" class="btn btn-default pull-right">						Previous
+							</button>	 -->
 						</form>
 					
 					</div>					
@@ -232,5 +241,6 @@
 {% } %}
 </script>
 {% endraw %}
+
 
 

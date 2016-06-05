@@ -30,6 +30,52 @@ r = requests.put(url=settings['GEOSERVER'] + "/rest/workspaces/" + datasetFolder
 r.content
 
 
+
+# def handle_exception(exc_type, exc_value, exc_traceback):
+#     if issubclass(exc_type, KeyboardInterrupt):
+#         sys.__excepthook__(exc_type, exc_value, exc_traceback)
+#         return
+#
+#     app.logger.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
+#
+# sys.excepthook = handle_exception
+
+
+
+# accessed from the 'selectServer' page
+@app.route("/createfolder", methods=['GET', 'POST'])
+def createFolder():
+
+    datasetname = request.form['datasetname']
+    datasetFoldername = datasetname     # the dataset folder name must be unique and be allowed as an URL
+
+    # create a valid datasetFoldername for use in an URL
+    datasetFoldername = slugify(unicode(datasetFoldername))
+
+    # create the dataset folder in the folder of the servertype; if name already taken, increment foldername
+    fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], datasetFoldername)
+
+    n = 1
+    origDatasetFoldername = datasetFoldername
+    while os.path.exists(fullpath):
+        datasetFoldername = origDatasetFoldername + str(n)
+        fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], datasetFoldername)
+        n += 1
+
+    os.makedirs(fullpath)
+    app.logger.info('Dataset will be stored in: ' + fullpath)
+
+    # if origDatasetFoldername != datasetFoldername:
+    #     message = "Dataset folder name already exists. Dataset will be stored in the folder " + datasetFoldername
+    #     flash(message)
+
+    # set cookies (used for page refresh)
+    session['DATASETNAME'] = datasetname
+    session['DATASETFOLDERNAME'] = datasetFoldername
+
+    return redirect(url_for('uploadData'))
+
+
 # OLD ZIP CODE
 
     #CHECK IF THERE IS A DATASET KEY

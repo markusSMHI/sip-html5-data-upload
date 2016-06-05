@@ -117,6 +117,11 @@ $(function () {
 	});		
 		
 
+	$('#ncID').click(function() { 
+		console.log("NETCDF CLICKED");
+	});
+	
+		
 	// Not sure what this does?
 	$('#fileupload').addClass('fileupload-processing');
 	
