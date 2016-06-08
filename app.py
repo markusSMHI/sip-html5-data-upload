@@ -26,6 +26,7 @@ import re
 from unicodedata import normalize
 import traceback
 
+
 # used for 'slugify': creating a valid url
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
@@ -153,7 +154,7 @@ def submitFiles():
     # check if thredds server is online
     if (checkConnection(app.config['THREDDS_SERVER'],
                         "Failed to connect to the THREDDS server at " + app.config['THREDDS_SERVER'] + \
-                                ". NetCDF files will not be accessible using web services, only by regular download.")) == False:
+                                ". NetCDF files will not be accessible using web services, only by HTTP download.")) == False:
         return redirect(url_for('uploadData'))
 
     # check if geoserver is online
@@ -183,9 +184,7 @@ def submitFiles():
 
             representation = {}
             result = []
-            urlRoot = request.url_root.rstrip(
-                '/')  # get the url root without the traling '/' (for string concatenation)
-
+            urlRoot = request.url_root.rstrip('/')  # get the url root without the traling '/' (for string concatenation)
 
             # Store the root url of the dataset as the primary representation if there are more than 1 file
             if len(files) > 1:
@@ -269,19 +268,18 @@ def submitFiles():
 
                 if fileExtension == '.zip':
 
-                    filePath =  os.path.join(datasetDir, file)
-                    zipFile = zipfile.ZipFile(filePath, 'r')
+                    zipFilePath =  os.path.join(datasetDir, file)
+                    zipFile = zipfile.ZipFile(zipFilePath, 'r')
                     filesInZip = zipFile.namelist()
 
                     for fileInZip in filesInZip:
-                        fileExtension = os.path.splitext(fileInZip)[1]
-                        fileName = os.path.split(fileInZip)[1]
+                        fileInZipExtension = os.path.splitext(fileInZip)[1]
+                        fileInZipName = os.path.split(fileInZip)[1]
 
-                        if fileExtension == '.shp':
+                        if fileInZipExtension == '.shp':
 
                             #Publish .zipped shapefile on geoserver
                             zipFile.extractall(datasetDir)
-                            zipFile.close()
 
                             #create workspace
                             r = requests.post(url= app.config['GEOSERVER'] + "/rest/workspaces",
@@ -292,16 +290,16 @@ def submitFiles():
                             if r.status_code > 299:    # status code of 201 is success; all else is failure
                                 app.logger.error("Error in creating geoserver workspace for " + datasetFoldername + \
                                                  "; Status code: " + str(r.status_code) + ", Content: " + r.content)
-                                flash("Error in creating workspace on geoserver. Please contact the system administrator or upload the files to the regular server.")
+                                flash("Error in creating workspace on geoserver.")
                                 return redirect(url_for('uploadData'))
 
                             # for testing purposes.. uploaded file is on local machine and can only publish data that is on the data mount of web app
                             if app.config['DEVELOP']:
                                shapeFile = "file:////data/geoserver/netcdftest/EMV_bestaand_2oost.shp"
                             else:
-                               shapeFile = settings['GEOSERVER_DATA_DIR'] + "/" + datasetFoldername + "/" + fileName
+                               shapeFile = settings['GEOSERVER_DATA_DIR'] + "/" + datasetFoldername + "/" + fileInZipName
 
-                            # Publish shapefile on the geoserver; the datastore is automatically created and has the same name as the dataset + ds
+                            # Publish shapefile on the geoserver; the datastore is automatically created and has the same name as the shapefile + ds
                             r = requests.put(url=app.config['GEOSERVER'] + "/rest/workspaces/" + datasetFoldername + "/datastores/" + datasetFoldername + "_ds/external.shp",
                                              headers={'Content-type': 'text/plain'},
                                              data=shapeFile,
@@ -311,13 +309,14 @@ def submitFiles():
                             if r.status_code > 299:
                                 app.logger.error("Error in publishing shapefile " + datasetFoldername + " on geoserver; Status code: " \
                                                  + str(r.status_code) + ", Content: " + r.content)
-                                flash("Error in publishing shapefile on geoserver. Please contact the system administrator or upload the files to the regular server.")
+                                flash("Error in publishing shapefile on geoserver.")
                                 return redirect(url_for('uploadData'))
 
                             representation = {}
-                            representation['name'] = fileName
+                            representation['name'] = fileInZipName
                             representation['description'] = "WMS service"
-                            representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + "wms?service=WMS&version=1.1.0&request=GetCapabilities"
+                            representation['contentlocation'] = app.config['GEOSERVER'] + "/" + fileInZipName + "/" + \
+                                                                "wms?service=WMS&version=1.1.0&request=GetCapabilities"
                             representation['contenttype'] = "application/xml"
                             representation['type'] = "original data"
                             representation['function'] = "service"
@@ -325,14 +324,29 @@ def submitFiles():
                             result.append(representation)
 
                             representation = {}
-                            representation['name'] = fileName
+                            representation['name'] = fileInZipName
                             representation['description'] = "WFS service"
-                            representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + "ows?service=WFS&version=1.0.0&request=GetCapabilities"
+                            representation['contentlocation'] = app.config['GEOSERVER'] + "/" + fileInZipName + "/" + "ows?service=WFS&version=1.0.0&request=GetCapabilities"
                             representation['contenttype'] = "application/xml"
                             representation['type'] = "original data"
                             representation['function'] = "service"
                             representation['protocol'] = "OGC:WFS-1.0.0-http-get-capabilities"
                             result.append(representation)
+
+                            representation = {}
+                            representation['name'] = file
+                            representation['description'] = "Zipped shapefile"
+                            representation['contentlocation'] = '/'.join([urlRoot, 'data', datasetFoldername, file])
+                            representation['contenttype'] = "application/zip"
+                            representation['type'] = "original data"
+                            representation['function'] = "download"
+                            representation['protocol'] = "WWW:DOWNLOAD-1.0-http--download"
+                            representation['uploadmessage'] = "deriveSpatialIndex:shp"
+
+                            result.append(representation)
+
+                    # close zip file after looping through all files in the zip file
+                    zipFile.close()
 
 
             resultString = json.dumps(result)

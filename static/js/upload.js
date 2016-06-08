@@ -115,12 +115,7 @@ $(function () {
 				setMessage("alert alert-warning", "fa fa-4x fa-fw fa-pull-left fa-exclamation-triangle", "Please select at least one file to zip using the checkboxes")
 			}
 	});		
-		
-
-	$('#ncID').click(function() { 
-		console.log("NETCDF CLICKED");
-	});
-	
+			
 		
 	// Not sure what this does?
 	$('#fileupload').addClass('fileupload-processing');

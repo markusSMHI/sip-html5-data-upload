@@ -68,7 +68,7 @@
 				</div>	
 				
 				<script>
-					var message = "Upload the dataset files. Drag & drop files from your desktop to this webpage or click on \"Add files..\"."
+					var message = "Upload the dataset files. Drag & drop files from your desktop to this webpage or click on \"Add files..\". The maximum upload size (per file) is 3 GB."
 					setMessage("alert alert-success", "fa fa-4x fa-fw fa-pull-left fa-info-circle", message);			
 				</script>						
 					
@@ -77,15 +77,10 @@
 						Upload files for dataset <strong>{{ datasetname }} </strong>
 					</div>						
 					
-					<div class="panel-body" style="min-height: 400px; max-height: 400px; overflow-y: scroll;">				
-					
-						<p>Server type: <strong>{{ servertype}}</strong>	
-						{% if servertype == "thredds" %}
-						(The THREDDS server only supports netcdf files)								 
-						{% endif %}
-						</p>
-						<!-- <p>Dataset name: <strong>{{ datasetname }} </strong></p> -->
-						<p><strong>In the current version the maximum upload size is limited to 1 GB per file</strong></p>						
+					<div class="panel-body" style="min-height: 400px; max-height: 400px; overflow-y: scroll;">					
+
+						<p>If you like to upload <strong>shapefiles</strong>, please zip (with a .zip extension!) the shapefile before uploading. The tool will automatically create web services (WMS and WFS) for mapping and accessing the shapefile, as well as enabling a spatial search of the dataset. A dataset can contain only one zipped shapefile.</p>							
+						<p>For <strong>netcdf</strong> (.nc) files, the tool will offer OPeNDAP web services for access.</p>
 										
 						<!-- The file upload form used as target for the file upload widget -->		
 						<!-- <form id="fileupload" action="../uploadfiles" method="POST" enctype="multipart/form-data">		 -->
@@ -102,19 +97,8 @@
 										<i class="glyphicon glyphicon-plus"></i>
 										<span>Add file(s)...</span>
 										<input type="file" id="fileID" name="file" multiple>
-									</div>		
-																		
-<!-- 									<div style="float: left; margin-right: 20px;" class="btn btn-success fileinput-button">
-										<i class="glyphicon glyphicon-plus"></i>
-										<span>Add zipped shapefile(s)..</span>
-										<input type="file" id="zipID" name="file" accept="application/zip" multiple>
-									</div>										
-									
-									<div style="float: left; margin-right: 20px;" class="btn btn-success fileinput-button">
-										<i class="glyphicon glyphicon-plus"></i>
-										<span>Add netcdf file(s)..</span>
-										<input type="file" id="ncID" name="file" accept=".nc" multiple>
-									</div>	 -->								
+									</div>
+					
 											
 									<div style="float: left; margin-right: 8px" class="hidden" id="zipbuttonID">		
 										<button type="button" class="btn btn-warning zip">

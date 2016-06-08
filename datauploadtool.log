@@ -3382,3 +3382,233 @@ IOError: [Errno 2] No such file or directory: 'D:\\ProjectsLocal\\SwitchON\\Data
 2016-06-05 14:04:24,513 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:45]
 2016-06-05 14:04:24,733 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:45]
 2016-06-05 14:04:39,993 INFO: Created zip root folder at: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\zippeddownload [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:493]
+2016-06-06 12:06:58,694 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:49]
+2016-06-06 12:06:59,101 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:49]
+2016-06-06 12:07:25,121 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test29 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:445]
+2016-06-06 12:11:02,450 INFO: File: CentOS-7-x86_64-DVD-1511.iso saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:392]
+2016-06-06 12:11:44,983 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-06 12:12:19,950 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-06 12:14:31,871 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-06 12:14:32,088 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-06 12:14:47,079 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:442]
+2016-06-06 12:15:16,796 INFO: File: regulartest12.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:389]
+2016-06-06 14:35:17,496 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-07 14:10:51,753 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-07 14:10:52,220 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-07 14:11:00,453 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:442]
+2016-06-07 14:22:47,578 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test1 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:442]
+2016-06-08 08:27:51,503 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 08:27:51,884 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 08:28:01,403 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test2 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:442]
+2016-06-08 08:30:59,476 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test3 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:442]
+2016-06-08 08:31:04,986 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test10 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:442]
+2016-06-08 08:32:16,727 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 08:33:01,838 INFO: File: ahn2_1.png saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:389]
+2016-06-08 08:33:06,701 INFO: File: lijst_programmas_en_trekkers_in_nieuwe_app_dec_2015_EV.pdf saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:389]
+2016-06-08 08:33:19,131 INFO: File: regulartest12.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:389]
+2016-06-08 08:33:41,019 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 08:35:11,348 INFO: File: TemperatureEHYPEv2pt5.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:389]
+2016-06-08 08:58:17,237 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 09:00:15,242 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 09:04:56,668 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 09:05:44,063 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 09:07:45,085 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 09:20:20,201 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 09:21:29,917 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 09:22:26,378 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 09:22:42,013 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 09:24:08,121 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 09:24:51,302 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 09:25:19,190 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 11:38:23,701 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test4 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:456]
+2016-06-08 11:38:38,734 INFO: File: training_data.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 11:38:46,424 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 11:39:24,237 ERROR: Unhandled Exception: Attempt to read ZIP archive that was already closed [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:57]
+2016-06-08 11:39:24,242 ERROR: Traceback (most recent call last):
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:/ProjectsLocal/SwitchON/DataUploadTool/app.py", line 284, in submitFiles
+    zipFile.extractall(datasetDir)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1036, in extractall
+    self.extract(zipinfo, path, pwd)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1024, in extract
+    return self._extract_member(member, path, pwd)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1078, in _extract_member
+    with self.open(member, pwd=pwd) as source, \
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 939, in open
+    "Attempt to read ZIP archive that was already closed"
+RuntimeError: Attempt to read ZIP archive that was already closed
+ [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:58]
+2016-06-08 11:41:21,173 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 11:41:27,776 ERROR: Unhandled Exception: Attempt to read ZIP archive that was already closed [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:57]
+2016-06-08 11:41:27,778 ERROR: Traceback (most recent call last):
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:/ProjectsLocal/SwitchON/DataUploadTool/app.py", line 284, in submitFiles
+    zipFile.extractall(datasetDir)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1036, in extractall
+    self.extract(zipinfo, path, pwd)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1024, in extract
+    return self._extract_member(member, path, pwd)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1078, in _extract_member
+    with self.open(member, pwd=pwd) as source, \
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 939, in open
+    "Attempt to read ZIP archive that was already closed"
+RuntimeError: Attempt to read ZIP archive that was already closed
+ [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:58]
+2016-06-08 11:41:46,099 ERROR: Unhandled Exception: Attempt to read ZIP archive that was already closed [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:57]
+2016-06-08 11:41:46,101 ERROR: Traceback (most recent call last):
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:/ProjectsLocal/SwitchON/DataUploadTool/app.py", line 284, in submitFiles
+    zipFile.extractall(datasetDir)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1036, in extractall
+    self.extract(zipinfo, path, pwd)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1024, in extract
+    return self._extract_member(member, path, pwd)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1078, in _extract_member
+    with self.open(member, pwd=pwd) as source, \
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 939, in open
+    "Attempt to read ZIP archive that was already closed"
+RuntimeError: Attempt to read ZIP archive that was already closed
+ [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:58]
+2016-06-08 11:41:57,464 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test5 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:459]
+2016-06-08 11:42:21,556 INFO: File: SubbasinEHYPE2pt5.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:406]
+2016-06-08 11:42:22,407 INFO: File: Land_Soil_Nutrients.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:406]
+2016-06-08 11:42:22,687 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:406]
+2016-06-08 11:42:24,926 ERROR: Unhandled Exception: Attempt to read ZIP archive that was already closed [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:57]
+2016-06-08 11:42:24,927 ERROR: Traceback (most recent call last):
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:/ProjectsLocal/SwitchON/DataUploadTool/app.py", line 284, in submitFiles
+    zipFile.extractall(datasetDir)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1036, in extractall
+    self.extract(zipinfo, path, pwd)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1024, in extract
+    return self._extract_member(member, path, pwd)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1078, in _extract_member
+    with self.open(member, pwd=pwd) as source, \
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 939, in open
+    "Attempt to read ZIP archive that was already closed"
+RuntimeError: Attempt to read ZIP archive that was already closed
+ [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:58]
+2016-06-08 11:43:45,627 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 11:49:51,739 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 11:49:51,963 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 11:49:56,224 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test6 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:458]
+2016-06-08 11:50:07,335 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:405]
+2016-06-08 11:50:10,200 ERROR: Unhandled Exception: Attempt to read ZIP archive that was already closed [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:57]
+2016-06-08 11:50:10,201 ERROR: Traceback (most recent call last):
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:/ProjectsLocal/SwitchON/DataUploadTool/app.py", line 284, in submitFiles
+    zipFile.extractall(datasetDir)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1036, in extractall
+    self.extract(zipinfo, path, pwd)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1024, in extract
+    return self._extract_member(member, path, pwd)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1078, in _extract_member
+    with self.open(member, pwd=pwd) as source, \
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 939, in open
+    "Attempt to read ZIP archive that was already closed"
+RuntimeError: Attempt to read ZIP archive that was already closed
+ [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:58]
+2016-06-08 11:50:21,161 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test7 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:458]
+2016-06-08 11:50:21,805 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test8 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:458]
+2016-06-08 11:50:25,233 INFO: File: osgeolive_taster.pdf saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:405]
+2016-06-08 11:50:26,427 INFO: Representations of the dataset: [{"function": "download", "contenttype": "application/octet-stream", "name": "test", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://127.0.0.1:5000/data/test8/osgeolive_taster.pdf", "description": "File download"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc.html", "description": "HTML interface OPeNDAP service"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc.html", "description": "HTML interface OPeNDAP service"}] [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:360]
+2016-06-08 11:51:06,450 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 11:51:10,854 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 11:51:40,937 INFO: File: Land_Soil_Nutrients.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:405]
+2016-06-08 11:51:44,270 INFO: Representations of the dataset: [{"function": "information", "contenttype": "application/octet-stream", "name": "test", "protocol": "WWW:LINK-1.0-http--link", "type": "original data", "contentlocation": "http://127.0.0.1:5000/data/test8", "description": "File download"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc.html", "description": "HTML interface OPeNDAP service"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc.html", "description": "HTML interface OPeNDAP service"}] [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:360]
+2016-06-08 11:54:00,381 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 11:54:04,815 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 11:56:06,413 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 11:56:06,664 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 11:56:19,117 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test9 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:456]
+2016-06-08 11:56:19,535 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test11 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:456]
+2016-06-08 11:56:23,108 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 11:56:24,598 ERROR: Unhandled Exception: Attempt to read ZIP archive that was already closed [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:57]
+2016-06-08 11:56:24,599 ERROR: Traceback (most recent call last):
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\ProjectsLocal\SwitchON\DataUploadTool\virtualenv\lib\site-packages\flask\app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:/ProjectsLocal/SwitchON/DataUploadTool/app.py", line 282, in submitFiles
+    zipFile.extractall(datasetDir)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1036, in extractall
+    self.extract(zipinfo, path, pwd)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1024, in extract
+    return self._extract_member(member, path, pwd)
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 1078, in _extract_member
+    with self.open(member, pwd=pwd) as source, \
+  File "C:\Python27\ArcGIS10.2\Lib\zipfile.py", line 939, in open
+    "Attempt to read ZIP archive that was already closed"
+RuntimeError: Attempt to read ZIP archive that was already closed
+ [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:58]
+2016-06-08 11:57:44,153 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 11:57:44,839 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 12:00:38,200 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 12:00:38,421 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 12:00:42,813 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test12 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:456]
+2016-06-08 12:03:01,607 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 12:03:02,999 ERROR: Error in creating geoserver workspace for outlet_points.shp; Status code: 500, Content: :Workspace named 'outlet_points.shp' already exists. [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:292]
+2016-06-08 12:04:09,193 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 12:04:16,630 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 12:06:32,003 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 12:07:21,918 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test13 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:456]
+2016-06-08 12:07:22,328 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test14 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:456]
+2016-06-08 12:07:25,566 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 12:07:27,036 ERROR: Error in creating geoserver workspace for test14; Status code: 500, Content: :Workspace named 'outlet_points.shp' already exists. [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:292]
+2016-06-08 12:08:19,474 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 12:08:23,691 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test15 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:456]
+2016-06-08 12:08:28,483 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 12:08:33,736 INFO: Representations of the dataset: [{"function": "download", "contenttype": "application/zip", "name": "test", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://127.0.0.1:5000/data/test15/OutletPoints.zip", "description": "File download"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc.html", "description": "HTML interface OPeNDAP service"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc.html", "description": "HTML interface OPeNDAP service"}, {"function": "service", "contenttype": "application/xml", "name": "outlet_points.shp", "protocol": "OGC:WMS-1.1.1-http-get-capabilities", "type": "original data", "contentlocation": "http://tl-tc013.xtr.deltares.nl:8080/geoserver/outlet_points.shp/wms?service=WMS&version=1.1.0&request=GetCapabilities", "description": "WMS service"}, {"function": "service", "contenttype": "application/xml", "name": "outlet_points.shp", "protocol": "OGC:WFS-1.0.0-http-get-capabilities", "type": "original data", "contentlocation": "http://tl-tc013.xtr.deltares.nl:8080/geoserver/outlet_points.shp/ows?service=WFS&version=1.0.0&request=GetCapabilities", "description": "WFS service"}, {"function": "download", "contenttype": "application/zip", "name": "OutletPoints.zip", "uploadmessage": "deriveSpatialIndex:shp", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "D:\\ProjectsLocal\\SwitchON\\DataUploadTool\\static/repos\\test15\\OutletPoints.zip", "description": "Zipped shapefile"}] [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:358]
+2016-06-08 12:09:47,516 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 12:11:49,381 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 12:11:56,993 ERROR: Error in creating geoserver workspace for test15; Status code: 500, Content: :Workspace named 'test15' already exists. [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:292]
+2016-06-08 12:12:03,221 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test16 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:456]
+2016-06-08 12:12:03,506 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test17 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:456]
+2016-06-08 12:12:06,772 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 12:12:11,811 INFO: Representations of the dataset: [{"function": "download", "contenttype": "application/zip", "name": "test", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://127.0.0.1:5000/data/test17/OutletPoints.zip", "description": "File download"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc.html", "description": "HTML interface OPeNDAP service"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc.html", "description": "HTML interface OPeNDAP service"}, {"function": "service", "contenttype": "application/xml", "name": "outlet_points.shp", "protocol": "OGC:WMS-1.1.1-http-get-capabilities", "type": "original data", "contentlocation": "http://tl-tc013.xtr.deltares.nl:8080/geoserver/outlet_points.shp/wms?service=WMS&version=1.1.0&request=GetCapabilities", "description": "WMS service"}, {"function": "service", "contenttype": "application/xml", "name": "outlet_points.shp", "protocol": "OGC:WFS-1.0.0-http-get-capabilities", "type": "original data", "contentlocation": "http://tl-tc013.xtr.deltares.nl:8080/geoserver/outlet_points.shp/ows?service=WFS&version=1.0.0&request=GetCapabilities", "description": "WFS service"}, {"function": "download", "contenttype": "application/zip", "name": "OutletPoints.zip", "uploadmessage": "deriveSpatialIndex:shp", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://127.0.0.1:5000/data/test17/OutletPoints.zip", "description": "Zipped shapefile"}] [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:358]
+2016-06-08 12:13:14,473 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test18 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:456]
+2016-06-08 12:13:25,914 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 12:13:32,013 INFO: Representations of the dataset: [{"function": "download", "contenttype": "application/zip", "name": "test", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://127.0.0.1:5000/data/test18/OutletPoints.zip", "description": "File download"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc.html", "description": "HTML interface OPeNDAP service"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc.html", "description": "HTML interface OPeNDAP service"}, {"function": "service", "contenttype": "application/xml", "name": "outlet_points.shp", "protocol": "OGC:WMS-1.1.1-http-get-capabilities", "type": "original data", "contentlocation": "http://tl-tc013.xtr.deltares.nl:8080/geoserver/outlet_points.shp/wms?service=WMS&version=1.1.0&request=GetCapabilities", "description": "WMS service"}, {"function": "service", "contenttype": "application/xml", "name": "outlet_points.shp", "protocol": "OGC:WFS-1.0.0-http-get-capabilities", "type": "original data", "contentlocation": "http://tl-tc013.xtr.deltares.nl:8080/geoserver/outlet_points.shp/ows?service=WFS&version=1.0.0&request=GetCapabilities", "description": "WFS service"}, {"function": "download", "contenttype": "application/zip", "name": "OutletPoints.zip", "uploadmessage": "deriveSpatialIndex:shp", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://127.0.0.1:5000/data/test18/OutletPoints.zip", "description": "Zipped shapefile"}] [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:358]
+2016-06-08 12:13:42,421 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test19 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:456]
+2016-06-08 12:13:49,352 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 12:13:49,618 INFO: File: 07-006r1_OpenGIS_Catalogue_Services_Specification_V2.0.2.pdf saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 12:13:49,828 INFO: File: gebco08.nc saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 12:13:51,394 ERROR: Error in creating geoserver workspace for test19; Status code: 500, Content: :Workspace named 'test19' already exists. [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:292]
+2016-06-08 12:14:17,714 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test20 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:456]
+2016-06-08 12:14:37,301 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 12:14:37,509 INFO: File: gebco08.nc saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 12:14:37,772 INFO: File: 07-006r1_OpenGIS_Catalogue_Services_Specification_V2.0.2.pdf saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:403]
+2016-06-08 12:14:45,289 INFO: Representations of the dataset: [{"function": "information", "contenttype": "application/octet-stream", "name": "test", "protocol": "WWW:LINK-1.0-http--link", "type": "original data", "contentlocation": "http://127.0.0.1:5000/data/test20", "description": "File download"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc.html", "description": "HTML interface OPeNDAP service"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc.html", "description": "HTML interface OPeNDAP service"}, {"function": "service", "contenttype": "application/xml", "name": "outlet_points.shp", "protocol": "OGC:WMS-1.1.1-http-get-capabilities", "type": "original data", "contentlocation": "http://tl-tc013.xtr.deltares.nl:8080/geoserver/outlet_points.shp/wms?service=WMS&version=1.1.0&request=GetCapabilities", "description": "WMS service"}, {"function": "service", "contenttype": "application/xml", "name": "outlet_points.shp", "protocol": "OGC:WFS-1.0.0-http-get-capabilities", "type": "original data", "contentlocation": "http://tl-tc013.xtr.deltares.nl:8080/geoserver/outlet_points.shp/ows?service=WFS&version=1.0.0&request=GetCapabilities", "description": "WFS service"}, {"function": "download", "contenttype": "application/zip", "name": "OutletPoints.zip", "uploadmessage": "deriveSpatialIndex:shp", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://127.0.0.1:5000/data/test20/OutletPoints.zip", "description": "Zipped shapefile"}] [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:358]
+2016-06-08 12:24:59,328 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 12:24:59,549 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 12:24:59,894 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test21 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:455]
+2016-06-08 12:25:05,678 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test22 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:455]
+2016-06-08 12:25:10,390 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:402]
+2016-06-08 12:25:11,947 ERROR: Error in creating geoserver workspace for test22; Status code: 500, Content: :Workspace named 'test22' already exists. [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:292]
+2016-06-08 12:25:55,812 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test23 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:455]
+2016-06-08 12:26:03,993 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:402]
+2016-06-08 12:26:09,263 INFO: Representations of the dataset: [{"function": "download", "contenttype": "application/zip", "name": "test", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://127.0.0.1:5000/data/test23/OutletPoints.zip", "description": "File download"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "scanfish_turbidity.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/scanfish_turbidity.nc.html", "description": "HTML interface OPeNDAP service"}, {"function": "service", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "OPeNDAP:OPeNDAP", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc", "description": "Netcdf file OPeNDAP service"}, {"function": "download", "contenttype": "application/x-netcdf", "name": "LMW_Forecasts_Meuse.nc", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://dl-ng003.xtr.deltares.nl/thredds/dodsC/thredds/netcdftest/LMW_Forecasts_Meuse.nc.html", "description": "HTML interface OPeNDAP service"}, {"function": "service", "contenttype": "application/xml", "name": "outlet_points.shp", "protocol": "OGC:WMS-1.1.1-http-get-capabilities", "type": "original data", "contentlocation": "http://tl-tc013.xtr.deltares.nl:8080/geoserver/outlet_points.shp/wms?service=WMS&version=1.1.0&request=GetCapabilities", "description": "WMS service"}, {"function": "service", "contenttype": "application/xml", "name": "outlet_points.shp", "protocol": "OGC:WFS-1.0.0-http-get-capabilities", "type": "original data", "contentlocation": "http://tl-tc013.xtr.deltares.nl:8080/geoserver/outlet_points.shp/ows?service=WFS&version=1.0.0&request=GetCapabilities", "description": "WFS service"}, {"function": "download", "contenttype": "application/zip", "name": "OutletPoints.zip", "uploadmessage": "deriveSpatialIndex:shp", "protocol": "WWW:DOWNLOAD-1.0-http--download", "type": "original data", "contentlocation": "http://127.0.0.1:5000/data/test23/OutletPoints.zip", "description": "Zipped shapefile"}] [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:357]
+2016-06-08 13:38:15,986 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 13:38:16,283 INFO: Data Upload Tool startup [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:46]
+2016-06-08 13:39:08,394 INFO: Dataset will be stored in: D:\ProjectsLocal\SwitchON\DataUploadTool\static/repos\test24 [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:455]
+2016-06-08 13:40:29,068 INFO: File: OutletPoints.zip saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:402]
+2016-06-08 13:40:29,357 INFO: File: 07-006r1_OpenGIS_Catalogue_Services_Specification_V2.0.2.pdf saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:402]
+2016-06-08 13:40:29,572 INFO: File: gebco08.nc saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:402]
+2016-06-08 13:40:29,796 INFO: File: Provisional_Simulation_Sobek_DutchRhine.nc saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:402]
+2016-06-08 13:40:30,009 INFO: File: LMW_Forecasts_Meuse.nc saved succesfully in working copy [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:402]
+2016-06-08 13:41:04,704 ERROR: Error in creating geoserver workspace for test24; Status code: 500, Content: :Workspace named 'test24' already exists. [in D:/ProjectsLocal/SwitchON/DataUploadTool/app.py:292]
