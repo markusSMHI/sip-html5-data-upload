@@ -1,5 +1,6 @@
 import os
 
+#TODO: clean up the uploadfile; many attributes are not used
 class uploadfile():
     def __init__(self, name, datasetFoldername, datatype= None, mimetype=None,size=None, not_allowed_msg=''):
         self.name = name

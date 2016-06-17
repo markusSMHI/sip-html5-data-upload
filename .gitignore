@@ -1,10 +1,10 @@
 # gedit
 *~
 
-kladcode
+kladcode.py
 
 #startup bat file
-start_app
+start_app.bat
 
 virtualenv
 
