@@ -85,6 +85,13 @@ def gen_file_name(fullpath, filename):
 
 
 def checkConnection(url, errorMessage):
+    """
+    This function checks if a server is responsive
+    :param url: the url of the connection to check
+    :param errorMessage: the errormessage to log when the connection fails
+    :return:
+    """
+
     try:
         requests.get(url, timeout=1)  # try for max 1 second
     except:
@@ -97,6 +104,10 @@ def checkConnection(url, errorMessage):
 
 @app.route("/zip", methods=['POST'])
 def zip():
+    """
+    Zip all the selected files in the list of uploaded files
+    :return:
+    """
 
     jsonString = request.data
     jsonDict = json.loads(jsonString)
@@ -130,7 +141,6 @@ def zip():
         # write all selected files to the zip file
         for file in fileList:
             filePath = '/'.join([datasetDir, file])
-            #arcName = selectedFiles[key].split('/')[-1]
             zf.write(filePath, file)
 
         zf.close()
@@ -149,6 +159,11 @@ def zip():
 
 @app.route("/submitfiles", methods=['GET', 'POST'])
 def submitFiles():
+    """
+    Send the information of the uploaded files to the Open Data Registration Tool as an encoded JSON string in a GET-request
+    The info is stored in a list of representations, according to the Open Data Registration Tool API:
+    https://github.com/switchonproject/sip-html5-resource-registration/wiki
+    """
 
     threddsAvailable = True
     geoserverAvailable = True
@@ -157,7 +172,6 @@ def submitFiles():
     if (checkConnection(app.config['THREDDS_SERVER'],
                         "Failed to connect to the THREDDS server at " + app.config['THREDDS_SERVER'] + \
                                 ". NetCDF files will not be accessible using web services, only by HTTP download.")) == False:
-        #return redirect(url_for('uploadData'))
         threddsAvailable = False
 
 
@@ -165,11 +179,8 @@ def submitFiles():
     if (checkConnection(app.config['GEOSERVER'],
                         "Failed to connect to the geoserver at " + app.config['GEOSERVER'] + \
                                 ". Shapefiles will not be mapped with WMS and can not be downloaded by WFS.")) == False:
-        #return redirect(url_for('uploadData'))
         geoserverAvailable = False
 
-    # datasetname = request.form['datasetname']
-    # datasetname = request.form['datasetname']
     datasetname = session['DATASETNAME']
     datasetFoldername = session['DATASETFOLDERNAME']
 
@@ -191,8 +202,6 @@ def submitFiles():
 
             # Store the root url of the dataset as the primary representation if there are more than 1 file
             if len(files) > 1:
-                # representation['contentlocation'] = os.path.join(request.url_root, 'data', servertype, datasetFoldername)
-                # representation['contentlocation'] = '/'.join([request.headers.environ['HTTP_ORIGIN'], 'data', servertype, datasetFoldername])
                 representation['name'] = datasetname
                 representation['description'] = "File download"
                 representation['type'] = "original data"
@@ -416,6 +425,7 @@ def submitFiles():
 # accessed from the 'selectServer' page
 @app.route("/uploaddata", methods=['GET', 'POST'])
 def uploadData():
+
     datasetname = session['DATASETNAME']
     datasetFoldername = session['DATASETFOLDERNAME']
 
@@ -432,8 +442,6 @@ def upload():
     if request.method == 'POST':
 
         file = request.files['file']
-
-        # datasetname = request.form['datasetname']    # use session stored parameters
         datasetFoldername = session['DATASETFOLDERNAME']  # get the name of the dataset (and folder)
         fullpath = os.path.join(app.config['BASE_UPLOAD_FOLDER'], datasetFoldername)
 
@@ -461,7 +469,6 @@ def upload():
 
     if request.method == 'GET':
         # get all file in ./data directory
-        # datasetFoldername = request.args['datasetFoldername']  # use session stored parameters
         datasetFoldername = session['DATASETFOLDERNAME']
 
         datasetDir = os.path.join(app.config['BASE_UPLOAD_FOLDER'], datasetFoldername)
@@ -510,8 +517,7 @@ def createDatasetFolder():  # TODO: change name function
         session['DATASETNAME'] = datasetname
         session['DATASETFOLDERNAME'] = datasetFoldername
 
-        #return render_template('upload.html', datasetname=datasetname, datasetFoldername=datasetFoldername)
-        return redirect(url_for('uploadData'))#, datasetname=datasetname, datasetFoldername=datasetFoldername)
+        return redirect(url_for('uploadData'))
 
 
 @app.route("/data/<datasetFoldername>/")
@@ -550,6 +556,10 @@ def downloadallzip(path):
 
 @app.route("/downloadall", methods=['POST'])
 def downloadAll():
+    """
+    Zips all files of the dataset and redirects the client to this .zip file to start the download
+    :return:
+    """
     datasetFoldername = request.form['datasetFoldername']
     zipFilename = "{}.zip".format(datasetFoldername)
 
