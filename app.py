@@ -324,11 +324,11 @@ def submitFiles():
                                 #create workspace
                                 r = requests.post(url= app.config['GEOSERVER'] + "/rest/workspaces",
                                                  headers={'Content-type':  'text/xml'},
-                                                 data="<workspace><name>" + datasetFoldername + "</name></workspace>",
+                                                 data="<workspace><name>" + fileInZipNoExtName + "</name></workspace>",
                                                  auth=HTTPBasicAuth(app.config['GEOSERVER_ADMIN'], app.config['GEOSERVER_PASS']))
 
                                 if r.status_code > 299:    # status code of 201 is success; all else is failure
-                                    app.logger.error("Error in creating geoserver workspace for " + datasetFoldername + \
+                                    app.logger.error("Error in creating geoserver workspace for " + fileInZipNoExtName + \
                                                      "; Status code: " + str(r.status_code) + ", Content: " + r.content)
                                     flash("Error in creating workspace on geoserver.")
                                     return redirect(url_for('uploadData'))
@@ -340,22 +340,22 @@ def submitFiles():
                                    shapeFile = settings['GEOSERVER_DATA_DIR'] + "/" + datasetFoldername + "/" + fileInZipName
 
                                 # Publish shapefile on the geoserver; the datastore is automatically created and has the same name as the shapefile + ds
-                                r = requests.put(url=app.config['GEOSERVER'] + "/rest/workspaces/" + datasetFoldername + "/datastores/" + datasetFoldername + "_ds/external.shp",
+                                r = requests.put(url=app.config['GEOSERVER'] + "/rest/workspaces/" + fileInZipNoExtName + "/datastores/" + fileInZipNoExtName + "_ds/external.shp",
                                                  headers={'Content-type': 'text/plain'},
                                                  data=shapeFile,
                                                  auth=HTTPBasicAuth(app.config['GEOSERVER_ADMIN'], app.config['GEOSERVER_PASS']))
 
 
                                 if r.status_code > 299:
-                                    app.logger.error("Error in publishing shapefile " + datasetFoldername + " on geoserver; Status code: " \
+                                    app.logger.error("Error in publishing shapefile " + fileInZipNoExtName + " on geoserver; Status code: " \
                                                      + str(r.status_code) + ", Content: " + r.content)
                                     flash("Error in publishing shapefile on geoserver.")
                                     return redirect(url_for('uploadData'))
 
                                 representation = {}
-                                representation['name'] = fileInZipNoExtName + "_WMS"
+                                representation['name'] = fileInZipNoExtName + " WMS"
                                 representation['description'] = "WMS service"
-                                representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + \
+                                representation['contentlocation'] = app.config['GEOSERVER'] + "/" + fileInZipNoExtName + "/" + \
                                                                     "wms?service=WMS&version=1.1.0&request=GetCapabilities"
                                 representation['contenttype'] = "application/xml"
                                 representation['type'] = "original data"
@@ -364,9 +364,9 @@ def submitFiles():
                                 result.append(representation)
 
                                 representation = {}
-                                representation['name'] = fileInZipNoExtName + "_AGG"
+                                representation['name'] = fileInZipNoExtName + " AGG"
                                 representation['description'] = "WMS service"
-                                representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + \
+                                representation['contentlocation'] = app.config['GEOSERVER'] + "/" + fileInZipNoExtName + "/" + \
                                                                     "wms?service=WMS&version=1.1.0&request=GetCapabilities"
                                 representation['contenttype'] = "application/xml"
                                 representation['type'] = "aggregated data"
@@ -394,9 +394,9 @@ def submitFiles():
                                 result.append(representation)
 
                                 representation = {}
-                                representation['name'] = fileInZipNoExtName + "_WFS"
+                                representation['name'] = fileInZipNoExtName + " WFS"
                                 representation['description'] = "WFS service"
-                                representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + "ows?service=WFS&version=1.0.0&request=GetCapabilities"
+                                representation['contentlocation'] = app.config['GEOSERVER'] + "/" + fileInZipNoExtName + "/" + "ows?service=WFS&version=1.0.0&request=GetCapabilities"
                                 representation['contenttype'] = "application/xml"
                                 representation['type'] = "original data"
                                 representation['function'] = "service"
