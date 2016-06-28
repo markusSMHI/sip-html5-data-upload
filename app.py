@@ -313,6 +313,9 @@ def submitFiles():
                             fileInZipName = os.path.split(fileInZip)[1]
                             fileInZipNoExtName, fileInZipExtension = os.path.splitext(fileInZipName)
 
+                            # make sure the fileInZipNoExtName can be used in an url
+                            fileInZipNoExtName = slugify(unicode(fileInZipNoExtName))
+
                             if fileInZipExtension == '.shp':
 
                                 #Publish .zipped shapefile on geoserver
@@ -350,7 +353,7 @@ def submitFiles():
                                     return redirect(url_for('uploadData'))
 
                                 representation = {}
-                                representation['name'] = fileInZipName
+                                representation['name'] = fileInZipNoExtName + "_WMS"
                                 representation['description'] = "WMS service"
                                 representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + \
                                                                     "wms?service=WMS&version=1.1.0&request=GetCapabilities"
@@ -361,7 +364,7 @@ def submitFiles():
                                 result.append(representation)
 
                                 representation = {}
-                                representation['name'] = fileInZipName
+                                representation['name'] = fileInZipNoExtName + "_AGG"
                                 representation['description'] = "WMS service"
                                 representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + \
                                                                     "wms?service=WMS&version=1.1.0&request=GetCapabilities"
@@ -391,7 +394,7 @@ def submitFiles():
                                 result.append(representation)
 
                                 representation = {}
-                                representation['name'] = fileInZipNoExtName
+                                representation['name'] = fileInZipNoExtName + "_WFS"
                                 representation['description'] = "WFS service"
                                 representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + "ows?service=WFS&version=1.0.0&request=GetCapabilities"
                                 representation['contenttype'] = "application/xml"
