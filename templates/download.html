@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<!-- Built with JQuery File Upload (https://github.com/blueimp/jQuery-File-Upload/) -->
+<!-- Flask File Upload (https://github.com/ngoduykhanh/flask-file-uploader)  -->
+<!-- Twitter's Bootstrap CSS framework(twitter.github.com/bootstrap/) -->
+<!-- Icons from Glyphicons (http://glyphicons.com/) and font awesome (https://fortawesome.github.io/Font-Awesome/) -->
+
+<html>
+	<head>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+		<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon"> 		
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+	
+		<!-- Generic page styles -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">		
+		
+		<!-- JS -->		
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	
+		<script src="{{ url_for('static', filename='js/bootbox.min.js') }}"></script>
+
+		<!-- Functions for the download page -->
+		<script src="{{ url_for('static', filename='js/download.js') }}"></script>
+		<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
+		<!--[if (gte IE 8)&(lt IE 10)]>
+		<script src="js/cors/jquery.xdr-transport.js"></script>
+		<![endif]-->
+	
+		
+	</head>
+	<body>
+
+		<div class="container">
+
+			<div class="col-md-12">
+				
+				<div class="switchon-header">
+					<span><img src="{{ url_for('static', filename='img/sologo_white.png')}}" alt=""/></span>
+					<h1>Download dataset files</h1>
+				</div>
+							
+				<!-- The messagebox on top of the panel with the contents. The message is set with javascript function   "setmessage" -->
+				<div id="messagetype">
+					<span id="messagefa"></span> 		
+					<div id="messagetext"></div>			
+				</div>				
+		
+						
+				<script>
+					var message = "Click on the file name to start the download."
+					setMessage("alert alert-success", "fa fa-4x fa-fw fa-pull-left fa-info-circle", message);			
+				</script>						
+					
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						Download files
+					</div>						
+					
+					<div class="panel-body">
+					
+						<hr>
+						
+						<div class="row fileupload-buttonbar">
+							<div class="col-lg-7">
+								
+								<!-- <form action="/downloadall" method="POST" class="form-inline" onsubmit="return getZipfilename()"> -->
+								<form action="/downloadall" method="POST" class="form-inline">
+								
+									<input type="hidden" name="datasetFoldername" id="datasetFoldernameID" value="{{ result.datasetFoldername }}">					
+									<input type="hidden" name="servertype" id="servertypeID" value="{{ result.servertype}}">		
+									<!-- <input type="hidden" name="zipfilename" id="zipfilenameID" value="{{ result.datasetname }}">-->
+									<button type="submit" class="btn btn-warning"> 
+										<i class="glyphicon glyphicon-folder-open"></i>
+										<span>&nbsp;Download all as zip</span>
+									</button>
+								</form>						
+					
+							</div>
+						</div>
+						
+						<br>
+
+						<table role="presentation" class="table table-striped">
+							<tbody class="files">
+							
+								{% for file in result.files %}
+								<tr>
+								<td><a href="{{ file.url }}">{{ file.name }}</a></td>														
+								<td >{{ file.sizeText }}						
+								</td>
+								</tr>
+								{% endfor %}								
+							</tbody>
+						</table> 							
+			
+					</div>	
+				</div> <!-- End panel primary -->			
+			
+			</div>	<!-- end Div col 12 -->
+				
+		</div> <!-- end div container -->			
+		
+	</body>
+</html>

@@ -1,0 +1,30 @@
+# gedit
+*~
+
+kladcode.py
+
+#startup bat file
+start_app.bat
+
+virtualenv
+
+# eclipse
+.settings
+
+# pycharm
+.idea
+
+*.py[cod]
+
+# Installer logs
+pip-log.txt
+
+# other logs
+datauploadtool.log
+
+# tmp files
+.~*
+
+# settings file: do not put on github publicly!!
+settings.py
+
