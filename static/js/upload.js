@@ -17,8 +17,6 @@
 function setMessage(messagetype, messagefa, messagetext){
 	
 	try {	
-		//var messagetypeDiv = document.getElementById("messagetype");	// javascript method
-		//messagetypeDiv.className = "alert alert-info";				// javascript method
 		$('#messagetype').removeClass().addClass(messagetype);
 		$('#messagefa').removeClass().addClass(messagefa);
 		$('#messagetext').text(messagetext);
@@ -59,19 +57,15 @@ $(function () {
         )
     );		
 	
-	// OWN BUTTON: ZIP FILES
+	// ADDED BUTTON: ZIP FILES
 	$('.zip').click(function() {
 	
-		var filesList = $('.files');	
-		console.log("Files to zip:");		
-		console.log(filesList);
-		
+		var filesList = $('.files');
 		var toggledFiles = filesList.find('.toggle:checked');			
 		var selectedFiles = {};
 		var nrFiles = 0		
 		
 		$(toggledFiles).each(function(i, val) {
-			//console.log(val.value);
 			selectedFiles[i]=val.value;
 			nrFiles++;
 			});			
@@ -100,23 +94,19 @@ $(function () {
 								alert(errMsg);
 							}
 						});
-						
-						//	
 					}
 					else{
 						setMessage("alert alert-danger", "fa fa-4x fa-fw fa-pull-left fa-exclamation-triangle", "Invalid zip filename! Please try again.")
 					}
 				}
 			  }
-			});	
-			
+			});
 		}
 		else{
 				setMessage("alert alert-warning", "fa fa-4x fa-fw fa-pull-left fa-exclamation-triangle", "Please select at least one file to zip using the checkboxes")
 			}
 	});		
-			
-		
+
 	// Not sure what this does?
 	$('#fileupload').addClass('fileupload-processing');
 	

@@ -5,7 +5,7 @@
 
 import os, sys
 import simplejson
-from flask import Flask, jsonify, request, render_template, session, redirect, url_for, flash, send_from_directory
+from flask import Flask, request, render_template, session, redirect, url_for, flash, send_from_directory
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 from lib.upload_file import uploadfile
@@ -136,7 +136,13 @@ def zip():
 
         # Open a zip file
         zipPath = os.path.join(datasetDir, "{}.zip".format(zipFilename))
-        zf = zipfile.ZipFile(zipPath, 'w')
+
+        # check if the file already exists; if not, create zipfile
+        if os.path.isfile(zipPath):
+            flash("File already exists, please give a different file name.")
+            return simplejson.dumps({"Error": "File already exists, please give a different file name."})
+        else:
+            zf = zipfile.ZipFile(zipPath, 'w')
 
         # write all selected files to the zip file
         for file in fileList:
@@ -488,7 +494,7 @@ def upload():
 
 
 @app.route('/', methods=['GET'])
-def createDatasetFolder():  # TODO: change name function
+def createDatasetFolder():
 
     if request.args.get('datasetname') == None:
         return "Please send a GET request with a parameter datasetname"

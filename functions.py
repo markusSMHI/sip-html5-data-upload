@@ -8,4 +8,3 @@ def formatFileSize(bytes):
         return "{0:.2f}".format(float(bytes) / 1000000.0) + ' MB'
 
     return "{0:.2f}".format(float(bytes) / 1000.0) + ' KB'
-
