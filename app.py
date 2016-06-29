@@ -314,7 +314,7 @@ def submitFiles():
                             fileInZipNoExtName, fileInZipExtension = os.path.splitext(fileInZipName)
 
                             # make sure the fileInZipNoExtName can be used in an url
-                            fileInZipNoExtName = slugify(unicode(fileInZipNoExtName))
+                            # fileInZipNoExtName = slugify(unicode(fileInZipNoExtName))
 
                             if fileInZipExtension == '.shp':
 
@@ -347,13 +347,13 @@ def submitFiles():
 
 
                                 if r.status_code > 299:
-                                    app.logger.error("Error in publishing shapefile " + datasetFoldername + " on geoserver; Status code: " \
+                                    app.logger.error("Error in publishing shapefile " + fileInZipNoExtName + " on geoserver; Status code: " \
                                                      + str(r.status_code) + ", Content: " + r.content)
                                     flash("Error in publishing shapefile on geoserver.")
                                     return redirect(url_for('uploadData'))
 
                                 representation = {}
-                                representation['name'] = datasetFoldername + " WMS"
+                                representation['name'] = fileInZipNoExtName + " WMS"
                                 representation['description'] = "WMS service"
                                 representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + \
                                                                     "wms?service=WMS&version=1.1.0&request=GetCapabilities"
@@ -363,8 +363,9 @@ def submitFiles():
                                 representation['protocol'] = 'OGC:WMS-1.1.1-http-get-capabilities'
                                 result.append(representation)
 
+                                # An additional WMS layer that will be used to show on the BYOD
                                 representation = {}
-                                representation['name'] = datasetFoldername + " AGG"
+                                representation['name'] = fileInZipNoExtName
                                 representation['description'] = "WMS service"
                                 representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + \
                                                                     "wms?service=WMS&version=1.1.0&request=GetCapabilities"
@@ -394,7 +395,7 @@ def submitFiles():
                                 result.append(representation)
 
                                 representation = {}
-                                representation['name'] = datasetFoldername + " WFS"
+                                representation['name'] = fileInZipNoExtName + " WFS"
                                 representation['description'] = "WFS service"
                                 representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + "ows?service=WFS&version=1.0.0&request=GetCapabilities"
                                 representation['contenttype'] = "application/xml"
