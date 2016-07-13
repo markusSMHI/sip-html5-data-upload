@@ -24,6 +24,7 @@ import re
 from unicodedata import normalize
 import traceback
 import xml.etree.ElementTree as ET
+from geoserver.catalog import Catalog
 
 
 # used for 'slugify': creating a valid url
@@ -301,6 +302,7 @@ def submitFiles():
             if geoserverAvailable:
                 for file in files:
 
+                    layerName = ''
                     filename, fileExtension = os.path.splitext(file)
 
                     if fileExtension == '.zip':
@@ -313,10 +315,9 @@ def submitFiles():
                             fileInZipName = os.path.split(fileInZip)[1]
                             fileInZipNoExtName, fileInZipExtension = os.path.splitext(fileInZipName)
 
-                            # make sure the fileInZipNoExtName can be used in an url
-                            # fileInZipNoExtName = slugify(unicode(fileInZipNoExtName))
-
                             if fileInZipExtension == '.shp':
+                                # Layer name is the file without extension
+                                layerName = fileInZipNoExtName
 
                                 #Publish .zipped shapefile on geoserver
                                 zipFile.extractall(datasetDir)
@@ -335,7 +336,7 @@ def submitFiles():
 
                                 # for testing purposes.. uploaded file is on local machine and can only publish data that is on the data mount of web app
                                 if app.config['DEVELOP']:
-                                   shapeFile = "file:////data/geoserver/netcdftest/EMV_bestaand_2oost.shp"
+                                   shapeFile = "file://D:/sala/Downloads/sld_cookbook_polygon/sld_cookbook_polygon.shp"
                                 else:
                                    shapeFile = settings['GEOSERVER_DATA_DIR'] + "/" + datasetFoldername + "/" + fileInZipName
 
@@ -345,15 +346,14 @@ def submitFiles():
                                                  data=shapeFile,
                                                  auth=HTTPBasicAuth(app.config['GEOSERVER_ADMIN'], app.config['GEOSERVER_PASS']))
 
-
                                 if r.status_code > 299:
-                                    app.logger.error("Error in publishing shapefile " + fileInZipNoExtName + " on geoserver; Status code: " \
+                                    app.logger.error("Error in publishing shapefile " + datasetFoldername + " on geoserver; Status code: " \
                                                      + str(r.status_code) + ", Content: " + r.content)
                                     flash("Error in publishing shapefile on geoserver.")
                                     return redirect(url_for('uploadData'))
 
                                 representation = {}
-                                representation['name'] = fileInZipNoExtName + " WMS"
+                                representation['name'] = layerName
                                 representation['description'] = "WMS service"
                                 representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + \
                                                                     "wms?service=WMS&version=1.1.0&request=GetCapabilities"
@@ -363,9 +363,8 @@ def submitFiles():
                                 representation['protocol'] = 'OGC:WMS-1.1.1-http-get-capabilities'
                                 result.append(representation)
 
-                                # An additional WMS layer that will be used to show on the BYOD
                                 representation = {}
-                                representation['name'] = fileInZipNoExtName
+                                representation['name'] = layerName
                                 representation['description'] = "WMS service"
                                 representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + \
                                                                     "wms?service=WMS&version=1.1.0&request=GetCapabilities"
@@ -395,7 +394,7 @@ def submitFiles():
                                 result.append(representation)
 
                                 representation = {}
-                                representation['name'] = fileInZipNoExtName + " WFS"
+                                representation['name'] = fileInZipNoExtName
                                 representation['description'] = "WFS service"
                                 representation['contentlocation'] = app.config['GEOSERVER'] + "/" + datasetFoldername + "/" + "ows?service=WFS&version=1.0.0&request=GetCapabilities"
                                 representation['contenttype'] = "application/xml"
@@ -414,6 +413,30 @@ def submitFiles():
                                 representation['protocol'] = "WWW:DOWNLOAD-1.0-http--download"
                                 representation['uploadmessage'] = "deriveSpatialIndex:shp"
                                 result.append(representation)
+
+                        # Optional sld file (preconditions, shp uploaded, workspace created)
+                        for fileInZip in filesInZip:
+                            fileInZipName = os.path.split(fileInZip)[1]
+                            fileInZipNoExtName, fileInZipExtension = os.path.splitext(fileInZipName)
+
+                            if fileInZipExtension == '.sld':
+                                # for testing purposes.. uploaded file is on local machine and can only publish data that is on the data mount of web app
+                                if app.config['DEVELOP']:
+                                    sldFile = "D:/sala/Downloads/sld_cookbook_polygon/sld_cookbook_polygon.sld"
+                                else:
+                                    sldFile = settings['GEOSERVER_DATA_DIR'] + "/" + datasetFoldername + "/" + fileInZipName
+                                print 'SLD file: ' + sldFile
+                                # Connect to geoserver catalogue
+                                cat = Catalog(app.config['GEOSERVER'] + "/rest", app.config['GEOSERVER_ADMIN'], password=app.config['GEOSERVER_PASS'])
+
+
+                                # Add or Overwrite
+                                with open(sldFile) as f:
+                                    style=cat.create_style(fileInZipNoExtName, f.read(), overwrite=True)
+                                # Link it to the layer
+                                layer = cat.get_layer(layerName)
+                                layer._set_default_style(style)
+                                cat.save(layer)
 
                         # close zip file after looping through all files in the zip file
                         zipFile.close()
