@@ -319,8 +319,11 @@ def submitFiles():
                                 # Layer name is the file without extension
                                 layerName = fileInZipNoExtName
 
-                                #Publish .zipped shapefile on geoserver
+                                # Publish .zipped shapefile on geoserver, no subdirectories
                                 zipFile.extractall(datasetDir)
+                                for root, dirs, files in os.walk(datasetDir):
+                                    for name in files:
+                                        os.rename(os.path.join(root, name), os.path.join(datasetDir,name))
 
                                 #create workspace
                                 r = requests.post(url= app.config['GEOSERVER'] + "/rest/workspaces",
