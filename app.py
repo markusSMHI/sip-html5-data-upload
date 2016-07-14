@@ -343,7 +343,7 @@ def submitFiles():
                                 # Publish shapefile on the geoserver; the datastore is automatically created and has the same name as the shapefile + ds
                                 r = requests.put(url=app.config['GEOSERVER'] + "/rest/workspaces/" + datasetFoldername + "/datastores/" + datasetFoldername + "_ds/external.shp",
                                                  headers={'Content-type': 'text/plain'},
-                                                 data=shapeFile,
+                                                 data='file://'+shapeFile,
                                                  auth=HTTPBasicAuth(app.config['GEOSERVER_ADMIN'], app.config['GEOSERVER_PASS']))
 
                                 if r.status_code > 299:
