@@ -428,17 +428,16 @@ def submitFiles():
                                     sldFile = "D:/sala/Downloads/sld_cookbook_polygon/sld_cookbook_polygon.sld"
                                 else:
                                     sldFile = settings['GEOSERVER_DATA_DIR'] + "/" + datasetFoldername + "/" + fileInZipName
-                                print 'SLD file: ' + sldFile
+                                app.logger.info('SLD file: ' + sldFile)
                                 # Connect to geoserver catalogue
                                 cat = Catalog(app.config['GEOSERVER'] + "/rest", app.config['GEOSERVER_ADMIN'], password=app.config['GEOSERVER_PASS'])
-
 
                                 # Add or Overwrite
                                 with open(sldFile) as f:
                                     style=cat.create_style(fileInZipNoExtName, f.read(), overwrite=True)
                                 # Link it to the layer
-                                layer = cat.get_layer(layerName)
-                                layer._set_default_style(style)
+                                layer = cat.get_layer(datasetFoldername + ':' + layerName)
+                                layer._set_default_style(fileInZipNoExtName)
                                 cat.save(layer)
 
                         # close zip file after looping through all files in the zip file
