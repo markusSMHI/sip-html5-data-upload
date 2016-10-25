@@ -9,12 +9,10 @@ function checkFilename(filename){
 		return true;
 	}
 }
-	
+
 function setMessage(messagetype, messagefa, messagetext){
-	
-	try {	
-		//var messagetypeDiv = document.getElementById("messagetype");	// javascript method
-		//messagetypeDiv.className = "alert alert-info";				// javascript method
+
+	try {
 		$('#messagetype').removeClass().addClass(messagetype);
 		$('#messagefa').removeClass().addClass(messagefa);
 		$('#messagetext').text(messagetext);

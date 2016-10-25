@@ -12,14 +12,15 @@
 
 		<!-- CSS -->
 		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
-	
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
 		<!-- Generic page styles -->
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">		
 		
 		<!-- JS -->		
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	
+
 		<script src="{{ url_for('static', filename='js/bootbox.min.js') }}"></script>
 
 		<!-- Functions for the download page -->
@@ -38,9 +39,42 @@
 			<div class="col-md-12">
 				
 				<div class="switchon-header">
-					<span><img src="{{ url_for('static', filename='img/sologo_white.png')}}" alt=""/></span>
+					<span><img src="{{ url_for('static', filename='img/sologo_new_cropped.png')}}" alt=""/></span>
 					<h1>Download dataset files</h1>
-				</div>
+                    <span class="pull-right">
+                        <a
+                            class="btn btn-sm btn-primary"
+                            role="button"
+                            href="http://www.water-switch-on.eu/sip-webclient/odrtool/data/switch-on-upload-guide.pdf"
+                            title="SWITCH-ON Data Upload Guide"
+                            target="_blank"
+                            rel="help"
+                            type="application/pdf"
+                            style="color: #fff; padding-top:8px; min-width:170px; margin-bottom:8px">
+                            <strong>Upload Guide</strong>
+                        </a><br/><a
+                            class="btn btn-sm btn-primary"
+                            role="button"
+                            href="http://www.water-switch-on.eu/sip-webclient/odrtool/data/switch-on-registration-guide.pdf"
+                            title="SWITCH-ON MetaData Registration Guide"
+                            target="_blank"
+                            rel="help"
+                            type="application/pdf"
+                            style="color: #fff; padding-top:8px; min-width:170px; margin-bottom:8px;">
+                            <strong>Registration Guide</strong>
+                        </a>
+                        </a><br/><a
+                            class="btn btn-sm btn-primary switchon-viewbutton"
+                            role="button"
+                            href="http://www.switch-on-vwsl.eu/"
+                            title="Virtual Water Science Lab"
+                            target="_blank"
+                            style="color: #fff; padding-top:8px; min-width:170px">
+                            <strong>Virtual Water Science Lab</strong>
+                        </a>
+                    </span>
+                </div>
+
 							
 				<!-- The messagebox on top of the panel with the contents. The message is set with javascript function   "setmessage" -->
 				<div id="messagetype">
@@ -60,8 +94,7 @@
 					</div>						
 					
 					<div class="panel-body">
-					
-						<hr>
+
 						
 						<div class="row fileupload-buttonbar">
 							<div class="col-lg-7">
