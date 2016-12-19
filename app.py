@@ -319,8 +319,11 @@ def submitFiles():
                                 # Layer name is the file without extension
                                 layerName = fileInZipNoExtName
 
-                                #Publish .zipped shapefile on geoserver
+                                # Publish .zipped shapefile on geoserver, no subdirectories
                                 zipFile.extractall(datasetDir)
+                                for root, dirs, files in os.walk(datasetDir):
+                                    for name in files:
+                                        os.rename(os.path.join(root, name), os.path.join(datasetDir,name))
 
                                 #create workspace
                                 r = requests.post(url= app.config['GEOSERVER'] + "/rest/workspaces",
@@ -429,13 +432,12 @@ def submitFiles():
                                 # Connect to geoserver catalogue
                                 cat = Catalog(app.config['GEOSERVER'] + "/rest", app.config['GEOSERVER_ADMIN'], password=app.config['GEOSERVER_PASS'])
 
-
                                 # Add or Overwrite
                                 with open(sldFile) as f:
                                     style=cat.create_style(fileInZipNoExtName, f.read(), overwrite=True)
                                 # Link it to the layer
                                 layer = cat.get_layer(layerName)
-                                layer._set_default_style(style)
+                                layer._set_default_style(fileInZipNoExtName)
                                 cat.save(layer)
 
                         # close zip file after looping through all files in the zip file
