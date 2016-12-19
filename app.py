@@ -298,7 +298,7 @@ def submitFiles():
             #endregion
 
 
-            #region GEOSERVER: loop through all files to check for shapefiles
+            # region GEOSERVER: loop through all files to check for shapefiles
             if geoserverAvailable:
                 for file in files:
 
@@ -325,7 +325,7 @@ def submitFiles():
                                     for name in files:
                                         os.rename(os.path.join(root, name), os.path.join(datasetDir,name))
 
-                                #create workspace
+                                # create workspace
                                 r = requests.post(url= app.config['GEOSERVER'] + "/rest/workspaces",
                                                  headers={'Content-type':  'text/xml'},
                                                  data="<workspace><name>" + datasetFoldername + "</name></workspace>",
