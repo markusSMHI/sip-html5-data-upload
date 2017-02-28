@@ -52,4 +52,4 @@ class DOI:
         else:
             self.logger.error('ERR, uploading file via zenodo')
 
-        return res_create
+        return str(res_create['id'])
