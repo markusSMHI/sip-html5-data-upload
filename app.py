@@ -1,9 +1,10 @@
 #!flask/bin/python
 # Author: Johan Beekhuizen, Deltares
+# Author: Joan Sala Calero, Deltares
 # This work is based on the Flask Upload Tool by Ngo Duy Khanh (https://github.com/ngoduykhanh/flask-file-uploader)
 # which in turn is based on the jQuery-File-Upload (https://github.com/blueimp/jQuery-File-Upload/)
 
-import os, sys
+import os
 import simplejson
 from flask import Flask, request, render_template, session, redirect, url_for, flash, send_from_directory
 from flask_bootstrap import Bootstrap
@@ -18,7 +19,6 @@ import functions
 import threddsclient
 import requests
 from requests.auth import HTTPBasicAuth
-from settings import settings
 import urllib
 import re
 from unicodedata import normalize
@@ -26,6 +26,9 @@ import traceback
 import xml.etree.ElementTree as ET
 from geoserver.catalog import Catalog
 
+# Specific from app
+from DOI import DOI
+from settings import settings
 
 # used for 'slugify': creating a valid url
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
@@ -175,21 +178,19 @@ def submitFiles():
     threddsAvailable = True
     geoserverAvailable = True
 
-    # check if thredds server is online
-    if (checkConnection(app.config['THREDDS_SERVER'],
+    # Check if Thredds server is online
+    threddsAvailable = checkConnection(app.config['THREDDS_SERVER'],
                         "Failed to connect to the THREDDS server at " + app.config['THREDDS_SERVER'] + \
-                                ". NetCDF files will not be accessible using web services, only by HTTP download.")) == False:
-        threddsAvailable = False
+                                ". NetCDF files will not be accessible using web services, only by HTTP download.")
 
-
-    # check if geoserver is online
-    if (checkConnection(app.config['GEOSERVER'],
+    # Check if GeoServer is online
+    geoserverAvailable = checkConnection(app.config['GEOSERVER'],
                         "Failed to connect to the geoserver at " + app.config['GEOSERVER'] + \
-                                ". Shapefiles will not be mapped with WMS and can not be downloaded by WFS.")) == False:
-        geoserverAvailable = False
+                                ". Shapefiles will not be mapped with WMS and can not be downloaded by WFS.")
 
     datasetname = session['DATASETNAME']
     datasetFoldername = session['DATASETFOLDERNAME']
+    generateDOI = session['GENERATEDOI']
 
     if request.form['submitButton'] == 'previous':
         return redirect('/?datasetname=' + datasetFoldername)
@@ -220,7 +221,6 @@ def submitFiles():
 
             # if there is only one file, store the direct link to this file
             if len(files) == 1:
-
                 filename, fileExtension = os.path.splitext(f)
 
                 # region Check if it is a zipped shapefile
@@ -428,7 +428,7 @@ def submitFiles():
                                     sldFile = "D:/sala/Downloads/sld_cookbook_polygon/sld_cookbook_polygon.sld"
                                 else:
                                     sldFile = settings['GEOSERVER_DATA_DIR'] + "/" + datasetFoldername + "/" + fileInZipName
-                                print 'SLD file: ' + sldFile
+
                                 # Connect to geoserver catalogue
                                 cat = Catalog(app.config['GEOSERVER'] + "/rest", app.config['GEOSERVER_ADMIN'], password=app.config['GEOSERVER_PASS'])
 
@@ -444,10 +444,16 @@ def submitFiles():
                         zipFile.close()
             #endregion
 
+            # region
+            if generateDOI:
+                d = DOI(files, datasetDir, datasetname, logger=app.logger)
+                deposition_id = d.runUpload()
 
+            # endregion
             resultString = json.dumps(result)
             text = urllib.quote_plus(resultString.encode('utf-8'))
-            url = app.config['METADATA_URL'] + text
+            if generateDOI:     url = app.config['METADATA_URL'] + text + '&deposition=' + deposition_id
+            else:               url = app.config['METADATA_URL'] + text
 
             # store the representation
             app.logger.info("Representations of the dataset: " + resultString)
@@ -500,12 +506,9 @@ def upload():
 
             return simplejson.dumps({"files": [result.get_file()]})
 
-
-
     if request.method == 'GET':
         # get all file in ./data directory
         datasetFoldername = session['DATASETFOLDERNAME']
-
         datasetDir = os.path.join(app.config['BASE_UPLOAD_FOLDER'], datasetFoldername)
 
         # GET INFORMATION OF ALL CURRENT FILES IN DIRECTORY
@@ -522,14 +525,23 @@ def upload():
         return simplejson.dumps({"files": file_display})
 
 
+## START APP --> http://127.0.0.1:5000/?datasetname=testJ1&generateDOI=true
 @app.route('/', methods=['GET'])
 def createDatasetFolder():
 
-    if request.args.get('datasetname') == None:
+    # Get a DOI via zenodo (optional)
+    generateDOI = request.args.get('generateDOI')
+    if generateDOI == None:
+        generateDOI = False
+    else:
+        if generateDOI == 'true':   generateDOI = True
+        else:                       generateDOI = False
+
+    # Datasetname (mandatory)
+    datasetname = request.args.get('datasetname')
+    if datasetname == None:
         return "Please send a GET request with a parameter datasetname"
     else:
-
-        datasetname = request.args.get('datasetname')
         datasetFoldername = datasetname  # the dataset folder name must be unique and be allowed as an URL
 
         # create a valid datasetFoldername for use in an URL
@@ -551,6 +563,7 @@ def createDatasetFolder():
         # set cookies (used for page refresh)
         session['DATASETNAME'] = datasetname
         session['DATASETFOLDERNAME'] = datasetFoldername
+        session['GENERATEDOI'] = generateDOI
 
         return redirect(url_for('uploadData'))
 
