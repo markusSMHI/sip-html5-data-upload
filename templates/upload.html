@@ -96,7 +96,9 @@
 		
 				<div id="messagetype">
 					<span id="messagefa"></span>	 
-					<div id="messagetext"></div>			
+					<div id="messagetext"></div>
+
+					<div id='PleaseWait' style="display:none; align:right; padding-left:10px"><img src='static/img/loading_blue.gif'/></div>;
 				</div>	
 				
 				<script>
@@ -157,16 +159,16 @@
 					</div>
 					
 					<div class="panel-footer clearfix">											
-						<form action="submitfiles" method="POST" class="form-inline">
+						<form action="submitfiles" id="nextform" method="POST" class="form-inline">
 
 							<input type="hidden" name="datasetFoldername" value="{{ datasetFoldername}}">	
 							<input type="hidden" name="servertype" value="{{ servertype}}">							
 							<button type="button" class="btn btn-primary pull-left">
 								<i class="glyphicon glyphicon-envelope"></i>
 								<span><a href="mailto:switchon.odr@gmail.com?subject=Data Upload Tool">Feedback</a></span>
-							</button>		
+							</button>
 							
-							<button type="submit" name="submitButton" value="next" class="btn btn-primary pull-right">							
+							<button type="submit" name="submitButton" value="next" class="btn btn-primary pull-right">
 								Next
 							</button>
 						</form>
@@ -256,5 +258,14 @@
 </script>
 {% endraw %}
 
+<script>
 
+$('#nextform').submit(function() {
+    //$("#overlay, #PleaseWait").show();
 
+    var message = "Uploading files and getting DOI, this will take a while ";
+	setMessage("alert alert-success", "fa fa-4x fa-fw fa-pull-left fa-info-circle", message);
+    $("#PleaseWait").show();
+    return true;
+});
+</script>
