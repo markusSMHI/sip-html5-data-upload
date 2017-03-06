@@ -97,8 +97,7 @@
 				<div id="messagetype">
 					<span id="messagefa"></span>	 
 					<div id="messagetext"></div>
-
-					<div id='PleaseWait' style="display:none; align:right; padding-left:10px"><img src='static/img/loading_blue.gif'/></div>;
+					<div id='PleaseWait' style="display:none; align:right; padding-left:10px"><img src='static/img/loading_blue.gif'/></div>
 				</div>	
 				
 				<script>
@@ -261,8 +260,6 @@
 <script>
 
 $('#nextform').submit(function() {
-    //$("#overlay, #PleaseWait").show();
-
     var message = "Uploading files and getting DOI, this will take a while ";
 	setMessage("alert alert-success", "fa fa-4x fa-fw fa-pull-left fa-info-circle", message);
     $("#PleaseWait").show();
