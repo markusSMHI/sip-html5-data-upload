@@ -293,6 +293,16 @@ def submitFiles():
                             representation['function'] = "download"
                             representation['protocol'] = 'WWW:DOWNLOAD-1.0-http--download'
                             result.append(representation)
+
+                            representation = {}
+                            representation['name'] = filename
+                            representation['description'] = "WMS service"
+                            representation['contentlocation'] = opendapUrl.replace('dodsC', 'wms') + "?service=WMS&version=1.3.0&request=GetCapabilities"
+                            representation['contenttype'] = "application/xml"
+                            representation['type'] = "original data"
+                            representation['function'] = "service"
+                            representation['protocol'] = 'OGC:WMS-1.1.1-http-get-capabilities'
+                            result.append(representation)
                 except:
                     app.logger.info("URL: " + threddsCatalog + " is not a THREDDS catalog")
             #endregion
