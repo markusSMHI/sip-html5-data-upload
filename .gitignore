@@ -28,3 +28,5 @@ datauploadtool.log
 # settings file: do not put on github publicly!!
 settings.py
 
+# ztoken file: do not put on github publicly!!
+ztoken.txt
