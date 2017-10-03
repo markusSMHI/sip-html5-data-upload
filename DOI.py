@@ -47,6 +47,7 @@ class DOI:
     # Is file bigger than the threshold of 100mb // Zenodo limitations
     def isFileBig(self, fname):
         szMB = os.path.getsize(fname) >> 20
+        self.logger.info('The file upload size is:' + str(szMB))
         if szMB < 99:
             return False
         else:
