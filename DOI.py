@@ -63,7 +63,7 @@ class DOI:
             # Data upload (file by file)
             for f in self.files:
                 # Evaluate file size
-                if self.isFileBig(f):
+                if self.isFileBig(os.path.join(self.direc, f)):
                     ret = self.zenodoUploadFileBig(res_create['links']['bucket'], os.path.join(self.direc, f))
                 else:
                     ret = self.zenodoUploadFile(res_create['links']['files'], os.path.join(self.direc, f))
